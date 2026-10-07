@@ -67,6 +67,10 @@ async fn schema_drop_rejects_rootless_placeables_atomically(pool: PgPool) {
 
 #[sqlx::test(migrations = false)]
 async fn generic_call_entities_preserve_native_identity_and_optional_resources(pool: PgPool) {
+    sqlx::raw_sql(EMPTY_PUBLIC_SCHEMA)
+        .execute(&pool)
+        .await
+        .unwrap();
     let before_calls = Migrator {
         migrations: Cow::Owned(
             MACRO_DB_MIGRATIONS
