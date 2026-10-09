@@ -58,7 +58,8 @@ export function ChatComposer(props: {
   placeholder?: string;
 }) {
   const tip = createChatComposerTip(
-    () => props.draft.trim().length === 0,
+    () =>
+      props.draft.trim().length === 0 && !isTouchDevice() && !props.placeholder,
     !props.session
   );
   const attachments = () => props.attachments ?? [];
@@ -253,15 +254,35 @@ export function ChatComposer(props: {
               'Message Macro AI'
             : (props.placeholder ?? tip())
         }
-        refFn={(element) =>
-          element.setAttribute('aria-label', 'Message the agent')
-        }
+        ariaLabel="Message the agent"
         autofocus={
           !isTouchDevice() &&
           (props.autoFocus ?? props.session?.autofocus ?? true)
         }
       />
     </div>
+  );
+
+  const repositoryDrawer = () => (
+    <Show when={props.drawer}>
+      <div
+        class="composer-drawer"
+        data-placement={isTouchDevice() ? 'top' : 'bottom'}
+        data-open={drawerOpen() ? '' : undefined}
+        aria-hidden={!drawerOpen()}
+        inert={!drawerOpen()}
+      >
+        <div class="composer-drawer-inner">
+          <div
+            class="composer-drawer-content"
+            role="group"
+            aria-label="Repository settings"
+          >
+            {props.drawer}
+          </div>
+        </div>
+      </div>
+    </Show>
   );
 
   return (
@@ -303,24 +324,7 @@ export function ChatComposer(props: {
             setFocused(false);
         }}
       >
-        <Show when={props.drawer}>
-          <div
-            class="composer-drawer"
-            data-open={drawerOpen() ? '' : undefined}
-            aria-hidden={!drawerOpen()}
-            inert={!drawerOpen()}
-          >
-            <div class="composer-drawer-inner">
-              <div
-                class="composer-drawer-content"
-                role="group"
-                aria-label="Repository settings"
-              >
-                {props.drawer}
-              </div>
-            </div>
-          </div>
-        </Show>
+        <Show when={isTouchDevice()}>{repositoryDrawer()}</Show>
         <ComposerSurface
           as="div"
           data-agent-composer="chat"
@@ -472,6 +476,7 @@ export function ChatComposer(props: {
             {IMAGE_INPUT_WARNING}
           </p>
         </Show>
+        <Show when={!isTouchDevice()}>{repositoryDrawer()}</Show>
         <DictationFeedback dictation={dictation} />
       </div>
     </InputProvider>
