@@ -1,12 +1,20 @@
 import type { AgentConversation } from '@service-agent-harness/agent-conversations';
-import { cleanup, render } from '@solidjs/testing-library';
+import { cleanup, fireEvent, render } from '@solidjs/testing-library';
 import { afterEach, expect, it, vi } from 'vitest';
 
-vi.mock('./queries/controls', () => ({ useAgentConversationControl: vi.fn() }));
+const mocks = vi.hoisted(() => ({ mutate: vi.fn() }));
+vi.mock('./queries/controls', () => ({
+  useAgentConversationControl: () => ({
+    mutate: mocks.mutate,
+    isPending: false,
+  }),
+}));
 vi.mock('@core/component/Toast/Toast', () => ({ toast: {} }));
-vi.mock('@ui', () => ({ Button: () => null }));
 
-import { AgentConversationContextBoundary } from './agent-conversation-message';
+import {
+  AgentConversationContextBoundary,
+  AgentConversationMessageStatus,
+} from './agent-conversation-message';
 import {
   AgentConversationsContext,
   type AgentConversationsContextValue,
@@ -14,7 +22,10 @@ import {
 
 afterEach(cleanup);
 
-function conversation(): AgentConversation {
+function conversation(
+  state: AgentConversation['turns'][number]['state'] = 'running',
+  retryable = false
+): AgentConversation {
   return {
     channelId: 'channel',
     botId: 'bot',
@@ -32,8 +43,8 @@ function conversation(): AgentConversation {
         sourceMessageId: 'source',
         replyMessageId: 'reply',
         actionId: 'attempt',
-        state: 'running',
-        retryable: false,
+        state,
+        retryable,
         createdAt: '2026-10-01T01:00:00Z',
       },
     ],
@@ -54,4 +65,32 @@ it('places a fresh-context divider only before the session’s first source mess
     </AgentConversationsContext.Provider>
   ));
   expect(view.getAllByRole('separator')).toHaveLength(1);
+});
+
+it('tells a failed message as a notice with Retry as its one action', () => {
+  const failed = conversation('failed', true);
+  const view = render(() => (
+    <AgentConversationsContext.Provider value={context(() => failed)}>
+      <AgentConversationMessageStatus messageId="source" />
+    </AgentConversationsContext.Provider>
+  ));
+  expect(view.getByRole('alert').textContent).toContain("Couldn't finish this");
+  fireEvent.click(view.getByRole('button', { name: 'Retry' }));
+  expect(mocks.mutate).toHaveBeenCalledWith({
+    type: 'retry',
+    conversation: failed,
+    turn: failed.turns[0],
+  });
+});
+
+it('keeps a stopped message to one quiet line', () => {
+  const view = render(() => (
+    <AgentConversationsContext.Provider
+      value={context(() => conversation('stopped'))}
+    >
+      <AgentConversationMessageStatus messageId="source" />
+    </AgentConversationsContext.Provider>
+  ));
+  expect(view.getByRole('status').textContent).toBe('Stopped');
+  expect(view.container.querySelector('[data-agent-card]')).toBeNull();
 });
