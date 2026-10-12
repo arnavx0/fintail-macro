@@ -352,6 +352,7 @@ dependencies = [
  "cursor_api_key",
  "cursor_cloud_agents",
  "dashmap",
+ "documents",
  "entity_access",
  "entity_access_db_utils",
  "entity_registry",
@@ -371,6 +372,7 @@ dependencies = [
  "mcp_client",
  "messages",
  "mockall",
+ "model",
  "model-entity",
  "model_notifications",
  "model_owner",
@@ -395,6 +397,7 @@ dependencies = [
  "tracing",
  "tracing-opentelemetry",
  "tracing-subscriber",
+ "trigger_context",
  "url",
  "utoipa",
  "uuid",
@@ -420,6 +423,7 @@ dependencies = [
  "ai_toolset",
  "ai_usage",
  "anyhow",
+ "authentication_service_client",
  "aws-sdk-kms",
  "aws-sdk-secretsmanager",
  "aws-sdk-sqs",
@@ -427,6 +431,7 @@ dependencies = [
  "axum-extra",
  "bot_id",
  "bots",
+ "call",
  "channels",
  "claude_cloud_agents",
  "codex_cloud_agents",
@@ -470,6 +475,7 @@ dependencies = [
  "model_owner",
  "notification",
  "pipedream_mcp",
+ "prompt",
  "properties",
  "rdkafka",
  "redis",
@@ -667,6 +673,7 @@ dependencies = [
  "tracing",
  "tracing-opentelemetry",
  "tracing-subscriber",
+ "trigger_context",
  "utoipa",
  "uuid",
  "workspace-hack",
@@ -704,6 +711,7 @@ dependencies = [
  "async-trait",
  "bot_id",
  "bots",
+ "call",
  "channel_sender",
  "channels",
  "chrono",
@@ -712,6 +720,7 @@ dependencies = [
  "entity_access",
  "initiative",
  "lexical_client",
+ "macro_db_migrator",
  "macro_event_broker",
  "macro_event_topics",
  "macro_user_id",
@@ -733,6 +742,7 @@ dependencies = [
  "thiserror 2.0.18",
  "tokio",
  "tracing",
+ "trigger_context",
  "workspace-hack",
 ]
 
@@ -746,6 +756,7 @@ dependencies = [
  "ai_usage",
  "anyhow",
  "bots",
+ "call",
  "channels",
  "connection_gateway_client",
  "crm",
@@ -3431,6 +3442,7 @@ dependencies = [
  "pollster",
  "postcard",
  "predicate-index",
+ "proptest",
  "serde",
  "serde_json",
  "sha2 0.10.9",
@@ -3447,6 +3459,7 @@ dependencies = [
  "maybe_send",
  "pollster",
  "predicate-index",
+ "proptest",
  "serde_json",
  "tempfile",
  "thiserror 2.0.18",
@@ -3458,7 +3471,7 @@ dependencies = [
 
 [[package]]
 name = "cache-wasm"
-version = "0.6.43"
+version = "0.6.47"
 dependencies = [
  "async-lock",
  "cache-core",
@@ -3542,6 +3555,7 @@ dependencies = [
  "async-trait",
  "aws-sdk-sqs",
  "axum",
+ "call",
  "chrono",
  "chrono-tz",
  "futures",
@@ -4354,6 +4368,7 @@ dependencies = [
  "toml_edit 0.22.27",
  "tracing",
  "tracing-subscriber",
+ "trigger_context",
  "tui-input",
  "uuid",
  "webbrowser",
@@ -4492,6 +4507,7 @@ dependencies = [
  "graphql_properties",
  "graphql_scheduled_action",
  "graphql_soup",
+ "graphql_work_feed",
  "macro_authorization",
  "macro_user_id",
  "model-entity",
@@ -4513,6 +4529,7 @@ dependencies = [
  "tokio",
  "tracing",
  "uuid",
+ "work_feed",
  "workspace-hack",
 ]
 
@@ -4630,7 +4647,6 @@ dependencies = [
  "tower-http",
  "tracing",
  "tracing-opentelemetry",
- "tungstenite 0.28.0",
  "url",
  "utoipa",
  "utoipa-swagger-ui",
@@ -4746,6 +4762,7 @@ dependencies = [
  "aws-sdk-sqs",
  "axum",
  "axum-extra",
+ "futures",
  "http-body-util",
  "macro_authorization",
  "macro_db_migrator",
@@ -4760,6 +4777,7 @@ dependencies = [
  "tokio",
  "tower 0.5.3",
  "tracing",
+ "urlencoding",
  "utoipa",
  "uuid",
  "workspace-hack",
@@ -6360,6 +6378,7 @@ dependencies = [
  "utoipa-swagger-ui",
  "uuid",
  "webhook",
+ "work_feed",
  "workspace-hack",
  "zip 2.4.2",
 ]
@@ -6411,6 +6430,7 @@ dependencies = [
  "chrono",
  "lambda_runtime",
  "macro_aws_config",
+ "macro_db_migrator",
  "macro_entrypoint",
  "macro_env_var",
  "mockall",
@@ -6878,6 +6898,7 @@ dependencies = [
  "async-trait",
  "attachment",
  "authentication_service_client",
+ "aws-sdk-s3",
  "axum",
  "axum-extra",
  "base64 0.22.1",
@@ -7158,6 +7179,7 @@ dependencies = [
  "tower-http",
  "tracing",
  "unfurl",
+ "unicode-segmentation",
  "url",
  "urlencoding",
  "utoipa",
@@ -8827,6 +8849,32 @@ dependencies = [
  "serde_json",
  "thiserror 2.0.18",
  "uuid",
+]
+
+[[package]]
+name = "graphql_work_feed"
+version = "0.1.0"
+dependencies = [
+ "async-graphql",
+ "async-stream",
+ "chrono",
+ "entity_access",
+ "futures",
+ "graphql_common",
+ "graphql_notification",
+ "graphql_soup",
+ "macro_user_id",
+ "model-entity",
+ "model_notifications",
+ "notification",
+ "rootcause",
+ "serde_json",
+ "soup",
+ "tokio",
+ "tracing",
+ "uuid",
+ "work_feed",
+ "workspace-hack",
 ]
 
 [[package]]
@@ -10842,6 +10890,7 @@ dependencies = [
  "serde_json",
  "tokio",
  "tracing",
+ "trigger_context",
  "workspace-hack",
 ]
 
@@ -11426,6 +11475,7 @@ dependencies = [
  "tokio",
  "tower 0.5.3",
  "tracing",
+ "tracing-subscriber",
  "urlencoding",
  "uuid",
  "workspace-hack",
@@ -11961,6 +12011,7 @@ dependencies = [
  "anyhow",
  "async-trait",
  "attachment",
+ "authentication_service_client",
  "aws-sdk-secretsmanager",
  "aws-sdk-sqs",
  "axum",
@@ -11986,6 +12037,7 @@ dependencies = [
  "futures",
  "github_pull_requests",
  "http 1.4.0",
+ "import",
  "lexical_client",
  "macro_auth",
  "macro_aws_config",
@@ -11998,7 +12050,10 @@ dependencies = [
  "macro_service_urls",
  "macro_user_id",
  "mcp_auth_proxy",
+ "mcp_client",
+ "mcp_select",
  "notification",
+ "pipedream_mcp",
  "prompt",
  "readonly_pool",
  "redis",
@@ -16543,6 +16598,7 @@ dependencies = [
  "ai_billing",
  "ai_usage",
  "anyhow",
+ "authentication_service_client",
  "aws-sdk-secretsmanager",
  "axum",
  "bot_id",
@@ -16608,6 +16664,7 @@ dependencies = [
  "tokio-util",
  "tower 0.5.3",
  "tracing",
+ "trigger_context",
  "utoipa",
  "utoipa-swagger-ui",
  "workspace-hack",
@@ -19096,6 +19153,7 @@ dependencies = [
  "url",
  "utoipa",
  "uuid",
+ "wiremock",
  "workspace-hack",
 ]
 
@@ -19791,6 +19849,18 @@ dependencies = [
  "memchr",
  "nom 8.0.0",
  "petgraph 0.8.3",
+]
+
+[[package]]
+name = "trigger_context"
+version = "0.1.0"
+dependencies = [
+ "bot_id",
+ "chrono",
+ "serde",
+ "serde_json",
+ "uuid",
+ "workspace-hack",
 ]
 
 [[package]]
@@ -21472,6 +21542,37 @@ dependencies = [
  "group 0.14.0",
  "hybrid-array",
  "primefield",
+]
+
+[[package]]
+name = "work_feed"
+version = "0.1.0"
+dependencies = [
+ "activity",
+ "base64 0.22.1",
+ "chrono",
+ "cowlike",
+ "document_sub_type",
+ "email",
+ "entity_access",
+ "filter_ast",
+ "futures",
+ "item_filters",
+ "macro_user_id",
+ "model-entity",
+ "model_notifications",
+ "models_soup",
+ "notification",
+ "rootcause",
+ "serde",
+ "serde_json",
+ "soup",
+ "soup_realtime",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "uuid",
+ "workspace-hack",
 ]
 
 [[package]]
