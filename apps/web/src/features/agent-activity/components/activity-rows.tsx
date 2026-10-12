@@ -4,8 +4,9 @@ import CheckIcon from '@phosphor/check.svg';
 import SpinnerIcon from '@phosphor/spinner-gap.svg';
 import WarningIcon from '@phosphor/warning-circle.svg';
 import XIcon from '@phosphor/x.svg';
+import { Key } from '@solid-primitives/keyed';
 import { cn } from '@ui';
-import { createSignal, For, type JSX, Match, Show, Switch } from 'solid-js';
+import { createSignal, type JSX, Match, Show, Switch } from 'solid-js';
 
 /** One step of an agent's work, as the session's fold worded it. */
 export type ActivityRowView = {
@@ -23,11 +24,15 @@ const VISIBLE_ROWS = 6;
  * what, and how that went, one quiet line each, with whatever a step
  * produced right under it. A long run keeps its latest steps in view and
  * folds the rest behind a count, so the newest step is always on screen.
+ *
+ * Steps are kept by id: a live run hands over new objects for the same steps
+ * several times a second, and a step that only changed its status must not
+ * be drawn again, nor anything under it.
  */
 export function ActivityRows<Row extends ActivityRowView>(props: {
   rows: readonly Row[];
-  /** What a step produced, shown under its row. */
-  after?: (row: Row) => JSX.Element;
+  /** What a step produced, shown under its row, by the step's id. */
+  after?: (id: string) => JSX.Element;
   /**
    * Steps whose product replaces their line: a view the agent composed is
    * shown where the step ran, with no line of its own.
@@ -52,31 +57,34 @@ export function ActivityRows<Row extends ActivityRowView>(props: {
           </button>
         </li>
       </Show>
-      <For each={props.rows.slice(hidden())}>
-        {(row) => (
-          <li class="flex min-w-0 flex-col" data-status={row.status}>
-            <Show when={!props.inPlace?.(row)}>
-              <span class="flex min-h-5 min-w-0 items-center gap-2">
-                <StatusIcon status={row.status} />
-                <span class="shrink-0 text-ink-muted">
-                  <TextShimmer
-                    text={row.label}
-                    active={row.status === 'running'}
-                  />
+      <Key each={props.rows.slice(hidden())} by="id">
+        {(row) => {
+          const id = row().id;
+          return (
+            <li class="flex min-w-0 flex-col" data-status={row().status}>
+              <Show when={!props.inPlace?.(row())}>
+                <span class="flex min-h-5 min-w-0 items-center gap-2">
+                  <StatusIcon status={row().status} />
+                  <span class="shrink-0 text-ink-muted">
+                    <TextShimmer
+                      text={row().label}
+                      active={row().status === 'running'}
+                    />
+                  </span>
+                  <Show when={row().detail}>
+                    {(detail) => (
+                      <span class="min-w-0 truncate font-mono text-ink-subtle">
+                        {detail()}
+                      </span>
+                    )}
+                  </Show>
                 </span>
-                <Show when={row.detail}>
-                  {(detail) => (
-                    <span class="min-w-0 truncate font-mono text-ink-subtle">
-                      {detail()}
-                    </span>
-                  )}
-                </Show>
-              </span>
-            </Show>
-            {props.after?.(row)}
-          </li>
-        )}
-      </For>
+              </Show>
+              {props.after?.(id)}
+            </li>
+          );
+        }}
+      </Key>
     </ul>
   );
 }
