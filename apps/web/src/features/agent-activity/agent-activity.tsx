@@ -46,8 +46,9 @@ function LiveActivity(props: AgentActivityData) {
  * it goes, with its card under it. Once it is over, the steps fold into one
  * line - how long it worked, and for how many steps - and the cards stay:
  * they are what the work was for. A run where a step failed stays open, so
- * the failure is never folded away. A view the agent composed replaces its
- * own step: showing it is the step.
+ * the failure is never folded away, and a long open run keeps the cards of
+ * the steps it folds behind a count above that count. A view the agent
+ * composed replaces its own step: showing it is the step.
  */
 function Run(props: {
   rows: readonly (ActivityRowView & { card?: unknown })[];
@@ -68,8 +69,8 @@ function Run(props: {
       ? runDuration(posted.created_at, posted.updated_at)
       : undefined;
   };
-  const cardsOf = (rowId: string) =>
-    cards().filter((card) => card.rowId === rowId);
+  const cardsOf = (rowIds: readonly string[]) =>
+    cards().filter((card) => rowIds.includes(card.rowId));
 
   return (
     <Show
@@ -88,7 +89,8 @@ function Run(props: {
             rows={props.rows}
             all={foldable()}
             inPlace={(row) => isViewCard(row.card)}
-            after={(id) => <Cards cards={cardsOf(id)} />}
+            after={(id) => <Cards cards={cardsOf([id])} />}
+            earlier={(ids) => <Cards cards={cardsOf(ids())} />}
           />
         </>
       }
