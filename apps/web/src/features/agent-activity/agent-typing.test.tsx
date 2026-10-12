@@ -11,6 +11,7 @@ const mocks = vi.hoisted(() => ({
   issue: vi.fn(),
   canEdit: true,
   profileLoading: false,
+  questionMounts: 0,
 }));
 const [messages, setMessages] = createSignal<FoldedMessage[]>([]);
 const [metadata, setMetadata] = createSignal<SessionMetadata>();
@@ -45,9 +46,10 @@ vi.mock('@app/features/agent-dms/components/persona-avatar', () => ({
   PersonaAvatar: () => null,
 }));
 vi.mock('@app/features/agent-interactions/components/InteractionCard', () => ({
-  InteractionCard: (props: { request: { requestId: string } }) => (
-    <section aria-label="Question">{props.request.requestId}</section>
-  ),
+  InteractionCard: (props: { request: { requestId: string } }) => {
+    mocks.questionMounts += 1;
+    return <section aria-label="Question">{props.request.requestId}</section>;
+  },
 }));
 vi.mock(
   '@core/component/LexicalMarkdown/component/core/StaticMarkdown',
@@ -104,6 +106,7 @@ beforeEach(() => {
   clearTypingIndicators();
   mocks.canEdit = true;
   mocks.profileLoading = false;
+  mocks.questionMounts = 0;
   mocks.issue.mockResolvedValue(ok({}));
 });
 
@@ -173,6 +176,34 @@ it('puts a question for the running turn under the row', () => {
   expect(
     view.getAllByRole('region', { name: 'Question' }).map((q) => q.textContent)
   ).toEqual(['ask-1']);
+});
+
+it('keeps a question mounted while the fold sends it again', () => {
+  typing('waiting');
+  setMessages([writing('')]);
+  const waiting = (message: string) =>
+    ({
+      turn: 'running',
+      pendingInteractions: [
+        {
+          kind: 'elicitation',
+          turn: 1,
+          requestId: 'ask-1',
+          toolCall: null,
+          message,
+          request: { kind: 'form', schema: {} },
+        },
+      ],
+    }) as unknown as SessionMetadata;
+  setMetadata(waiting('Which branch?'));
+  const view = render(() => <AgentTyping parent={parent} threadId={null} />);
+  const card = view.getByRole('region', { name: 'Question' });
+  // Every fold event brings new objects for the same open request; the card,
+  // and whatever is typed into it, stays.
+  setMetadata(waiting('Which branch?'));
+  setMetadata(waiting('Which branch?'));
+  expect(view.getByRole('region', { name: 'Question' })).toBe(card);
+  expect(mocks.questionMounts).toBe(1);
 });
 
 it('names the step under way next to the row, outside the live region', () => {

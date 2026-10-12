@@ -1,7 +1,11 @@
 import { PersonaAvatar } from '@app/features/agent-dms/components/persona-avatar';
 import { InteractionCard } from '@app/features/agent-interactions/components/InteractionCard';
 import type { AgentInteraction } from '@app/features/agent-interactions/context/interaction';
-import { createInteractionController } from '@app/features/agent-interactions/primitives/create-interaction-controller';
+import {
+  createInteractionController,
+  interactionKey,
+} from '@app/features/agent-interactions/primitives/create-interaction-controller';
+import { conversationDrafts } from '@app/features/agent-interactions/state/interaction-drafts';
 import { toast } from '@core/component/Toast/Toast';
 import { useAgentSessionQuery } from '@queries/agent-session/session';
 import { firstPartyBotName } from '@queries/bots/first-party-bot-name';
@@ -10,6 +14,7 @@ import { queryReadyGate } from '@queries/gate';
 import { getTypingAgents } from '@queries/messages/typing';
 import type { MessagePart } from '@service-agent-fold/generated/types';
 import type { MessageParent } from '@service-storage/messages';
+import { Key } from '@solid-primitives/keyed';
 import { createSignal, For, Show } from 'solid-js';
 import { LiveTail } from './components/live-tail';
 import { TypingRow } from './components/typing-row';
@@ -90,6 +95,9 @@ function AgentTypingEntry(props: {
     canEdit,
     issue: (action) => live.issue(action),
     onFailure: (message) => toast.failure(message),
+    // This row comes and goes while a request stays open; what the user
+    // typed into an answer must not go with it.
+    drafts: conversationDrafts,
   });
   const toolFor = (toolCall: string | null) => {
     const part = reply()?.parts.find(
@@ -137,16 +145,17 @@ function AgentTypingEntry(props: {
           onStop={canEdit() && reply() ? () => void stop() : undefined}
           stopping={stopping()}
         >
-          <For each={pending()}>
+          {/* The fold sends every request anew on each event: key by request. */}
+          <Key each={pending()} by={interactionKey}>
             {(request) => (
               <InteractionCard
-                request={request}
+                request={request()}
                 controller={interactions}
-                tool={toolFor(request.toolCall)}
-                step={stepFor(request.toolCall)}
+                tool={toolFor(request().toolCall)}
+                step={stepFor(request().toolCall)}
               />
             )}
-          </For>
+          </Key>
         </LiveTail>
       </Show>
     </TypingRow>
