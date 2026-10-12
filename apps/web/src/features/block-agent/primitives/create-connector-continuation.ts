@@ -1,3 +1,4 @@
+import type { ConnectingReply } from '@core/pipedream/connection-context';
 import type { PipedreamConnectOutcome } from '@queries/pipedream-connectors';
 import { createSignal, onCleanup } from 'solid-js';
 
@@ -8,6 +9,12 @@ import { createSignal, onCleanup } from 'solid-js';
 export function createConnectorContinuation(deps: {
   disabled: () => boolean;
   revision: () => string;
+  /**
+   * Whether the agent can carry on from the reply whose button asked, once
+   * the app is connected; always, if absent. When it cannot, the app stays
+   * connected and the person is told so.
+   */
+  resumes?: (reply: ConnectingReply | undefined) => boolean;
   connect: (app: {
     appSlug: string;
     serverName: string;
@@ -28,7 +35,10 @@ export function createConnectorContinuation(deps: {
   });
   const disabled = () => pending() || deps.disabled();
 
-  async function connect(app: { appSlug: string; name: string }) {
+  async function connect(
+    app: { appSlug: string; name: string },
+    reply?: ConnectingReply
+  ) {
     if (disposed || disabled()) return;
     const revision = deps.revision();
     setPending(true);
@@ -46,7 +56,11 @@ export function createConnectorContinuation(deps: {
         return;
       }
       if (outcome !== 'connected') return;
-      if (deps.disabled() || revision !== deps.revision()) {
+      if (
+        deps.disabled() ||
+        revision !== deps.revision() ||
+        deps.resumes?.(reply) === false
+      ) {
         deps.notify(
           `${app.name} connected. Send a message when you are ready to continue.`
         );

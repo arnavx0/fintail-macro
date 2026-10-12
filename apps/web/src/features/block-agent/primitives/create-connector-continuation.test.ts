@@ -65,6 +65,24 @@ describe('connector continuation', () => {
     }
   );
 
+  it('connects but does not resume from a reply the surface cannot resume from', async () => {
+    const { deps, flow, finish, dispose } = setup();
+    const resumes = vi.fn(() => false);
+    const reply = { messageId: 'reply-1', postedAt: '2026-10-05T10:01:00Z' };
+    const pending = createRoot(() =>
+      createConnectorContinuation({ ...deps, resumes })
+    ).connect(app, reply);
+    finish('connected');
+    await pending;
+    expect(resumes).toHaveBeenCalledExactlyOnceWith(reply);
+    expect(deps.resume).not.toHaveBeenCalled();
+    expect(deps.notify).toHaveBeenCalledWith(
+      'Linear connected. Send a message when you are ready to continue.'
+    );
+    expect(flow.resumed().size).toBe(0);
+    dispose();
+  });
+
   it('reports registration failure without sending a continuation', async () => {
     const { deps, flow, dispose } = setup();
     deps.connect = vi.fn(async () => {
