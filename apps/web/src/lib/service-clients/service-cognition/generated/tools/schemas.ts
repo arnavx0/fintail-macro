@@ -1856,6 +1856,7 @@ export const CreateCalendarEvent = z.object({
       z.null(),
     ])
     .optional(),
+  addMacroCall: z.boolean().optional(),
   addGoogleMeet: z.boolean().optional(),
   eventType: z
     .any()
@@ -1947,6 +1948,7 @@ export const UserToolResponseForToolCalendarEvent = z
             attendeeCount: z.number().int().gte(0),
             organizerEmail: z.union([z.string(), z.null()]).optional(),
             conferenceUrl: z.union([z.string(), z.null()]).optional(),
+            macroCallUrl: z.union([z.string(), z.null()]).optional(),
             isReadOnly: z.boolean(),
             calendarId: z.union([z.string().uuid(), z.null()]).optional(),
           }),
@@ -2070,6 +2072,7 @@ export const CreateConfirmedCalendarEvent = z.object({
       z.null(),
     ])
     .optional(),
+  addMacroCall: z.boolean().optional(),
   addGoogleMeet: z.boolean().optional(),
   eventType: z
     .any()
@@ -2154,6 +2157,7 @@ export const ToolCalendarEvent = z.object({
   attendeeCount: z.number().int().gte(0),
   organizerEmail: z.union([z.string(), z.null()]).optional(),
   conferenceUrl: z.union([z.string(), z.null()]).optional(),
+  macroCallUrl: z.union([z.string(), z.null()]).optional(),
   isReadOnly: z.boolean(),
   calendarId: z.union([z.string().uuid(), z.null()]).optional(),
 });
@@ -12880,6 +12884,7 @@ export const SendConfirmedEmail = z.object({
     .optional(),
   replyingToId: z.union([z.string().uuid(), z.null()]).optional(),
   includeSignature: z.union([z.boolean(), z.null()]).optional(),
+  attachments: z.array(z.object({ documentId: z.string().uuid() })).optional(),
   userConfirmation: z.string(),
 });
 
@@ -12942,6 +12947,7 @@ export const SendEmail = z.object({
     .optional(),
   replyingToId: z.union([z.string().uuid(), z.null()]).optional(),
   includeSignature: z.union([z.boolean(), z.null()]).optional(),
+  attachments: z.array(z.object({ documentId: z.string().uuid() })).optional(),
 });
 
 export const UserToolResponseForSendEmailResponse = z
@@ -13239,6 +13245,73 @@ export const SetSenderPolicyResponse = z.object({
     }
   }),
   inbox: z.string(),
+  summary: z.string(),
+});
+
+export const ShareWithChannel = z.object({
+  channelId: z.string().uuid(),
+  entityId: z.string(),
+  entityType: z.any().superRefine((x, ctx) => {
+    const schemas = [
+      z.literal('calendar_event'),
+      z.literal('document'),
+      z.literal('chat'),
+      z.literal('project'),
+      z.literal('database'),
+      z.literal('form'),
+      z.literal('call'),
+      z.literal('thread'),
+      z.literal('agent_session'),
+    ];
+    const errors = schemas.reduce<z.ZodError[]>(
+      (errors, schema) =>
+        ((result) => (result.error ? [...errors, result.error] : errors))(
+          schema.safeParse(x)
+        ),
+      []
+    );
+    if (schemas.length - errors.length !== 1) {
+      ctx.addIssue({
+        path: ctx.path,
+        code: 'invalid_union',
+        unionErrors: errors,
+        message: 'Invalid input: Should pass single schema',
+      });
+    }
+  }),
+});
+
+export const ShareWithChannelResponse = z.object({
+  channelId: z.string().uuid(),
+  entityId: z.string(),
+  entityType: z.any().superRefine((x, ctx) => {
+    const schemas = [
+      z.literal('calendar_event'),
+      z.literal('document'),
+      z.literal('chat'),
+      z.literal('project'),
+      z.literal('database'),
+      z.literal('form'),
+      z.literal('call'),
+      z.literal('thread'),
+      z.literal('agent_session'),
+    ];
+    const errors = schemas.reduce<z.ZodError[]>(
+      (errors, schema) =>
+        ((result) => (result.error ? [...errors, result.error] : errors))(
+          schema.safeParse(x)
+        ),
+      []
+    );
+    if (schemas.length - errors.length !== 1) {
+      ctx.addIssue({
+        path: ctx.path,
+        code: 'invalid_union',
+        unionErrors: errors,
+        message: 'Invalid input: Should pass single schema',
+      });
+    }
+  }),
   summary: z.string(),
 });
 

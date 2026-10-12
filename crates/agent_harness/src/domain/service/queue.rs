@@ -352,25 +352,38 @@ where
                     open = record.command;
                     origin = open.origin.announcement();
                     action_id = record.action_id;
+                }
+                // Only a bootstrap takes the delivery lease: until the session
+                // opens it has no manager to route to, while an open session's
+                // turns are already serialized by its queue and its journal
+                // claims. Holding the lease, look again: another replica may
+                // have opened the session meanwhile.
+                let mut session = self.sessions.get_session(session_id).await;
+                if matches!(session, Err(AgentSessionError::NotFound(_)))
+                    && let Some(store) = &self.conversation_turns
+                {
                     _delivery_lease = store.claim_delivery(session_id).await?;
                     if _delivery_lease.is_none() {
                         // Already durable; recovery routes it to the manager
                         // after the other replica finishes bootstrapping.
                         return Ok(CommandOutcome::Queued);
                     }
+                    session = self.sessions.get_session(session_id).await;
                 }
-                match self.sessions.get_session(session_id).await {
+                match session {
                     Ok(session) => {
                         if session.bot_id != open.bot_id
                             || !session.owner_id.is_user(open.origin.actor())
                         {
                             return Err(AgentSessionError::Forbidden.into());
                         }
+                        let context = open.origin.context().cloned();
                         HarnessCommand::Deliver(DeliverAction {
                             id: action_id,
                             actor: Some(open.origin.actor().clone()),
                             action: open.origin.into_action(),
                             announce: Some(origin),
+                            context,
                         })
                     }
                     Err(AgentSessionError::NotFound(_)) => HarnessCommand::Open(open),
@@ -857,6 +870,7 @@ where
             action: command.action,
             actor: command.actor,
             announce: command.announce,
+            context: command.context,
             announced: None,
             created_at: dm_record
                 .as_ref()
@@ -993,6 +1007,7 @@ where
                         action: AgentAction::Stop,
                         actor,
                         announce: None,
+                        context: None,
                     },
                 )
                 .await
@@ -1034,6 +1049,7 @@ where
                     action: AgentAction::Stop,
                     actor: actor.cloned(),
                     announce: None,
+                    context: None,
                 },
             )
             .await
@@ -1191,7 +1207,10 @@ where
     /// A failed dispatch puts the entry back at the front: it stays next in
     /// line for the next turn end or the next prompt, and stays visible in
     /// the queue meanwhile. The error still propagates, so a caller whose
-    /// own action triggered this dispatch hears about it.
+    /// own action triggered this dispatch hears about it. A conversation
+    /// message that can never run is not put back: one its journal no longer
+    /// holds as waiting is dropped, one whose origin is gone fails, and the
+    /// next entry dispatches in its place.
     #[tracing::instrument(name = "dispatch_next", err, skip(self), fields(%session_id))]
     async fn dispatch_unboxed(&self, session_id: AgentSessionId) -> Result<Dispatch> {
         let session = self.sessions.get_session(session_id).await?;
@@ -1219,6 +1238,28 @@ where
                 return Err(error);
             }
 
+            let conversation_store = self.conversation_turns.as_ref().filter(|_| {
+                entry.announce.as_ref().is_some_and(|origin| {
+                    origin.reply_placement == crate::domain::model::ReplyPlacement::Timeline
+                })
+            });
+            // A conversation message's journal says whether it still waits.
+            // One whose turn already ended - failed, stopped when its owner
+            // started fresh, or retried under a new id - is dropped, not run.
+            if let Some(store) = conversation_store {
+                match store.by_action(entry.action_id).await {
+                    Ok(Some(record))
+                        if record.state
+                            == crate::domain::conversation_turns::ConversationTurnState::Queued => {
+                    }
+                    Ok(_) => continue,
+                    Err(error) => {
+                        self.requeue_claimed(session_id, entry).await?;
+                        return Err(error.into());
+                    }
+                }
+            }
+
             // The turn this action opens, read before delivery appends the
             // prompt to the log. Unchanged across a failed attempt, so a retry
             // reports the same turn.
@@ -1240,10 +1281,29 @@ where
                     &mut composed,
                     entry.actor.as_ref(),
                     entry.announce.as_ref(),
+                    entry.context.as_ref(),
                     prompted_message_id.turn == TurnId(0),
                 )
                 .await
             {
+                // A conversation message whose origin is gone - deleted,
+                // moved, or no longer its sender's to answer - can never be
+                // composed, and put back it would hold every message behind
+                // it. Its turn fails instead, and the next message dispatches.
+                if let (HarnessError::InvalidOrigin(_), Some(store)) = (&error, conversation_store)
+                {
+                    tracing::warn!(
+                        ?error,
+                        %session_id,
+                        action_id = %entry.action_id,
+                        "dropping a conversation message whose origin is gone"
+                    );
+                    store.fail_queued(entry.action_id).await?;
+                    store
+                        .finalize_reply(entry.action_id, &ReplyOutcome::Failed)
+                        .await?;
+                    continue;
+                }
                 self.requeue_claimed(session_id, entry).await?;
                 return Err(error);
             }
@@ -1254,11 +1314,6 @@ where
                 return Err(error);
             }
 
-            let conversation_store = self.conversation_turns.as_ref().filter(|_| {
-                entry.announce.as_ref().is_some_and(|origin| {
-                    origin.reply_placement == crate::domain::model::ReplyPlacement::Timeline
-                })
-            });
             // A reply shown in segments posts nothing until the agent has
             // something to say or do: the bot types meanwhile.
             let in_segments = entry.announce.as_ref().is_some_and(|origin| {
@@ -1379,6 +1434,8 @@ where
                 action: composed,
                 actor: entry.actor.clone(),
                 announce: entry.announce.clone(),
+                // Already composed into the action above.
+                context: None,
             };
             flight.announcement_message_id = entry.announced;
             if let Some(store) = conversation_store

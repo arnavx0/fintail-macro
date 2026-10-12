@@ -815,10 +815,11 @@ impl crate::domain::conversation_turns::ConversationTurnStore for FlakyJournal {
         &self,
         channel: macro_uuid::Uuid,
         bot: BotId,
+        recent: u16,
     ) -> agent_session::domain::error::Result<
         Vec<crate::domain::conversation_turns::ConversationTurnStatus>,
     > {
-        self.inner.for_conversation(channel, bot).await
+        self.inner.for_conversation(channel, bot, recent).await
     }
     async fn pending_replies(
         &self,
@@ -886,5 +887,242 @@ async fn a_turn_whose_runtime_dies_fails_once_and_frees_the_conversation(pool: s
     assert!(
         matches!(notices.as_slice(), [notice] if notice.outcome == Some(ReplyOutcome::Failed)),
         "the failure is told once, not again by recovery: {notices:#?}"
+    );
+}
+
+/// A direct conversation over `journal` whose first message is running, with
+/// two more messages queued behind it.
+async fn two_queued_behind_a_running_turn(
+    pool: sqlx::PgPool,
+    journal: Arc<crate::outbound::conversation_turns::PgConversationTurnStore>,
+    prompt_context: PromptContextMock,
+    prompt_composer: PromptComposerMock,
+) -> (TestHarness, ContainerMock, OpenSession, OpenSession) {
+    use agent_session::domain::agent_conversation::AgentConversationRepo;
+    use channels::domain::agent_dm::AgentDmRepo;
+    let ((service, _, containers, _, _), _) = harness_with_ports_and_journal(
+        prompt_context,
+        prompt_composer,
+        KindDefaultPolicies,
+        HarnessDefaultCodingAgents,
+        PromptMentionsMock::new(),
+        Some(journal),
+    );
+    let mut command = direct_command();
+    let channel = channels::outbound::pg_channels_repo::PgChannelsRepo::new(pool.clone())
+        .ensure(mention_origin(&command).sender.clone(), command.bot_id)
+        .await
+        .unwrap()
+        .dm
+        .channel_id;
+    let session = crate::testing::postgres_sessions(pool)
+        .current_or_create(conversation(channel, &command))
+        .await
+        .unwrap();
+    mention_origin_mut(&mut command).parent = MessageParent::Channel(channel);
+    let container = open_direct(&service, &containers, session, command.clone()).await;
+    let queue = |content: &str| {
+        let mut queued = command.clone();
+        let message_id = macro_uuid::generate_uuid_v7();
+        mention_origin_mut(&mut queued).message_id = message_id;
+        mention_origin_mut(&mut queued).thread_id = message_id;
+        mention_origin_mut(&mut queued).content = content.to_owned();
+        queued
+    };
+    let (first, second) = (queue("The second message"), queue("The third message"));
+    for queued in [&first, &second] {
+        assert_eq!(
+            service
+                .execute(session, HarnessCommand::ConversationMessage(queued.clone()))
+                .await
+                .unwrap(),
+            CommandOutcome::Queued
+        );
+    }
+    (service, container, first, second)
+}
+
+/// A message deleted while it waited can never run. It fails instead of
+/// blocking the conversation, and the message behind it runs.
+#[sqlx::test(migrator = "MACRO_DB_MIGRATIONS")]
+async fn a_message_deleted_while_it_waited_fails_and_the_next_one_runs(pool: sqlx::PgPool) {
+    use crate::domain::conversation_turns::{ConversationTurnState, ConversationTurnStore};
+    let journal = pg_journal(&pool);
+    let prompt_context = PromptContextMock::default();
+    let (service, container, deleted, next) = two_queued_behind_a_running_turn(
+        pool,
+        journal.clone(),
+        prompt_context.clone(),
+        PromptComposerMock::default(),
+    )
+    .await;
+    prompt_context.delete(mention_origin(&deleted).message_id);
+
+    container.agent().completes_prompt().await;
+    tokio::time::timeout(
+        std::time::Duration::from_secs(10),
+        container.agent().wait_for_requests(4),
+    )
+    .await
+    .expect("the message behind the deleted one is prompted");
+    assert!(prompt_text(&container.agent(), 1).contains("The third message"));
+    let dropped = journal
+        .get(mention_origin(&deleted).message_id, deleted.bot_id)
+        .await
+        .unwrap()
+        .unwrap();
+    assert_eq!(dropped.state, ConversationTurnState::Failed);
+    assert!(dropped.reply_finalized);
+    let running = journal
+        .get(mention_origin(&next).message_id, next.bot_id)
+        .await
+        .unwrap()
+        .unwrap();
+    assert_eq!(running.state, ConversationTurnState::Running);
+    assert!(service.inner.queues.snapshot(running.session_id).is_empty());
+}
+
+/// A waiting message whose turn the journal already ended - failed by an
+/// attempt that could not run it, or stopped when its owner started fresh -
+/// is dropped without being composed, and the message behind it runs.
+#[sqlx::test(migrator = "MACRO_DB_MIGRATIONS")]
+async fn a_waiting_message_whose_turn_already_ended_is_dropped(pool: sqlx::PgPool) {
+    use crate::domain::conversation_turns::ConversationTurnStore;
+    let journal = pg_journal(&pool);
+    let prompt_composer = PromptComposerMock::default();
+    let (_service, container, ended, _next) = two_queued_behind_a_running_turn(
+        pool,
+        journal.clone(),
+        PromptContextMock::default(),
+        prompt_composer.clone(),
+    )
+    .await;
+    let ended = journal
+        .get(mention_origin(&ended).message_id, ended.bot_id)
+        .await
+        .unwrap()
+        .unwrap();
+    journal.fail_queued(ended.action_id).await.unwrap();
+
+    container.agent().completes_prompt().await;
+    tokio::time::timeout(
+        std::time::Duration::from_secs(10),
+        container.agent().wait_for_requests(4),
+    )
+    .await
+    .expect("the message behind the ended one is prompted");
+    assert!(prompt_text(&container.agent(), 1).contains("The third message"));
+    assert!(
+        !prompt_composer
+            .calls()
+            .iter()
+            .any(|(prompt, ..)| prompt.contains("The second message")),
+        "a message whose turn ended is never composed"
+    );
+}
+
+/// The delivery lease serializes bootstraps only. A message to a session that
+/// is already open is answered while another conversation's bootstrap holds
+/// the replica's only lease, instead of waiting for it and then for recovery.
+#[sqlx::test(migrator = "MACRO_DB_MIGRATIONS")]
+async fn an_open_conversation_answers_while_another_one_bootstraps(pool: sqlx::PgPool) {
+    use crate::domain::conversation_turns::ConversationTurnStore;
+    // The harness service's pool, where each kind of lease has one slot.
+    let small = sqlx::postgres::PgPoolOptions::new()
+        .max_connections(5)
+        .connect_with((*pool.connect_options()).clone())
+        .await
+        .unwrap();
+    let journal =
+        Arc::new(crate::outbound::conversation_turns::PgConversationTurnStore::new(small));
+    let (service, _announcer, signals, container, command) =
+        journaled_conversation(pool, journal.clone()).await;
+    let session = journal
+        .get(mention_origin(&command).message_id, command.bot_id)
+        .await
+        .unwrap()
+        .unwrap()
+        .session_id;
+    says(&container.agent(), "First answer.");
+    container.agent().completes_prompt().await;
+    signals.lifecycle_published(4).await;
+
+    let _bootstrap = journal
+        .claim_delivery(AgentSessionId::new())
+        .await
+        .unwrap()
+        .expect("an idle replica leases a bootstrap");
+    let mut next = command.clone();
+    let message_id = macro_uuid::generate_uuid_v7();
+    mention_origin_mut(&mut next).message_id = message_id;
+    mention_origin_mut(&mut next).thread_id = message_id;
+    mention_origin_mut(&mut next).content = "Asked during the bootstrap".to_owned();
+    tokio::time::timeout(
+        std::time::Duration::from_secs(5),
+        service.execute(session, HarnessCommand::ConversationMessage(next)),
+    )
+    .await
+    .expect("an open session's message does not wait for the bootstrap's lease")
+    .unwrap();
+    tokio::time::timeout(
+        std::time::Duration::from_secs(5),
+        container.agent().wait_for_requests(4),
+    )
+    .await
+    .expect("the message is prompted");
+    assert!(prompt_text(&container.agent(), 1).contains("Asked during the bootstrap"));
+}
+
+/// A replica that dies mid-turn leaves the messages it posted showing their
+/// steps running. Recovery shows each of them closed, the last one with how
+/// the turn ended.
+#[sqlx::test(migrator = "MACRO_DB_MIGRATIONS")]
+async fn recovery_closes_the_messages_a_lost_replica_posted(pool: sqlx::PgPool) {
+    use crate::domain::conversation_turns::{ConversationTurnState, ConversationTurnStore};
+    use agent_fold::domain::model::ActivityStatus;
+    let journal = pg_journal(&pool);
+    let (service, announcer, _signals, container, command) =
+        journaled_conversation(pool, journal.clone()).await;
+    let agent = container.agent();
+    says(&agent, "Checking the tests first.");
+    runs(&agent, "t1", "in_progress", "cargo test");
+    eventually("the narration is posted with its step running", || {
+        !announcer.presented().is_empty()
+    })
+    .await;
+    let narration = announcer.presented()[0].message_id;
+    let turn = journal
+        .get(mention_origin(&command).message_id, command.bot_id)
+        .await
+        .unwrap()
+        .unwrap();
+
+    // The replica is gone, and with it what it remembered of the turn;
+    // recovery finds the turn running and interrupts it.
+    service.inner.busy.take(turn.session_id);
+    service.inner.projections.clear();
+    journal
+        .finish(
+            turn.action_id,
+            ConversationTurnState::Interrupted,
+            ReplyOutcome::Failed,
+        )
+        .await
+        .unwrap();
+    service.recover_conversations().await.unwrap();
+
+    let presented = announcer.presented();
+    let closed = presented.last().unwrap();
+    assert_eq!(closed.message_id, narration, "{presented:#?}");
+    assert_eq!(closed.outcome, Some(ReplyOutcome::Failed));
+    assert!(closed.notify);
+    assert!(closed.segments.iter().all(|segment| segment.segment.sealed));
+    assert!(
+        closed
+            .segments
+            .iter()
+            .flat_map(|segment| &segment.segment.rows)
+            .all(|row| row.status != ActivityStatus::Running),
+        "{closed:#?}"
     );
 }

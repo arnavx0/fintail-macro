@@ -49,6 +49,7 @@ import { botAssignableChannelOptions } from '../channel/Bots/botChannelOptions';
 import { canDeleteBot, canManageAgent } from '../channel/Bots/botPermissions';
 import { ChannelMultiSelect } from '../channel/Bots/ChannelMultiSelect';
 import { AgentSettingsDescription } from './components/agent-settings-description';
+import { CodingPreferencesSetting } from './components/coding-preferences-setting';
 import { AgentInstructionsEditor } from './components/instructions-editor';
 import { SettingsSelect } from './components/settings-select';
 import { PipedreamAppPicker } from './PipedreamAppPicker';
@@ -345,6 +346,8 @@ export function Agents(props: { navigation?: JSX.Element } = {}) {
               </Show>
             </SettingsCard>
           </SettingsSection>
+
+          <CodingPreferencesSetting />
         </SettingsPage>
       </Show>
 

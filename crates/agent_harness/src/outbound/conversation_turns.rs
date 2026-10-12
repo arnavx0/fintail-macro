@@ -24,9 +24,14 @@ pub struct PgConversationTurnStore {
     pool: PgPool,
     /// Pooled connections a session bootstrap may hold for its whole open.
     delivery_slots: std::sync::Arc<tokio::sync::Semaphore>,
-    /// Pooled connections held by admission and reply reconciliation, which
-    /// last a few queries. Kept apart so a slow bootstrap never starves them.
-    lease_slots: std::sync::Arc<tokio::sync::Semaphore>,
+    /// Pooled connections held by admission and the context changes it
+    /// serializes with, which last a few queries. A message waiting here
+    /// holds up every broker event behind it, so it never waits on a slow
+    /// bootstrap or on a reply being posted.
+    context_slots: std::sync::Arc<tokio::sync::Semaphore>,
+    /// Pooled connections held by reply reconciliation while it posts a
+    /// turn's reply.
+    reply_slots: std::sync::Arc<tokio::sync::Semaphore>,
 }
 
 /// How long a lease waits for a pooled connection before reporting itself
@@ -57,7 +62,8 @@ impl PgConversationTurnStore {
         Self {
             pool,
             delivery_slots: std::sync::Arc::new(tokio::sync::Semaphore::new(slots)),
-            lease_slots: std::sync::Arc::new(tokio::sync::Semaphore::new(slots)),
+            context_slots: std::sync::Arc::new(tokio::sync::Semaphore::new(slots)),
+            reply_slots: std::sync::Arc::new(tokio::sync::Semaphore::new(slots)),
         }
     }
 }
@@ -96,7 +102,7 @@ impl ConversationTurnStore for PgConversationTurnStore {
         &self,
         session: AgentSessionId,
     ) -> Result<Option<Box<dyn ConversationLease>>> {
-        let Some(slot) = take_slot(&self.lease_slots).await else {
+        let Some(slot) = take_slot(&self.context_slots).await else {
             return Ok(None);
         };
         let mut tx = self.pool.begin().await.map_err(anyhow::Error::from)?;
@@ -276,7 +282,7 @@ impl ConversationTurnStore for PgConversationTurnStore {
         action: AgentActionId,
     ) -> Result<Option<Box<dyn ConversationLease>>> {
         // Leave pool capacity for the message service while a reply lock is held.
-        let Some(slot) = take_slot(&self.lease_slots).await else {
+        let Some(slot) = take_slot(&self.reply_slots).await else {
             return Ok(None);
         };
         let mut tx = self.pool.begin().await.map_err(anyhow::Error::from)?;
@@ -312,10 +318,73 @@ impl ConversationTurnStore for PgConversationTurnStore {
         &self,
         channel: Uuid,
         bot: BotId,
+        recent: u16,
     ) -> Result<Vec<ConversationTurnStatus>> {
-        sqlx::query_scalar!(r#"SELECT jsonb_build_object('source_message_id', source_message_id, 'bot_id', bot_id, 'session_id', session_id, 'action_id', action_id, 'reply_message_id', in_flight->'announcement_message_id', 'state', state, 'retryable', state IN ('failed', 'stopped', 'interrupted') AND (reply_finalized OR in_flight->>'announcement_message_id' IS NULL), 'created_at', created_at) AS "value!" FROM agent_conversation_turns WHERE channel_id = $1 AND bot_id = $2 ORDER BY created_at, source_message_id"#, channel, bot.as_uuid())
-            .fetch_all(&self.pool).await.map_err(anyhow::Error::from)?.into_iter()
-            .map(|value| serde_json::from_value(value).map_err(anyhow::Error::from).map_err(Into::into)).collect()
+        sqlx::query_scalar!(
+            r#"
+            WITH sessions AS (
+                SELECT session_id
+                FROM agent_conversation_sessions
+                WHERE channel_id = $1 AND bot_id = $2
+            ),
+            shown AS (
+                -- Whatever waits or runs, however long ago it was posted.
+                SELECT turn.source_message_id
+                FROM agent_conversation_turns turn
+                JOIN sessions ON sessions.session_id = turn.session_id
+                WHERE turn.state IN ('queued', 'running')
+                UNION
+                -- Each session's first turn, where the transcript shows its
+                -- context starting fresh.
+                SELECT first.source_message_id
+                FROM sessions
+                CROSS JOIN LATERAL (
+                    SELECT source_message_id
+                    FROM agent_conversation_turns
+                    WHERE session_id = sessions.session_id
+                    ORDER BY created_at, source_message_id
+                    LIMIT 1
+                ) first
+                UNION
+                (
+                    SELECT source_message_id
+                    FROM agent_conversation_turns
+                    WHERE channel_id = $1 AND bot_id = $2
+                    ORDER BY created_at DESC, source_message_id DESC
+                    LIMIT $3
+                )
+            )
+            SELECT jsonb_build_object(
+                'source_message_id', source_message_id,
+                'bot_id', bot_id,
+                'session_id', session_id,
+                'action_id', action_id,
+                'reply_message_id', in_flight->'announcement_message_id',
+                'state', state,
+                'retryable', state IN ('failed', 'stopped', 'interrupted')
+                    AND (reply_finalized OR in_flight->>'announcement_message_id' IS NULL),
+                'created_at', created_at
+            ) AS "value!"
+            FROM agent_conversation_turns
+            WHERE channel_id = $1
+              AND bot_id = $2
+              AND source_message_id IN (SELECT source_message_id FROM shown)
+            ORDER BY created_at, source_message_id
+            "#,
+            channel,
+            bot.as_uuid(),
+            i64::from(recent),
+        )
+        .fetch_all(&self.pool)
+        .await
+        .map_err(anyhow::Error::from)?
+        .into_iter()
+        .map(|value| {
+            serde_json::from_value(value)
+                .map_err(anyhow::Error::from)
+                .map_err(Into::into)
+        })
+        .collect()
     }
 
     async fn pending_replies(&self, limit: u16) -> Result<Vec<ConversationTurn>> {

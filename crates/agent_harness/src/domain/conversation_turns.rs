@@ -54,8 +54,9 @@ pub struct ConversationTurn {
     pub outcome: Option<ReplyOutcome>,
     /// Whether the channel reply has been reconciled with the saved outcome.
     pub reply_finalized: bool,
-    /// What the finished reply shows, saved before its outcome by the replica
-    /// that watched the turn.
+    /// What the reply shows, saved by the replica that watched the turn
+    /// before it showed any of it, and once more, finished, before its
+    /// outcome.
     #[serde(default)]
     pub reply_segments: Option<Vec<agent_fold::domain::model::ProjectedSegment>>,
     /// Stable admission order within the transcript.
@@ -101,7 +102,7 @@ pub struct ConversationSettings {
 /// Persistence mechanics only; authorization and execution decisions stay in the harness.
 #[async_trait::async_trait]
 pub trait ConversationTurnStore: Send + Sync + 'static {
-    /// Serialize bootstrap and local queue admission before a session manager exists.
+    /// Serialize a session's bootstrap, before it has a manager to route to.
     /// Waits briefly for capacity; `None` means another holder has the session,
     /// or this replica had no connection to spare.
     async fn claim_delivery(
@@ -144,8 +145,9 @@ pub trait ConversationTurnStore: Send + Sync + 'static {
     async fn claim(&self, action: AgentActionId, turn: &InFlightTurn) -> Result<bool>;
     /// Save the posted reply before the model can begin producing output.
     async fn record_flight(&self, action: AgentActionId, turn: &InFlightTurn) -> Result<()>;
-    /// Save what a finished turn's reply shows, before its outcome, so that
-    /// whichever replica reconciles the reply posts the same messages.
+    /// Save what a turn's reply shows: as its messages are posted, and
+    /// finished, before its outcome. Whichever replica reconciles the reply
+    /// then posts the same messages, and closes the ones already posted.
     async fn save_reply(
         &self,
         action: AgentActionId,
@@ -176,12 +178,15 @@ pub trait ConversationTurnStore: Send + Sync + 'static {
     async fn pending(&self, limit: u16) -> Result<Vec<ConversationTurn>>;
     /// Claims whose session manager must still be alive; used only for recovery checks.
     async fn running(&self, limit: u16) -> Result<Vec<ConversationTurn>>;
-    /// Read the statuses of one persona's turns in a channel, after the
-    /// caller's access to the conversation was checked.
+    /// Read the statuses of the turns one persona's conversation in a channel
+    /// shows, oldest first, after the caller's access to it was checked:
+    /// every turn still queued or running, each session's first turn, and
+    /// the latest `recent` turns.
     async fn for_conversation(
         &self,
         channel: Uuid,
         bot: BotId,
+        recent: u16,
     ) -> Result<Vec<ConversationTurnStatus>>;
     /// Completed outcomes whose reply patch must be retried, without running a model.
     async fn pending_replies(&self, limit: u16) -> Result<Vec<ConversationTurn>>;

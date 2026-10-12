@@ -12,6 +12,7 @@ pub mod ai_operations;
 mod build_context;
 mod deferred;
 mod display_results;
+pub mod email_attachments;
 mod import_channels;
 mod mcp_app_catalog;
 mod schemas;
@@ -222,6 +223,7 @@ pub const EAGER_TOOLS: &[&str] = &[
     "SearchTools",
     "SelfKnowledge",
     "SendChannelMessage",
+    "ShareWithChannel",
     "Subagent",
     "TextEditorCodeExecution",
     "WebFetch",

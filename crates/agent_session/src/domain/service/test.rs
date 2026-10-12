@@ -423,6 +423,36 @@ async fn archive_is_persisted_published_and_blocks_rename() {
 }
 
 #[tokio::test]
+async fn a_conversations_current_session_is_not_archived() {
+    let repo = InMemoryAgentSessionRepo::new();
+    let session = test_session();
+    repo.insert_session(test_agent_session(session));
+    repo.answer_conversation(session);
+    let realtime = RecordingRealtime::default();
+    let service = AgentSessionServiceImpl::new(
+        repo.clone(),
+        FoldedMessageService::new(repo.clone()),
+        realtime.clone(),
+        NoOpAgentSessionNameGenerator,
+        Arc::new(NoOpTurnObserver),
+        Arc::new(NoopLifecyclePublisher),
+        ReplicaId::mint(),
+    );
+
+    assert!(matches!(
+        service.set_archived(&owner_access(session), true).await,
+        Err(AgentSessionError::AnswersConversation(id)) if id == session
+    ));
+    assert!(!repo.get(session).await.expect("get session").is_archived);
+    assert!(realtime.updated().is_empty());
+    // Unarchiving is never refused.
+    service
+        .set_archived(&owner_access(session), false)
+        .await
+        .expect("unarchive session");
+}
+
+#[tokio::test]
 async fn manual_rename_rejects_blank_and_overlong_names() {
     let repo = InMemoryAgentSessionRepo::new();
     let session = test_session();
@@ -656,6 +686,10 @@ impl AgentSessionRepo for BlockingPromptLogs {
         self.repo.set_archived(id, is_archived).await
     }
 
+    async fn is_current_conversation_session(&self, id: AgentSessionId) -> Result<bool> {
+        self.repo.is_current_conversation_session(id).await
+    }
+
     async fn set_name_if_default(&self, id: AgentSessionId, name: &str) -> Result<bool> {
         self.repo.set_name_if_default(id, name).await
     }
@@ -674,6 +708,23 @@ impl AgentSessionRepo for BlockingPromptLogs {
         size: SandboxSize,
     ) -> Result<()> {
         self.repo.set_user_sandbox_size(user_id, size).await
+    }
+
+    async fn user_coding_preferences(
+        &self,
+        user_id: &MacroUserIdStr<'static>,
+    ) -> Result<CodingPreferences> {
+        self.repo.user_coding_preferences(user_id).await
+    }
+
+    async fn set_user_coding_preferences(
+        &self,
+        user_id: &MacroUserIdStr<'static>,
+        preferences: CodingPreferences,
+    ) -> Result<()> {
+        self.repo
+            .set_user_coding_preferences(user_id, preferences)
+            .await
     }
 
     async fn delete(&self, id: AgentSessionId) -> Result<()> {

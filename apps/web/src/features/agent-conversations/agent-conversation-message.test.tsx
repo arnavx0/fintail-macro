@@ -1,13 +1,11 @@
 import type { AgentConversation } from '@service-agent-harness/agent-conversations';
 import { cleanup, fireEvent, render } from '@solidjs/testing-library';
-import { afterEach, expect, it, vi } from 'vitest';
+import { createSignal } from 'solid-js';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 
-const mocks = vi.hoisted(() => ({ mutate: vi.fn() }));
+const mocks = vi.hoisted(() => ({ control: vi.fn(), mutate: vi.fn() }));
 vi.mock('./queries/controls', () => ({
-  useAgentConversationControl: () => ({
-    mutate: mocks.mutate,
-    isPending: false,
-  }),
+  useAgentConversationControl: mocks.control,
 }));
 vi.mock('@core/component/Toast/Toast', () => ({ toast: {} }));
 
@@ -20,7 +18,26 @@ import {
   type AgentConversationsContextValue,
 } from './context';
 
-afterEach(cleanup);
+beforeEach(() => {
+  // Each status's own mutation, pending from the click until it settles.
+  mocks.control.mockImplementation(() => {
+    const [pending, setPending] = createSignal(false);
+    return {
+      get isPending() {
+        return pending();
+      },
+      mutate: (variables: unknown) => {
+        mocks.mutate(variables);
+        setPending(true);
+      },
+    };
+  });
+});
+
+afterEach(() => {
+  cleanup();
+  vi.clearAllMocks();
+});
 
 function conversation(
   state: AgentConversation['turns'][number]['state'] = 'running',
@@ -59,7 +76,7 @@ function context(
 
 it('places a fresh-context divider only before the session’s first source message', () => {
   const view = render(() => (
-    <AgentConversationsContext.Provider value={context(conversation)}>
+    <AgentConversationsContext.Provider value={context(() => conversation())}>
       <AgentConversationContextBoundary messageId="source" />
       <AgentConversationContextBoundary messageId="reply" />
     </AgentConversationsContext.Provider>
@@ -81,6 +98,24 @@ it('tells a failed message as a notice with Retry as its one action', () => {
     conversation: failed,
     turn: failed.turns[0],
   });
+});
+
+it('keeps a failed message’s status, and its Retry in flight, as the conversation polls', async () => {
+  const [data, setData] = createSignal(conversation('failed', true));
+  const view = render(() => (
+    <AgentConversationsContext.Provider value={context(data)}>
+      <AgentConversationMessageStatus messageId="source" />
+    </AgentConversationsContext.Provider>
+  ));
+  const retry = view.getByRole<HTMLButtonElement>('button', { name: 'Retry' });
+  await fireEvent.click(retry);
+  expect(retry.disabled).toBe(true);
+
+  // The next poll carries the same conversation as new objects.
+  setData(conversation('failed', true));
+  expect(view.getByRole('button', { name: 'Retry' })).toBe(retry);
+  expect(retry.disabled).toBe(true);
+  expect(mocks.control).toHaveBeenCalledOnce();
 });
 
 it('keeps a stopped message to one quiet line', () => {

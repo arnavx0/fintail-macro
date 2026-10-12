@@ -2,29 +2,39 @@ import type {
   FoldedMessage,
   SessionMetadata,
 } from '@service-agent-fold/generated/types';
-import { cleanup, fireEvent, render, waitFor } from '@solidjs/testing-library';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+  within,
+} from '@solidjs/testing-library';
 import { ok } from 'neverthrow';
-import { createSignal, type JSX } from 'solid-js';
+import { createSignal, For, type JSX, Show } from 'solid-js';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
   issue: vi.fn(),
   canEdit: true,
   profileLoading: false,
-  questionMounts: 0,
+  liveSessions: 0,
+  cards: 0,
 }));
 const [messages, setMessages] = createSignal<FoldedMessage[]>([]);
 const [metadata, setMetadata] = createSignal<SessionMetadata>();
 const [loaded, setLoaded] = createSignal(true);
 vi.mock('./queries/live-session', () => ({
-  createLiveSession: () => ({
-    messages,
-    metadata,
-    loaded,
-    failed: () => false,
-    retry: vi.fn(),
-    issue: mocks.issue,
-  }),
+  createLiveSession: () => {
+    mocks.liveSessions += 1;
+    return {
+      messages,
+      metadata,
+      loaded,
+      failed: () => false,
+      retry: vi.fn(),
+      issue: mocks.issue,
+    };
+  },
 }));
 vi.mock('@queries/agent-session/session', () => ({
   useAgentSessionQuery: () => ({
@@ -47,8 +57,13 @@ vi.mock('@app/features/agent-dms/components/persona-avatar', () => ({
 }));
 vi.mock('@app/features/agent-interactions/components/InteractionCard', () => ({
   InteractionCard: (props: { request: { requestId: string } }) => {
-    mocks.questionMounts += 1;
-    return <section aria-label="Question">{props.request.requestId}</section>;
+    mocks.cards += 1;
+    return (
+      <section aria-label="Question">
+        {props.request.requestId}
+        <input aria-label="Answer" />
+      </section>
+    );
   },
 }));
 vi.mock(
@@ -65,10 +80,16 @@ vi.mock('@ui', () => ({
 }));
 
 import {
+  publishSessionTurn,
+  resetSessionTurns,
+} from '@core/agent-session/session-turn';
+import {
   clearTypingIndicators,
+  getTypingAgents,
   handleCommsTyping,
+  TYPING_INDICATOR_TIMEOUT_MS,
 } from '@queries/messages/typing';
-import { AgentTyping } from './agent-typing';
+import { AgentTyping, AgentTypingProvider } from './agent-typing';
 
 const parent = { type: 'channel', id: 'dm' } as const;
 const BOT = 'bot|0a8f5e1c-2b3d-4e5f-8a9b-0c1d2e3f4a5b';
@@ -102,17 +123,37 @@ function writing(text: string): FoldedMessage {
   };
 }
 
+/** The fold's metadata with one question on turn 1, as a new object each time. */
+function asking(requestId: string): SessionMetadata {
+  return {
+    turn: 'blocked',
+    pendingInteractions: [
+      {
+        kind: 'elicitation',
+        turn: 1,
+        requestId,
+        toolCall: null,
+        message: 'Which branch?',
+        request: { kind: 'form', schema: {} },
+      },
+    ],
+  } as unknown as SessionMetadata;
+}
+
 beforeEach(() => {
   clearTypingIndicators();
   mocks.canEdit = true;
   mocks.profileLoading = false;
-  mocks.questionMounts = 0;
+  mocks.liveSessions = 0;
+  mocks.cards = 0;
   mocks.issue.mockResolvedValue(ok({}));
 });
 
 afterEach(() => {
   cleanup();
+  vi.useRealTimers();
   vi.clearAllMocks();
+  resetSessionTurns();
   setMessages([]);
   setMetadata(undefined);
   setLoaded(true);
@@ -178,34 +219,6 @@ it('puts a question for the running turn under the row', () => {
   ).toEqual(['ask-1']);
 });
 
-it('keeps a question mounted while the fold sends it again', () => {
-  typing('waiting');
-  setMessages([writing('')]);
-  const waiting = (message: string) =>
-    ({
-      turn: 'running',
-      pendingInteractions: [
-        {
-          kind: 'elicitation',
-          turn: 1,
-          requestId: 'ask-1',
-          toolCall: null,
-          message,
-          request: { kind: 'form', schema: {} },
-        },
-      ],
-    }) as unknown as SessionMetadata;
-  setMetadata(waiting('Which branch?'));
-  const view = render(() => <AgentTyping parent={parent} threadId={null} />);
-  const card = view.getByRole('region', { name: 'Question' });
-  // Every fold event brings new objects for the same open request; the card,
-  // and whatever is typed into it, stays.
-  setMetadata(waiting('Which branch?'));
-  setMetadata(waiting('Which branch?'));
-  expect(view.getByRole('region', { name: 'Question' })).toBe(card);
-  expect(mocks.questionMounts).toBe(1);
-});
-
 it('names the step under way next to the row, outside the live region', () => {
   typing('working');
   setMessages([
@@ -250,4 +263,95 @@ it('names nobody until the persona is known, rather than a placeholder', () => {
   typing('thinking');
   const view = render(() => <AgentTyping parent={parent} threadId={null} />);
   expect(view.getByRole('status').textContent).toBe('...');
+});
+
+it('keeps a card as it was left through a metadata event that resends it', () => {
+  typing('waiting');
+  setMessages([writing('')]);
+  setMetadata(asking('ask-1'));
+  const view = render(() => <AgentTyping parent={parent} threadId={null} />);
+  const answer = view.getByRole<HTMLInputElement>('textbox', {
+    name: 'Answer',
+  });
+  answer.value = 'main';
+  setMetadata(asking('ask-1'));
+  expect(view.getByRole('textbox', { name: 'Answer' })).toBe(answer);
+  expect(answer.value).toBe('main');
+  expect(mocks.cards).toBe(1);
+});
+
+it('moves the live turn with the newest row rather than starting it over', () => {
+  typing('waiting');
+  setMessages([writing('')]);
+  setMetadata(asking('ask-1'));
+  const [newest, setNewest] = createSignal<string>('first');
+  const view = render(() => (
+    <AgentTypingProvider parent={parent} threadId={null}>
+      <For each={['first', 'second']}>
+        {(row) => (
+          <div data-testid={row}>
+            <Show when={newest() === row}>
+              <AgentTyping parent={parent} threadId={null} />
+            </Show>
+          </div>
+        )}
+      </For>
+      {/* Another place makes its own rows; nothing types there. */}
+      <div data-testid="thread">
+        <AgentTyping parent={parent} threadId="thread" />
+      </div>
+    </AgentTypingProvider>
+  ));
+  const answer = within(view.getByTestId('first')).getByRole<HTMLInputElement>(
+    'textbox',
+    { name: 'Answer' }
+  );
+  answer.value = 'main';
+
+  // A message arrives below, so the next row is the newest.
+  setNewest('second');
+  expect(
+    within(view.getByTestId('second')).getByRole('textbox', { name: 'Answer' })
+  ).toBe(answer);
+  // The reader scrolls away, and the virtualized row unmounts, then back.
+  setNewest('');
+  expect(view.queryByRole('textbox', { name: 'Answer' })).toBeNull();
+  setNewest('second');
+  expect(view.getByRole('textbox', { name: 'Answer' })).toBe(answer);
+
+  expect(answer.value).toBe('main');
+  expect(mocks.cards).toBe(1);
+  expect(mocks.liveSessions).toBe(1);
+  expect(within(view.getByTestId('thread')).queryByRole('status')).toBeNull();
+});
+
+it('keeps the row of a turn waiting on the viewer after its typing lapses', () => {
+  vi.useFakeTimers();
+  typing('waiting');
+  setMessages([writing('')]);
+  setMetadata(asking('ask-1'));
+  publishSessionTurn('session', 'blocked');
+  const view = render(() => <AgentTyping parent={parent} threadId={null} />);
+  const answer = view.getByRole('textbox', { name: 'Answer' });
+
+  // No heartbeat for a while, as when a phone sleeps with the app open.
+  vi.advanceTimersByTime(TYPING_INDICATOR_TIMEOUT_MS);
+  expect(getTypingAgents(parent, null).size).toBe(0);
+  expect(view.getByRole('status').textContent).toContain(
+    'Researcher is waiting for an answer'
+  );
+  expect(view.getByRole('textbox', { name: 'Answer' })).toBe(answer);
+
+  // The turn ends, and the row goes with it.
+  publishSessionTurn('session', 'idle');
+  expect(view.queryByRole('status')).toBeNull();
+});
+
+it('lets a lapsed typing go when the fold has no turn open', () => {
+  vi.useFakeTimers();
+  typing('thinking');
+  const view = render(() => <AgentTyping parent={parent} threadId={null} />);
+  expect(view.getByRole('status')).toBeTruthy();
+  vi.advanceTimersByTime(TYPING_INDICATOR_TIMEOUT_MS);
+  expect(view.queryByRole('status')).toBeNull();
 });

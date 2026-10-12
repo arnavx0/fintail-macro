@@ -11,6 +11,7 @@ import {
 import type { FieldFilters } from '@app/features/next-soup/filters/filter-store/types';
 import { soupItemMatchesQuery } from '@app/features/next-soup/filters/query-filters';
 import { openEntityInSplitFromUnifiedList } from '@app/features/next-soup/utils';
+import { withEntityNotifications } from '@app/features/soup/entity-notifications';
 import { useGlobalNotificationSource } from '@components/app/GlobalAppState';
 import type { EntityIconSelector } from '@core/component/EntityIcon';
 import { ListEntityMetadataQueryProvider } from '@entity';
@@ -129,12 +130,12 @@ function queryItemFilter(source: Query): SoupApiItemFilter {
  * dispatches per `entity.type` and works for every type here already,
  * `email` included.
  */
-function Row(props: { entity: EntityData }) {
+function Row(props: { entity: WithNotification<EntityData> }) {
   const notificationSource = useGlobalNotificationSource();
   return (
     <div data-card-row class="min-w-0">
       <ListEntity
-        entity={props.entity as WithNotification<EntityData>}
+        entity={props.entity}
         hideCheckbox
         onClick={() =>
           openEntityInSplitFromUnifiedList(props.entity, {
@@ -153,7 +154,7 @@ function collectionIcon(entities: readonly EntityData[]): EntityIconSelector {
   return kind as EntityIconSelector;
 }
 
-type Section = { label?: string; entities: EntityData[] };
+type Section = { label?: string; entities: WithNotification<EntityData>[] };
 
 /**
  * The rows in the order the query grouped them, each group under its
@@ -161,7 +162,7 @@ type Section = { label?: string; entities: EntityData[] };
  * the query returned goes missing.
  */
 function sections(
-  entities: EntityData[],
+  entities: WithNotification<EntityData>[],
   groups: readonly GroupMeta[] | undefined
 ): Section[] {
   if (!groups?.length) return [{ entities }];
@@ -190,6 +191,7 @@ function Rows(props: ListProps) {
   // and return nothing — which is the correct "No items." outcome anyway.
   // `groupBy` orders the returned entities by the requested facet (the grouped
   // select flattens groups into `data.entities` in group order).
+  const notificationSource = useGlobalNotificationSource();
   const itemsQuery = useSoupAstItemsQuery(
     () => ({
       params: { limit: 200 },
@@ -205,9 +207,13 @@ function Rows(props: ListProps) {
     }
   );
 
-  const entities = createMemo<EntityData[]>(() => {
+  const entities = createMemo(() => {
     const all = itemsQuery.data?.entities ?? [];
-    return props.limit != null ? all.slice(0, props.limit) : all;
+    const sliced = props.limit != null ? all.slice(0, props.limit) : all;
+    // Soup rows carry raw notification arrays; ListEntity reads an accessor.
+    return sliced.map((entity) =>
+      withEntityNotifications(entity, notificationSource)
+    );
   });
   const count = () => entities().length;
   const counted = () => `${count()} ${count() === 1 ? 'item' : 'items'}`;

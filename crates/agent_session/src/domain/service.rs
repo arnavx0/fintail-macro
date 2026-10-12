@@ -55,6 +55,7 @@ use tracing::instrument::WithSubscriber as _;
 
 use bots::domain::models::BotId;
 
+use super::coding_preferences::CodingPreferences;
 use super::connection::RuntimeAttachment;
 use super::error::{AgentSessionError, Result};
 use super::lifecycle::session_identity;
@@ -347,6 +348,19 @@ pub trait AgentSessionService: Send + Sync + 'static {
         &self,
         user_id: &MacroUserIdStr<'static>,
         size: SandboxSize,
+    ) -> impl Future<Output = Result<()>> + Send;
+
+    /// The user's coding preferences; every preference is off until set.
+    fn user_coding_preferences(
+        &self,
+        user_id: &MacroUserIdStr<'static>,
+    ) -> impl Future<Output = Result<CodingPreferences>> + Send;
+
+    /// Upsert the user's coding preferences, replacing every field.
+    fn set_user_coding_preferences(
+        &self,
+        user_id: &MacroUserIdStr<'static>,
+        preferences: CodingPreferences,
     ) -> impl Future<Output = Result<()>> + Send;
 }
 
@@ -745,6 +759,12 @@ where
         is_archived: bool,
     ) -> Result<()> {
         let id = owner_access_session_id(access, "archive")?;
+        // Every message in a conversation's channel goes to its current
+        // session, and an archived session takes none. Starting fresh is how
+        // a conversation retires one; the sessions it left behind archive.
+        if is_archived && self.repo.is_current_conversation_session(id).await? {
+            return Err(AgentSessionError::AnswersConversation(id));
+        }
         self.repo.set_archived(id, is_archived).await?;
         self.realtime
             .publish_updated(id)
@@ -1069,6 +1089,23 @@ where
         size: SandboxSize,
     ) -> Result<()> {
         self.repo.set_user_sandbox_size(user_id, size).await
+    }
+
+    async fn user_coding_preferences(
+        &self,
+        user_id: &MacroUserIdStr<'static>,
+    ) -> Result<CodingPreferences> {
+        self.repo.user_coding_preferences(user_id).await
+    }
+
+    async fn set_user_coding_preferences(
+        &self,
+        user_id: &MacroUserIdStr<'static>,
+        preferences: CodingPreferences,
+    ) -> Result<()> {
+        self.repo
+            .set_user_coding_preferences(user_id, preferences)
+            .await
     }
 }
 
@@ -1756,6 +1793,10 @@ where
         self.repo.set_archived(id, is_archived).await
     }
 
+    async fn is_current_conversation_session(&self, id: AgentSessionId) -> Result<bool> {
+        self.repo.is_current_conversation_session(id).await
+    }
+
     async fn set_name_if_default(&self, id: AgentSessionId, name: &str) -> Result<bool> {
         self.repo.set_name_if_default(id, name).await
     }
@@ -1774,6 +1815,23 @@ where
         size: SandboxSize,
     ) -> Result<()> {
         self.repo.set_user_sandbox_size(user_id, size).await
+    }
+
+    async fn user_coding_preferences(
+        &self,
+        user_id: &MacroUserIdStr<'static>,
+    ) -> Result<CodingPreferences> {
+        self.repo.user_coding_preferences(user_id).await
+    }
+
+    async fn set_user_coding_preferences(
+        &self,
+        user_id: &MacroUserIdStr<'static>,
+        preferences: CodingPreferences,
+    ) -> Result<()> {
+        self.repo
+            .set_user_coding_preferences(user_id, preferences)
+            .await
     }
 
     async fn delete(&self, id: AgentSessionId) -> Result<()> {
