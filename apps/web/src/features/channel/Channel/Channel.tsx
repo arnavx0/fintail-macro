@@ -4,7 +4,7 @@ import {
 } from '@app/features/agent-conversations/agent-conversation-message';
 import { AgentConversationsProvider } from '@app/features/agent-conversations/agent-conversations-provider';
 import { AgentDmComposer } from '@app/features/agent-dms/agent-dm-composer';
-import { AgentDmConnections } from '@app/features/agent-dms/components/agent-dm-connections';
+import { AgentDmConnections } from '@app/features/agent-dms/agent-dm-connections';
 import { openChatWithInput } from '@app/features/chat/ChatWithAgentButton';
 import { createActivityTracker } from '@channel/activity-tracker';
 import { DebugSuspense } from '@channel/DebugSuspense';
