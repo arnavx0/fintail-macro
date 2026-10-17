@@ -71,7 +71,7 @@ Macro has detailed agent instructions. Claude Code **must follow them before thi
 | Notifications + inbox (Signal) + push + email digest | `crates/model_notifications`, `crates/notification`, `services/notification_service` | New notification kinds (section 2.3) |
 | Realtime push to open pages | `services/connection_gateway`, `crates/connection_gateway_client` | Live quote and sync-status updates on open pages |
 | Tables/boards UI + storage | `crates/databases` (`DatabaseStorage`), `apps/web/src/features/database` | **Watchlists** are a new host of the database engine, like CRM pipelines are |
-| Documents, collab notes, @mentions | `crates/documents`, `crates/collab_surface`, sync-service | Trade journal and thesis notes. Instrument notes use the collab-surface skill. |
+| Documents, collab notes, @mentions | `crates/documents`, `crates/collab_surface`, sync-service | Trade journal and thesis notes. Instrument notes use the collab-surface-core skill. |
 | Spreadsheets, slides | `crates/documents` file-type services, `block-spreadsheet`, `block-pptx` | "Export holdings to spreadsheet", "Portfolio review deck" |
 | Email + attachment text | `crates/email`, `services/email_service`, `services/document_text_extractor`, Kafka `macro.email` | **Contract notes and dividend notices** are parsed from the user's synced inbox |
 | Calendar | `crates/calendar_events` (`CalendarEvent` with multiple *sources*) | Earnings, dividend and expiry dates become a new **read-only event source** |
