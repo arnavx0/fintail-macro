@@ -1,8 +1,13 @@
 import { AnimatedNumber } from '@core/component/AnimatedNumber';
-import SparkleIcon from '@phosphor/sparkle.svg';
-import { Button } from '@ui';
-import { createMemo, For, Show } from 'solid-js';
+import { createMemo, createSignal, Match, Show, Switch } from 'solid-js';
 import { AllocationCard } from '../components/allocation-card';
+import {
+  BenchmarkAnswer,
+  ContributorsAnswer,
+  DiversificationAnswer,
+  IncomeAnswer,
+} from '../components/ask-answers';
+import { AskPanel, type AskQuestion } from '../components/ask-panel';
 import { Change } from '../components/figures';
 import { HoldingsTable } from '../components/holdings-table';
 import { IncomeCard, ReturnCard, RiskCard } from '../components/insight-cards';
@@ -10,6 +15,11 @@ import { PerformanceChart } from '../components/performance-chart';
 import { PlatformPills } from '../components/platform-pills';
 import { usePortfolioSource } from '../context/portfolio-context';
 import { formatMoney } from '../core/format';
+import {
+  benchmarkComparison,
+  diversification,
+  todaysContributors,
+} from '../core/insights';
 import type { PortfolioSnapshot } from '../core/types';
 import { RANGES, type RangeId } from '../core/types';
 import {
@@ -28,23 +38,27 @@ const RANGE_LABEL: Record<RangeId, string> = {
 };
 
 /** Questions the AI answers from the user's own numbers. */
-const ASK: { label: string; prompt: string }[] = [
+const ASK: AskQuestion[] = [
   {
+    id: 'today',
     label: 'Why did I move today?',
     prompt:
       'Why did my portfolio move today? Break it down by holding and link any news. Information only, no buy or sell advice.',
   },
   {
+    id: 'diversified',
     label: 'Am I diversified?',
     prompt:
       'Review my portfolio’s diversification across asset classes, sectors and regions, and point out concentration risks. Information only, no buy or sell advice.',
   },
   {
+    id: 'benchmark',
     label: 'Me vs the S&P 500',
     prompt:
       'Compare my portfolio’s performance with the S&P 500 over the past year and explain what drove the difference. Information only.',
   },
   {
+    id: 'income',
     label: 'My dividend income',
     prompt:
       'Summarise my dividend income: what I received in the last 12 months, what is expected next, and upcoming pay dates.',
@@ -90,6 +104,11 @@ function PortfolioPage(props: {
   });
 
   /** Changes whenever the figures do, so cards ease in on every filter. */
+  const [askOpen, setAskOpen] = createSignal<string>();
+  const assetClassKeys = createMemo(() =>
+    [...new Set(props.snapshot.holdings.map((h) => h.assetClass))].sort()
+  );
+
   const motionKey = () =>
     `${[...state.selected()].sort().join(',')}|${state.range()}|${state.lens()}`;
 
@@ -137,25 +156,41 @@ function PortfolioPage(props: {
             </span>
           </div>
         </div>
-        <div
-          role="group"
-          aria-label="Ask Fintail"
-          class="-mx-1 flex gap-1.5 overflow-x-auto px-1 [scrollbar-width:none]"
-        >
-          <For each={ASK}>
-            {(question) => (
-              <Button
-                variant="accent"
-                size="sm"
-                class="shrink-0 gap-1.5"
-                onClick={() => props.onAsk(question.prompt)}
-              >
-                <SparkleIcon class="size-3.5" />
-                {question.label}
-              </Button>
-            )}
-          </For>
-        </div>
+        <AskPanel
+          questions={ASK}
+          active={askOpen()}
+          onSelect={setAskOpen}
+          onAsk={props.onAsk}
+          answer={
+            <Switch>
+              <Match when={askOpen() === 'today'}>
+                <ContributorsAnswer
+                  {...todaysContributors(state.view().holdings)}
+                  currency={currency()}
+                />
+              </Match>
+              <Match when={askOpen() === 'diversified'}>
+                <DiversificationAnswer
+                  {...diversification(state.view().holdings)}
+                  colorKeys={assetClassKeys()}
+                />
+              </Match>
+              <Match when={askOpen() === 'benchmark'}>
+                <BenchmarkAnswer
+                  rangeLabel={RANGE_LABEL[state.range()]}
+                  benchmarkName={props.snapshot.benchmark.name}
+                  {...benchmarkComparison(
+                    state.rangePoints(),
+                    state.benchmarkPoints()
+                  )}
+                />
+              </Match>
+              <Match when={askOpen() === 'income'}>
+                <IncomeAnswer currency={currency()} {...state.income()} />
+              </Match>
+            </Switch>
+          }
+        />
       </header>
 
       <PerformanceChart

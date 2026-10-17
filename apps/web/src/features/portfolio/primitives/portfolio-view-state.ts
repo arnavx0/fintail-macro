@@ -112,6 +112,10 @@ export function createPortfolioViewState(
   );
 
   return {
+    /** Raw holdings, history and dividends for the selected platforms. */
+    view,
+    rangePoints,
+    benchmarkPoints,
     selected,
     togglePlatform,
     clearPlatforms: () => setSelected(new Set<string>()),
