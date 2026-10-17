@@ -4,7 +4,6 @@ import { Dynamic } from 'solid-js/web';
 import BinanceLogo from '../assets/binance.svg';
 import CoinbaseLogo from '../assets/coinbase.svg';
 import RobinhoodLogo from '../assets/robinhood.svg';
-import type { Platform } from '../core/types';
 
 type Brand = {
   /** Official brand colour (Simple Icons, CC0), the badge background. */
@@ -50,7 +49,13 @@ const monogramOf = (name: string) =>
     .join('');
 
 /** A platform's logo in a small brand-coloured circle. */
-export function PlatformBadge(props: { platform: Platform; class?: string }) {
+/** The fields a badge needs from a platform. */
+export type BadgePlatform = { id: string; name: string; logoUrl?: string };
+
+export function PlatformBadge(props: {
+  platform: BadgePlatform;
+  class?: string;
+}) {
   const brand = () => BRANDS[props.platform.id];
   return (
     <span

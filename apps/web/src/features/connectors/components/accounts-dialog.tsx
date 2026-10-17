@@ -10,7 +10,7 @@ import {
   SERVICES,
   type Service,
   serviceEnabled,
-} from '../core/connectors';
+} from '../core/catalogue';
 import { PlatformBadge } from './platform-badge';
 
 const CONNECT_MS = 900;
@@ -31,11 +31,11 @@ function revealIn(el: HTMLElement) {
 }
 
 /**
- * Every finance connector in one place: brokerage and crypto accounts through
- * the SnapTrade MCP connector, plus data, research and document connectors
- * the AI uses as tools. All connectors are read-only.
+ * Where the user's money comes from: brokerage and crypto accounts through
+ * the SnapTrade MCP connector, plus document connectors (contract notes,
+ * exports). Market data lives in Markets' Data sources. All read-only.
  */
-export function ConnectorCatalogue(props: {
+export function AccountsDialog(props: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   state: ConnectionState;
@@ -81,11 +81,11 @@ export function ConnectorCatalogue(props: {
           <header class="flex items-start gap-3 border-b border-edge-muted p-4">
             <div class="min-w-0 flex-1">
               <Dialog.Title as="h2" class="m-0 p-0 text-base font-semibold">
-                Finance connectors
+                Accounts
               </Dialog.Title>
               <p class="text-xs text-ink-muted">
-                Bring your accounts and data into Fintail. The AI reads them
-                through these connectors to answer about your money.
+                Connect the accounts that hold your money. Fintail and its AI
+                read them to build your portfolio.
               </p>
             </div>
             <Dialog.CloseButton

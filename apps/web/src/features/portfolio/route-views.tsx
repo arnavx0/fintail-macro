@@ -1,4 +1,5 @@
 import { useAskFintail } from '@app/features/agents-view/primitives/ask-fintail';
+import { createConnections } from '@app/features/connectors/primitives/connections';
 import {
   usePageViewTracking,
   withAuth,
@@ -8,7 +9,6 @@ import { useUserId } from '@core/context/user';
 import { lazy } from 'solid-js';
 import type { PortfolioSource } from './context/portfolio-context';
 import { PortfolioProvider } from './context/portfolio-context';
-import { createConnections } from './primitives/connections';
 import { samplePortfolio } from './queries/sample-portfolio';
 
 const PortfolioView = lazy(async () => ({

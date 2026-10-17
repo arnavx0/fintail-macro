@@ -1,7 +1,7 @@
+import { PlatformBadge } from '@app/features/connectors/components/platform-badge';
 import { Button, cn } from '@ui';
 import { For } from 'solid-js';
 import type { Platform } from '../core/types';
-import { PlatformBadge } from './platform-badge';
 
 /**
  * One row of pill toggles: "All" plus a pill per connected platform. Every

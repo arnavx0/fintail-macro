@@ -3,7 +3,7 @@ import { createUserScopedStorage } from '@core/util/userScopedStorage';
 import { Result } from 'neverthrow';
 import { createSignal } from 'solid-js';
 import { z } from 'zod';
-import { type ConnectionState, INITIAL_CONNECTIONS } from '../core/connectors';
+import { type ConnectionState, INITIAL_CONNECTIONS } from '../core/catalogue';
 
 const parseJson = Result.fromThrowable(
   (raw: string): unknown => JSON.parse(raw),

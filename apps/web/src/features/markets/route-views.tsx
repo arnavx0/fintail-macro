@@ -1,10 +1,13 @@
 import { useAskFintail } from '@app/features/agents-view/primitives/ask-fintail';
+import { createConnections } from '@app/features/connectors/primitives/connections';
 import { mergeHoldings } from '@app/features/portfolio/core/metrics';
 import { samplePortfolio } from '@app/features/portfolio/queries/sample-portfolio';
 import {
   usePageViewTracking,
   withAuth,
 } from '@components/app/split-layout/split-router/app-route-shell';
+import { useSettingsState } from '@core/constant/SettingsState';
+import { useUserId } from '@core/context/user';
 import { lazy } from 'solid-js';
 import { type MarketSource, MarketsProvider } from './context/markets-context';
 import { sampleMarkets } from './queries/sample-markets';
@@ -44,10 +47,18 @@ function positionFor(symbol: string): string | undefined {
 export const MarketsRouteView = withAuth(() => {
   usePageViewTracking('markets');
   const ask = useAskFintail();
+  const userId = useUserId();
+  const connections = createConnections(userId());
+  const { openSettings } = useSettingsState();
   return (
     <MarketsProvider source={sampleSource}>
       <div class="size-full overflow-auto">
-        <MarketsView onAsk={ask} positionFor={positionFor} />
+        <MarketsView
+          onAsk={ask}
+          positionFor={positionFor}
+          connections={connections}
+          onManageConnections={() => openSettings('Connections')}
+        />
       </div>
     </MarketsProvider>
   );

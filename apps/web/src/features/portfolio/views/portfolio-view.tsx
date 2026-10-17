@@ -1,3 +1,6 @@
+import { AccountsDialog } from '@app/features/connectors/components/accounts-dialog';
+import { accountsCount } from '@app/features/connectors/core/catalogue';
+import type { Connections } from '@app/features/connectors/primitives/connections';
 import { AnalysisStream } from '@core/component/AnalysisStream';
 import { AnimatedNumber } from '@core/component/AnimatedNumber';
 import PlugsConnectedIcon from '@phosphor/plugs-connected.svg';
@@ -12,14 +15,12 @@ import {
   IncomeAnswer,
 } from '../components/ask-answers';
 import { AskPanel, type AskQuestion } from '../components/ask-panel';
-import { ConnectorCatalogue } from '../components/connector-catalogue';
 import { Change } from '../components/figures';
 import { HoldingsTable } from '../components/holdings-table';
 import { IncomeCard, ReturnCard, RiskCard } from '../components/insight-cards';
 import { PerformanceChart } from '../components/performance-chart';
 import { PlatformPills } from '../components/platform-pills';
 import { usePortfolioSource } from '../context/portfolio-context';
-import { connectedCount } from '../core/connectors';
 import { formatMoney } from '../core/format';
 import {
   benchmarkComparison,
@@ -30,7 +31,6 @@ import { matchIntent } from '../core/intent';
 import { portfolioAnalysis } from '../core/portfolio-analysis';
 import type { PortfolioSnapshot } from '../core/types';
 import { RANGES, type RangeId } from '../core/types';
-import type { Connections } from '../primitives/connections';
 import {
   ALLOCATION_LENSES,
   type AllocationLens,
@@ -193,13 +193,13 @@ function PortfolioPage(props: {
             onClick={() => setCatalogueOpen(true)}
           >
             <PlugsConnectedIcon class="size-4" />
-            Connections
+            Accounts
             <span class="rounded-full bg-accent-bg px-1.5 text-[10px] font-semibold text-accent-ink tabular-nums">
-              {connectedCount(props.connections.state())}
+              {accountsCount(props.connections.state())}
             </span>
           </Button>
         </div>
-        <ConnectorCatalogue
+        <AccountsDialog
           open={catalogueOpen()}
           onOpenChange={setCatalogueOpen}
           state={props.connections.state()}

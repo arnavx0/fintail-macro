@@ -1,5 +1,9 @@
-import { Tabs } from '@ui';
-import { createMemo, For, Match, Show, Switch } from 'solid-js';
+import { DataSourcesDialog } from '@app/features/connectors/components/data-sources-dialog';
+import { dataSourcesCount } from '@app/features/connectors/core/catalogue';
+import type { Connections } from '@app/features/connectors/primitives/connections';
+import DatabaseIcon from '@phosphor/database.svg';
+import { Button, Tabs } from '@ui';
+import { createMemo, createSignal, For, Match, Show, Switch } from 'solid-js';
 import { InstrumentDetail } from '../components/instrument-detail';
 import { GroupChips, InstrumentTable } from '../components/instrument-table';
 import { MarketSearch } from '../components/market-search';
@@ -55,6 +59,8 @@ const TABS: MarketsTab[] = ['Overview', ...ASSET_CLASSES];
 export function MarketsView(props: {
   onAsk: (prompt: string) => void;
   positionFor?: (symbol: string) => string | undefined;
+  connections: Connections;
+  onManageConnections: () => void;
 }) {
   const source = useMarketSource();
   return (
@@ -65,6 +71,8 @@ export function MarketsView(props: {
           isSample={source.isSample()}
           onAsk={props.onAsk}
           positionFor={props.positionFor}
+          connections={props.connections}
+          onManageConnections={props.onManageConnections}
         />
       )}
     </Show>
@@ -76,7 +84,10 @@ function MarketsPage(props: {
   isSample: boolean;
   onAsk: (prompt: string) => void;
   positionFor?: (symbol: string) => string | undefined;
+  connections: Connections;
+  onManageConnections: () => void;
 }) {
+  const [sourcesOpen, setSourcesOpen] = createSignal(false);
   const state = createMarketsViewState(() => props.snapshot);
   const ticker = createMemo(() =>
     TICKER.map(state.bySymbol).filter((i) => i !== undefined)
@@ -115,12 +126,36 @@ function MarketsPage(props: {
       </Show>
 
       <header class="flex flex-col gap-3">
-        <div class="flex items-baseline justify-between gap-3">
-          <h1 class="text-2xl font-semibold tracking-tight text-ink">
-            Markets
-          </h1>
-          <span class="text-xs text-ink-muted">Close · {asOf()}</span>
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-baseline gap-3">
+            <h1 class="text-2xl font-semibold tracking-tight text-ink">
+              Markets
+            </h1>
+            <span class="text-xs text-ink-muted">Close · {asOf()}</span>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            class="gap-1.5"
+            onClick={() => setSourcesOpen(true)}
+          >
+            <DatabaseIcon class="size-4" />
+            Data sources
+            <span class="rounded-full bg-accent-bg px-1.5 text-[10px] font-semibold text-accent-ink tabular-nums">
+              {dataSourcesCount(props.connections.state())}
+            </span>
+          </Button>
         </div>
+        <DataSourcesDialog
+          open={sourcesOpen()}
+          onOpenChange={setSourcesOpen}
+          state={props.connections.state()}
+          onService={props.connections.setService}
+          onManageInSettings={() => {
+            setSourcesOpen(false);
+            props.onManageConnections();
+          }}
+        />
         <MarketSearch
           query={state.query()}
           results={state.results()}

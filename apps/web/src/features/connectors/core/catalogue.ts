@@ -117,8 +117,20 @@ export function serviceEnabled(state: ConnectionState, service: Service) {
   return state.services[service.id] ?? service.defaultOn ?? false;
 }
 
-/** How many connectors are live, for the button badge. */
-export function connectedCount(state: ConnectionState) {
+/** Connected accounts and document connectors, for Portfolio's badge. */
+export function accountsCount(state: ConnectionState) {
   const brokers = state.snaptrade ? state.brokers.length : 0;
-  return brokers + SERVICES.filter((s) => serviceEnabled(state, s)).length;
+  return (
+    brokers +
+    SERVICES.filter(
+      (s) => s.group === 'Documents & exports' && serviceEnabled(state, s)
+    ).length
+  );
+}
+
+/** Live market-data and research connectors, for Markets' badge. */
+export function dataSourcesCount(state: ConnectionState) {
+  return SERVICES.filter(
+    (s) => s.group === 'Market data & research' && serviceEnabled(state, s)
+  ).length;
 }

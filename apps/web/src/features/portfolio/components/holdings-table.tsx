@@ -1,10 +1,10 @@
+import { PlatformBadge } from '@app/features/connectors/components/platform-badge';
 import { cn } from '@ui';
 import { createMemo, createSignal, For } from 'solid-js';
 import { formatMoney, formatSignedPercent, formatWeight } from '../core/format';
 import type { MergedHolding } from '../core/metrics';
 import type { Platform } from '../core/types';
 import { changeClass, Section } from './figures';
-import { PlatformBadge } from './platform-badge';
 
 type SortKey = 'value' | 'dayChangePct' | 'unrealizedPct';
 
