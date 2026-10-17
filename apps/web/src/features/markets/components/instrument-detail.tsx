@@ -1,7 +1,9 @@
+import { AnalysisStream } from '@core/component/AnalysisStream';
 import SparkleIcon from '@phosphor/sparkle.svg';
 import XIcon from '@phosphor/x.svg';
 import { Button, Dialog, SegmentedControl, Surface } from '@ui';
-import { For, type JSX, Show } from 'solid-js';
+import { createEffect, createSignal, For, type JSX, on, Show } from 'solid-js';
+import type { AnalysisSection } from '../core/analysis';
 import { formatMarketCap, formatPrice, formatVolume } from '../core/format';
 import { seriesChange } from '../core/market-metrics';
 import {
@@ -21,9 +23,21 @@ export function InstrumentDetail(props: {
   range: ChartRange;
   onRange: (range: ChartRange) => void;
   position?: string;
+  /** The on-the-spot analysis of the focused instrument. */
+  analysis: readonly AnalysisSection[];
   onAsk: (prompt: string) => void;
   onClose: () => void;
 }) {
+  const [analysing, setAnalysing] = createSignal(false);
+  // A different instrument starts with its analysis closed.
+  createEffect(
+    on(
+      () => props.instrument?.symbol,
+      () => setAnalysing(false)
+    )
+  );
+  const prompt = (i: Instrument) =>
+    `Give me an overview of ${i.name} (${i.symbol}): today's move, recent trend, key statistics, and any news. ${props.position ? 'Relate it to my position. ' : ''}Information only, no buy or sell advice.`;
   return (
     <Dialog
       open={props.instrument !== undefined}
@@ -123,19 +137,73 @@ export function InstrumentDetail(props: {
                   )}
                 </Show>
 
-                <Button
-                  variant="accent"
-                  size="md"
-                  class="self-start gap-1.5"
-                  onClick={() =>
-                    props.onAsk(
-                      `Give me an overview of ${instrument().name} (${instrument().symbol}): today's move, recent trend, key statistics, and any news. ${props.position ? 'Relate it to my position. ' : ''}Information only, no buy or sell advice.`
-                    )
+                <Show
+                  when={analysing()}
+                  fallback={
+                    <Button
+                      variant="accent"
+                      size="md"
+                      class="self-start gap-1.5"
+                      onClick={() => setAnalysing(true)}
+                    >
+                      <SparkleIcon class="size-4" />
+                      Ask Fintail about {instrument().symbol}
+                    </Button>
                   }
                 >
-                  <SparkleIcon class="size-4" />
-                  Ask Fintail about {instrument().symbol}
-                </Button>
+                  <section
+                    ref={(el) => {
+                      if (
+                        !window.matchMedia?.('(prefers-reduced-motion: reduce)')
+                          .matches
+                      ) {
+                        el.animate(
+                          [
+                            { opacity: 0, transform: 'translateY(-6px)' },
+                            { opacity: 1, transform: 'none' },
+                          ],
+                          {
+                            duration: 300,
+                            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                          }
+                        );
+                      }
+                    }}
+                    aria-label={`Fintail analysis of ${instrument().symbol}`}
+                    class="flex flex-col gap-3 rounded-xl border border-edge-muted bg-panel p-4"
+                  >
+                    <header class="flex items-center gap-2">
+                      <span class="inline-flex size-6 items-center justify-center rounded-full bg-accent-bg text-accent-ink">
+                        <SparkleIcon class="size-3.5" />
+                      </span>
+                      <h3 class="flex-1 text-sm font-medium text-ink">
+                        Fintail analysis
+                      </h3>
+                      <span class="rounded-full bg-surface-3 px-2 py-0.5 text-[10px] text-ink-muted">
+                        Sample AI analysis
+                      </span>
+                    </header>
+                    <AnalysisStream
+                      sections={props.analysis}
+                      streamKey={instrument().symbol}
+                    />
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                      <p class="text-[11px] text-ink-extra-muted">
+                        Facts from market data and your accounts. Not a
+                        recommendation to buy, sell or hold.
+                      </p>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        class="gap-1.5"
+                        onClick={() => props.onAsk(prompt(instrument()))}
+                      >
+                        <SparkleIcon class="size-3.5" />
+                        Continue in chat
+                      </Button>
+                    </div>
+                  </section>
+                </Show>
               </div>
             </div>
           </Surface>

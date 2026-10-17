@@ -19,7 +19,13 @@ const MAX_STAGGERED = 8;
 const prefersReducedMotion = () =>
   window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
-export type AskQuestion = { id: string; label: string; prompt: string };
+export type AskQuestion = {
+  id: string;
+  label: string;
+  prompt: string;
+  /** The holding a typed question is about. */
+  symbol?: string;
+};
 
 /**
  * Animate an answer's rows in one after another. Rows opt in with
@@ -56,14 +62,22 @@ export function AskPanel(props: {
   onAsk: (prompt: string) => void;
   /** The computed answer for the active question. */
   answer: JSX.Element;
+  /** A typed question that is not one of the suggestions: its heading and prompt. */
+  custom?: AskQuestion;
+  /** Answer a typed question. */
+  onSearch: (query: string) => void;
 }) {
+  const [query, setQuery] = createSignal('');
   const [shell, setShell] = createSignal<HTMLDivElement>();
   const [body, setBody] = createSignal<HTMLDivElement>();
   const [rendered, setRendered] = createSignal(props.active !== undefined);
   const [followUp, setFollowUp] = createSignal('');
   let running: Animation | undefined;
 
-  const question = () => props.questions.find((q) => q.id === props.active);
+  const question = () =>
+    props.custom?.id === props.active
+      ? props.custom
+      : props.questions.find((q) => q.id === props.active);
 
   // Imperative Web Animations for open, close and question switches.
   createEffect(
@@ -141,9 +155,37 @@ export function AskPanel(props: {
 
   return (
     <div class="flex flex-col gap-2">
+      <form
+        role="search"
+        class="flex h-11 items-center gap-2 rounded-xl border border-edge-muted bg-panel px-3 transition-[border-color,box-shadow] duration-200 focus-within:border-accent focus-within:shadow-[0_0_0_3px_var(--color-accent-bg)] motion-reduce:transition-none"
+        onSubmit={(event) => {
+          event.preventDefault();
+          const text = query().trim();
+          if (!text) return;
+          props.onSearch(text);
+          setQuery('');
+        }}
+      >
+        <SparkleIcon class="size-4 shrink-0 text-accent-ink" />
+        <label class="min-w-0 flex-1">
+          <span class="sr-only">Ask about your portfolio</span>
+          <input
+            type="search"
+            autocomplete="off"
+            enterkeyhint="send"
+            placeholder="Ask anything about your portfolio, e.g. “why am I down today?”"
+            class="h-full w-full bg-transparent text-sm text-ink outline-none placeholder:text-ink-placeholder"
+            value={query()}
+            onInput={(e) => setQuery(e.currentTarget.value)}
+          />
+        </label>
+        <kbd class="hidden shrink-0 rounded border border-edge-muted px-1.5 text-[10px] text-ink-muted sm:inline">
+          Enter
+        </kbd>
+      </form>
       <div
         role="group"
-        aria-label="Ask about your portfolio"
+        aria-label="Suggested questions"
         class="-mx-1 flex gap-1.5 overflow-x-auto px-1 [scrollbar-width:none]"
       >
         <For each={props.questions}>

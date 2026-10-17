@@ -1,3 +1,4 @@
+import { AnalysisStream } from '@core/component/AnalysisStream';
 import { AnimatedNumber } from '@core/component/AnimatedNumber';
 import { createMemo, createSignal, Match, Show, Switch } from 'solid-js';
 import { AllocationCard } from '../components/allocation-card';
@@ -5,6 +6,7 @@ import {
   BenchmarkAnswer,
   ContributorsAnswer,
   DiversificationAnswer,
+  HoldingAnswer,
   IncomeAnswer,
 } from '../components/ask-answers';
 import { AskPanel, type AskQuestion } from '../components/ask-panel';
@@ -20,6 +22,8 @@ import {
   diversification,
   todaysContributors,
 } from '../core/insights';
+import { matchIntent } from '../core/intent';
+import { portfolioAnalysis } from '../core/portfolio-analysis';
 import type { PortfolioSnapshot } from '../core/types';
 import { RANGES, type RangeId } from '../core/types';
 import {
@@ -105,6 +109,38 @@ function PortfolioPage(props: {
 
   /** Changes whenever the figures do, so cards ease in on every filter. */
   const [askOpen, setAskOpen] = createSignal<string>();
+  const [custom, setCustom] = createSignal<AskQuestion>();
+  const askedHolding = createMemo(() => {
+    const symbol = custom()?.id === 'holding' ? custom()?.symbol : undefined;
+    return state.holdings().find((h) => h.symbol === symbol);
+  });
+
+  /** A typed question: answered instantly when we recognise it, analysed otherwise. */
+  const search = (text: string) => {
+    const intent = matchIntent(
+      text,
+      props.snapshot.holdings.map((h) => h.symbol)
+    );
+    if (intent.kind === 'holding') {
+      setCustom({
+        id: 'holding',
+        symbol: intent.symbol,
+        label: `How is ${intent.symbol} doing?`,
+        prompt: `How is ${intent.symbol} doing in my portfolio? ${text}. Information only, no buy or sell advice.`,
+      });
+      setAskOpen('holding');
+    } else if (intent.kind === 'open') {
+      setCustom({
+        id: 'open',
+        label: text,
+        prompt: `${text}. Information only, no buy or sell advice.`,
+      });
+      setAskOpen('open');
+    } else {
+      setCustom(undefined);
+      setAskOpen(intent.kind === 'diversified' ? 'diversified' : intent.kind);
+    }
+  };
   const assetClassKeys = createMemo(() =>
     [...new Set(props.snapshot.holdings.map((h) => h.assetClass))].sort()
   );
@@ -161,6 +197,8 @@ function PortfolioPage(props: {
           active={askOpen()}
           onSelect={setAskOpen}
           onAsk={props.onAsk}
+          custom={custom()}
+          onSearch={search}
           answer={
             <Switch>
               <Match when={askOpen() === 'today'}>
@@ -187,6 +225,33 @@ function PortfolioPage(props: {
               </Match>
               <Match when={askOpen() === 'income'}>
                 <IncomeAnswer currency={currency()} {...state.income()} />
+              </Match>
+              <Match when={askOpen() === 'holding' && askedHolding()}>
+                {(holding) => (
+                  <HoldingAnswer
+                    holding={holding()}
+                    platformNames={holding().platformIds.map(
+                      state.platformName
+                    )}
+                    currency={currency()}
+                  />
+                )}
+              </Match>
+              <Match when={askOpen() === 'open' && custom()}>
+                {(question) => (
+                  <AnalysisStream
+                    streamKey={question().prompt}
+                    sections={portfolioAnalysis({
+                      holdings: state.view().holdings,
+                      upcomingDividends: state.view().upcomingDividends,
+                      currency: currency(),
+                      periodReturn: state.performance().timeWeighted,
+                      benchmarkReturn: state.performance().benchmark,
+                      benchmarkName: props.snapshot.benchmark.name,
+                      rangeLabel: RANGE_LABEL[state.range()],
+                    })}
+                  />
+                )}
               </Match>
             </Switch>
           }

@@ -7,7 +7,7 @@ import {
   formatWeight,
 } from '../core/format';
 import type { Contributor } from '../core/insights';
-import type { Slice } from '../core/metrics';
+import type { MergedHolding, Slice } from '../core/metrics';
 import type { UpcomingDividend } from '../core/types';
 import { changeClass } from './figures';
 
@@ -239,5 +239,56 @@ export function IncomeAnswer(props: {
         </ul>
       </Show>
     </>
+  );
+}
+
+/** "How is NVDA doing?": one holding across every platform that holds it. */
+export function HoldingAnswer(props: {
+  holding: MergedHolding;
+  platformNames: readonly string[];
+  currency: string;
+}) {
+  const h = () => props.holding;
+  return (
+    <>
+      <Lead>
+        {`${h().symbol} is ${formatWeight(h().weight)} of your portfolio, worth ${formatMoney(h().value, props.currency)} across ${props.platformNames.join(' and ')}.`}
+      </Lead>
+      <dl class="grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
+        <div data-ask-row class="flex flex-col gap-0.5">
+          <dt class="text-ink-muted">Quantity</dt>
+          <dd class="tabular-nums font-medium text-ink">{h().quantity}</dd>
+        </div>
+        <div data-ask-row class="flex flex-col gap-0.5">
+          <dt class="text-ink-muted">Today</dt>
+          <dd class={`tabular-nums font-medium ${changeClass(h().dayChange)}`}>
+            {formatSignedMoney(h().dayChange, props.currency)} (
+            {formatSignedPercent(h().dayChangePct)})
+          </dd>
+        </div>
+        <div data-ask-row class="flex flex-col gap-0.5">
+          <dt class="text-ink-muted">Total P/L</dt>
+          <dd class={`tabular-nums font-medium ${changeClass(h().unrealized)}`}>
+            {formatSignedMoney(h().unrealized, props.currency)} (
+            {formatSignedPercent(h().unrealizedPct)})
+          </dd>
+        </div>
+        <div data-ask-row class="flex flex-col gap-0.5">
+          <dt class="text-ink-muted">Cost basis</dt>
+          <dd class="tabular-nums font-medium text-ink">
+            {formatMoney(h().costBasis, props.currency)}
+          </dd>
+        </div>
+      </dl>
+    </>
+  );
+}
+
+/** A question the instant answers do not cover: it goes to the Fintail agent. */
+export function OpenQuestionAnswer(props: { question: string }) {
+  return (
+    <Lead>
+      {`Sent to Fintail AI: “${props.question}”. It reads your accounts, prices and news to answer, and opens beside this page.`}
+    </Lead>
   );
 }

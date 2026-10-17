@@ -6,6 +6,7 @@ import { MarketSearch } from '../components/market-search';
 import { MoversCard, SectorPerformance } from '../components/overview-cards';
 import { Panel, QuoteCard, TickerStrip } from '../components/quote-parts';
 import { useMarketSource } from '../context/markets-context';
+import { instrumentAnalysis } from '../core/analysis';
 import {
   ASSET_CLASSES,
   type AssetClass,
@@ -80,6 +81,21 @@ function MarketsPage(props: {
   const ticker = createMemo(() =>
     TICKER.map(state.bySymbol).filter((i) => i !== undefined)
   );
+  /** The focused instrument's on-the-spot analysis, from its own numbers. */
+  const analysis = createMemo(() => {
+    const instrument = state.focusedInstrument();
+    if (!instrument) return [];
+    return instrumentAnalysis({
+      instrument,
+      daily: props.snapshot.daily[instrument.symbol] ?? [],
+      peers: props.snapshot.instruments.filter(
+        (i) =>
+          i.assetClass === instrument.assetClass && i.group === instrument.group
+      ),
+      position: props.positionFor?.(instrument.symbol),
+    });
+  });
+
   const asOf = () =>
     new Intl.DateTimeFormat(undefined, {
       day: 'numeric',
@@ -181,6 +197,7 @@ function MarketsPage(props: {
             ? props.positionFor?.(state.focusedInstrument()!.symbol)
             : undefined
         }
+        analysis={analysis()}
         onAsk={props.onAsk}
         onClose={() => state.focus(undefined)}
       />
