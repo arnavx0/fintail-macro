@@ -283,7 +283,7 @@ export function updateTheme(id: string, name: string): void {
 export function deleteTheme(id: string): void {
   setUserThemes(userThemes().filter((theme) => theme.id !== id));
   // A deleted theme can no longer serve as a per-mode default; fall back to the
-  // built-in Macro light/dark themes.
+  // built-in Fintail light/dark themes.
   if (lightModeTheme() === id) {
     setLightModeTheme(DEFAULT_LIGHT_THEME);
   }

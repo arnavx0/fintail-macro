@@ -32,7 +32,7 @@ export function DocxMarginLayout(props: {
   /** Top of the selected text, when there is a selection to comment on. */
   selectionTop: Accessor<number | null>;
   canComment: Accessor<boolean>;
-  /** The card of a Macro thread (the document's own comments have theirs). */
+  /** The card of a Fintail thread (the document's own comments have theirs). */
   renderCard: (
     thread: LocatedThread,
     isActive: Accessor<boolean>

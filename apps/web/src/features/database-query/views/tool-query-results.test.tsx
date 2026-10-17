@@ -126,7 +126,7 @@ describe('native chat database answers', () => {
       columns: [{ name: 'Customer', kind: 'text' }],
       rows: [
         [{ type: 'text', value: 'Acme' }],
-        [{ type: 'text', value: 'Macro' }],
+        [{ type: 'text', value: 'Fintail' }],
       ],
     });
     expect(rendered.queryByRole('img')).toBeNull();

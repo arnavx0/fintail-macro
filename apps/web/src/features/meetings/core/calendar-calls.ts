@@ -1,4 +1,4 @@
-/** Keep invitations to another Macro environment on their original host. */
+/** Keep invitations to another Fintail environment on their original host. */
 export function calendarCallNavigation(value: string, webOrigin: string) {
   const url = new URL(value, webOrigin);
   return url.origin === new URL(webOrigin).origin

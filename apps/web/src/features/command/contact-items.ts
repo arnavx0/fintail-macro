@@ -26,7 +26,7 @@ function directMessagesByUser(
 }
 
 /**
- * One People row per discovered contact email. A contact who is a Macro user
+ * One People row per discovered contact email. A contact who is a Fintail user
  * becomes that person's direct message: the existing conversation when the
  * viewer has one, else the user, whose selection opens one. The contact's
  * name stays searchable on that row so a CRM-only alias still ranks it.

@@ -1,6 +1,6 @@
 /**
- * A Macro tool the fold recognized by name — reached over Macro's MCP
- * server, or called natively by Macro's own agent.
+ * A Fintail tool the fold recognized by name — reached over Fintail's MCP
+ * server, or called natively by Fintail's own agent.
  *
  * Successful calls reuse their registered result renderer and its disclosure.
  * Running, stopped, failed, and unsupported calls keep a summary-only row.

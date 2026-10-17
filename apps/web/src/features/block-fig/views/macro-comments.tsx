@@ -1,5 +1,5 @@
 /**
- * The design's comment store in the app: Macro comments, shown and written
+ * The design's comment store in the app: Fintail comments, shown and written
  * with the shared message thread, composer, and discussion that markdown,
  * PDF, and spreadsheet comments use (replies, reactions, edits, mentions,
  * attachments, and copied links). A `comment_id` link opens its comment.

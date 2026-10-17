@@ -5,7 +5,7 @@ import { createResource } from 'solid-js';
 import { getOpenEntitiesPrompt } from './openEntitiesPrompt';
 
 const ABOUT_MACRO = `
-Macro is an AI workspace with all the latest models and built-in editors for pdfs, docs, notes, images, diagrams, chats and more. Macro is like ChatGPT but you can do all your work inside it+
+Fintail is an AI workspace with all the latest models and built-in editors for pdfs, docs, notes, images, diagrams, chats and more. Fintail is like ChatGPT but you can do all your work inside it+
 List of support file types
 - Notes: Mention files and create bullets and to-dos.
 - PDFs: Try out AI Popups: just highlight any text and click Explain.

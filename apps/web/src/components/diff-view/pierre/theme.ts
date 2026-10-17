@@ -1,5 +1,5 @@
 /**
- * What every Pierre diff in the app shares: Macro's light/dark state as a
+ * What every Pierre diff in the app shares: Fintail's light/dark state as a
  * signal, and the CSS variables Pierre reads inside its shadow DOM.
  */
 
@@ -7,7 +7,7 @@ import { type Accessor, createSignal, type JSX, onCleanup } from 'solid-js';
 
 export type ThemeType = 'light' | 'dark';
 
-/** Points Pierre at Macro's mono typography so diffs match the text around them. */
+/** Points Pierre at Fintail's mono typography so diffs match the text around them. */
 export const PIERRE_STYLE_VARIABLES: JSX.CSSProperties = {
   '--diffs-font-family': 'var(--font-mono)',
   '--diffs-font-size': '0.75rem',
@@ -18,7 +18,7 @@ export const PIERRE_STYLE_VARIABLES: JSX.CSSProperties = {
 };
 
 /**
- * Pierre's colour overrides pointed at Macro's tokens, so a diff sits on its
+ * Pierre's colour overrides pointed at Fintail's tokens, so a diff sits on its
  * card's surface and tints changes with the app's success and failure hues.
  * Tints are mixed onto `--color-surface` rather than using the translucent
  * `*-bg` tokens, because Pierre paints its theme background underneath.

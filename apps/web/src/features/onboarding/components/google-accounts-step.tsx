@@ -53,8 +53,8 @@ export function GoogleAccountsStep(props: GoogleAccountsStepProps) {
         </h1>
         <p class="mt-7 max-w-[440px] font-[Inter_Variable] text-sm font-normal leading-6 text-ink-muted sm:text-[15px] [text-wrap:balance]">
           {personal()
-            ? 'Add a personal account for email and calendar in Macro. This is optional; your Macro sign-in stays the same. Agents ask for approval before sending email, and you can disconnect anytime.'
-            : 'Connect through Google to read, send, and organize email and manage your calendars in Macro. Agents ask for your approval before sending email. Your password stays with Google, and you can disconnect anytime.'}
+            ? 'Add a personal account for email and calendar in Fintail. This is optional; your Fintail sign-in stays the same. Agents ask for approval before sending email, and you can disconnect anytime.'
+            : 'Connect through Google to read, send, and organize email and manage your calendars in Fintail. Agents ask for your approval before sending email. Your password stays with Google, and you can disconnect anytime.'}
         </p>
       </header>
 

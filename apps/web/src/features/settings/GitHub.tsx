@@ -72,7 +72,7 @@ export function GitHubCard() {
       <IntegrationRow
         icon={<GithubIcon />}
         title="GitHub"
-        description="Connect Macro to your GitHub account and repositories."
+        description="Connect Fintail to your GitHub account and repositories."
       />
 
       <SettingsRow
@@ -86,7 +86,7 @@ export function GitHubCard() {
             </Show>
           </span>
         }
-        description="Identify your GitHub activity in Macro."
+        description="Identify your GitHub activity in Fintail."
       >
         <Show
           when={!githubLink.isLoading}
@@ -129,7 +129,7 @@ export function GitHubCard() {
 
       <SettingsRow
         label="GitHub App"
-        description="Choose repositories for Macro to sync."
+        description="Choose repositories for Fintail to sync."
       >
         {/* The install callback rejects users without a linked account, so
             don't offer the flow until the account above is connected. */}

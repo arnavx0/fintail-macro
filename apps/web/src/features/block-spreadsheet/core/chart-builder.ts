@@ -11,7 +11,7 @@ import {
 import { formatCellAddress } from './spreadsheet-document';
 
 /**
- * Chart types Macro creates and edits, with their Excel grouping. Types
+ * Chart types Fintail creates and edits, with their Excel grouping. Types
  * marked `more` are offered after the common ones.
  */
 export const CHART_TYPES = [
@@ -129,7 +129,7 @@ function isCombo(chart: SheetChart): boolean {
   );
 }
 
-/** The type a chart's first plot shows, as Macro offers it. */
+/** The type a chart's first plot shows, as Fintail offers it. */
 export function chartType(chart: SheetChart): ChartTypeId | undefined {
   if (isCombo(chart)) return 'combo';
   const plot = chart.plots[0];
@@ -453,7 +453,7 @@ export function layoutSeries(type: ChartTypeId, layout: ChartLayout): number {
 
 /**
  * The block of cells a chart reads and how, when its ranges form one block
- * on one sheet, as charts Macro makes do.
+ * on one sheet, as charts Fintail makes do.
  */
 export function chartLayout(
   chart: SheetChart,

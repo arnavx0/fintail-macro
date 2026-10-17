@@ -51,7 +51,7 @@ export type ChatController = {
   setStream: Setter<ChatMessageStream | undefined>;
   /**
    * Ref to the renderer's parsed editor state for the streaming message's
-   * tail text part. The renderer sets it; the stream's Macro XML buffering
+   * tail text part. The renderer sets it; the stream's Fintail XML buffering
    * reads it to skip buffering tags that land in code blocks.
    */
   setStreamTailState: (
@@ -94,7 +94,7 @@ export function createChatController(
 
   /*
    The renderer's parsed editor state for the streaming message's tail text
-   part (set from AssistantMessageParts as it renders). Macro XML buffering
+   part (set from AssistantMessageParts as it renders). Fintail XML buffering
    reads the node tree the renderer already built — never parses — to skip
    buffering tags that land in code blocks, where they render literally.
   */

@@ -258,7 +258,7 @@ export type FormBookingLink = {
   owner: string;
 };
 
-/** Native Macro scheduling, as forms use it for a booking step. */
+/** Native Fintail scheduling, as forms use it for a booking step. */
 export type FormBooking = {
   /** Whether the viewer can create and pick booking links. */
   available: Accessor<boolean>;
@@ -288,7 +288,7 @@ export type ResponsesGridProps = {
 };
 
 /**
- * What Macro Forms needs from the app. Production wiring lives in
+ * What Fintail Forms needs from the app. Production wiring lives in
  * `../form-context-production.tsx`; tests supply their own.
  */
 export type FormContext = {

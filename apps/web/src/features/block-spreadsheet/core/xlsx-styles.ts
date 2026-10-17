@@ -6,7 +6,7 @@ import {
 
 type Edge = 'left' | 'right' | 'top' | 'bottom';
 
-/** The SpreadsheetML pieces of one Macro cell style. Colors are RRGGBB. */
+/** The SpreadsheetML pieces of one Fintail cell style. Colors are RRGGBB. */
 export type XlsxCellStyle = {
   numFmt: string;
   font: {
@@ -31,7 +31,7 @@ export type XlsxCellStyle = {
 
 const FONT_NAMES = { sans: 'Arial', serif: 'Georgia', mono: 'Courier New' };
 
-/** The Excel format code for Macro's built-in formats and precision. */
+/** The Excel format code for Fintail's built-in formats and precision. */
 function numberFormatCode(style: Required<SpreadsheetCellStyle>) {
   const digits = Math.max(0, style.decimals < 0 ? 2 : style.decimals);
   const fraction = digits ? `.${'0'.repeat(digits)}` : '';
@@ -57,8 +57,8 @@ export function cellNumberFormat(cell: SpreadsheetCellStyle): string {
   );
 }
 
-/** Map an Excel number format to Macro's format vocabulary, retaining the
- * original code whenever Macro's built-in format would display differently. */
+/** Map an Excel number format to Fintail's format vocabulary, retaining the
+ * original code whenever Fintail's built-in format would display differently. */
 export function readNumberFormat(format: string): SpreadsheetCellStyle {
   if (!format || format.toLowerCase() === 'general') return {};
   if (format === '@') return { format: 'text' };
@@ -116,7 +116,7 @@ function xlsxAlignment(
 }
 
 /** Excel style parts for a cell. Font properties the cell does not set come
- * from the sheet's imported default font, else Macro's default. */
+ * from the sheet's imported default font, else Fintail's default. */
 export function xlsxCellStyle(
   cell: SpreadsheetCell,
   defaultFont?: { name: string; size: number }

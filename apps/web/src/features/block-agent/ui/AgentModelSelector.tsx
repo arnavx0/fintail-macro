@@ -5,7 +5,7 @@
  * `configOptions` and the current model is the fold's rejection-safe
  * projection of them. Names and logos still go through the house
  * `modelLabel` / `ModelIcon`, because a runtime that keeps no display name
- * for a model — the in-memory Macro Agent among them — reports the slug as
+ * for a model — the in-memory Fintail Agent among them — reports the slug as
  * its name. Renders nothing until the harness has advertised its models.
  *
  * Touch devices get a bottom sheet (`MobileDrawer`, the same chrome as the

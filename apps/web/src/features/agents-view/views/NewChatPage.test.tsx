@@ -370,9 +370,9 @@ describe('agent-led new conversation', () => {
       screen.queryByRole('button', { name: /^(Chat|Code) mode$/ })
     ).toBeNull();
     openAgents();
-    expect(screen.queryByRole('menuitem', { name: /Macro/ })).toBeNull();
+    expect(screen.queryByRole('menuitem', { name: /Fintail/ })).toBeNull();
     expect(screen.getByRole('menuitem', { name: /Cursor/ })).toBeTruthy();
-    expect(screen.queryByText('Macro Coding Agent')).toBeNull();
+    expect(screen.queryByText('Fintail Coding Agent')).toBeNull();
     fireEvent.keyDown(document, { key: 'Escape' });
     await waitFor(() => expect(screen.queryByRole('menu')).toBeNull());
     fireEvent.click(screen.getByRole('button', { name: 'Send' }));
@@ -728,7 +728,7 @@ describe('agent-led new conversation', () => {
       'Cursor default'
     );
   });
-  it('groups the Macro catalog and selects direct models with readable names and icons', async () => {
+  it('groups the Fintail catalog and selects direct models with readable names and icons', async () => {
     const send = page(true, [
       {
         bot: { id: 'saved-agent', name: 'Reviewer', handle: 'reviewer' },
@@ -757,8 +757,8 @@ describe('agent-led new conversation', () => {
     expect(screen.getByTitle('GLM 5.3 Flash')).toBeTruthy();
     fireEvent.input(search, { target: { value: '' } });
     expect(coding.getByRole('menuitem', { name: /Cursor/ })).toBeTruthy();
-    expect(coding.queryByRole('menuitem', { name: /Macro/ })).toBeNull();
-    expect(screen.queryByRole('menuitem', { name: /Macro/ })).toBeNull();
+    expect(coding.queryByRole('menuitem', { name: /Fintail/ })).toBeNull();
+    expect(screen.queryByRole('menuitem', { name: /Fintail/ })).toBeNull();
     const models = within(screen.getByRole('group', { name: 'Recommended' }));
     expect(
       models.queryByRole('menuitem', { name: /Cursor default|GPT-5/ })
@@ -791,7 +791,7 @@ describe('agent-led new conversation', () => {
       repoUrl: undefined,
       modelOverride: 'anthropic/claude-sonnet-5-5',
     });
-    // Macro Models picks stick: a second send still uses the preferred model.
+    // Fintail Models picks stick: a second send still uses the preferred model.
     expect(screen.getByRole('button', { name: 'Agent' }).textContent).toBe(
       'Sonnet 5.5'
     );
@@ -800,7 +800,7 @@ describe('agent-led new conversation', () => {
       modelOverride: 'anthropic/claude-sonnet-5-5',
     });
   });
-  it('keeps unavailable Macro models disabled throughout the catalog', async () => {
+  it('keeps unavailable Fintail models disabled throughout the catalog', async () => {
     const roster = buildAgentRoster({
       agents: [],
       runtimes: [],
@@ -844,7 +844,7 @@ describe('agent-led new conversation', () => {
     fireEvent.click(extra);
     expect(onSelect).not.toHaveBeenCalled();
   });
-  it('restores a preferred Macro model on a fresh composer', () => {
+  it('restores a preferred Fintail model on a fresh composer', () => {
     mocks.preferredInmemModel = 'anthropic/claude-sonnet-5-5';
     page();
     expect(screen.getByRole('button', { name: 'Agent' }).textContent).toBe(

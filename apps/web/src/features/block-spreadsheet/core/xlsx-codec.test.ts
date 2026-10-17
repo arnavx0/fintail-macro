@@ -651,7 +651,7 @@ describe('Excel workbook files', () => {
     sheet.getRow(1).height = 50;
     sheet.getRow(2).hidden = true;
     sheet.getCell('C1').value = {
-      text: 'Macro',
+      text: 'Fintail',
       hyperlink: 'https://macro.com',
     };
     sheet.getCell('C2').value = {
@@ -690,13 +690,13 @@ describe('Excel workbook files', () => {
     expect(imported.sheets[0].cells.C2.value).toBe('bold plain');
   });
 
-  it('shortens text longer than a Macro cell holds instead of rejecting the workbook', async () => {
+  it('shortens text longer than a Fintail cell holds instead of rejecting the workbook', async () => {
     const workbook = new ExcelJS.Workbook();
     workbook.addWorksheet('Notes').getCell('A1').value = 'x'.repeat(12_000);
     const imported = await decodeXlsx(await file(workbook));
     expect(imported.sheets[0].cells.A1.value).toHaveLength(10_000);
     expect(imported.warnings).toContain(
-      'Text longer than 10,000 characters was shortened to fit Macro cells.'
+      'Text longer than 10,000 characters was shortened to fit Fintail cells.'
     );
   });
 

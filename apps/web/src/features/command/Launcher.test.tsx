@@ -56,6 +56,7 @@ vi.mock('@app/lib/analytics/posthog', () => ({
 }));
 vi.mock('@core/constant/featureFlags', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@core/constant/featureFlags')>()),
+  ENABLE_FINTAIL: false,
   isFeatureEnabled: (flag: { key: string }) =>
     flag.key === 'enable-databases' ||
     flag.key === 'enable-forms' ||

@@ -23,7 +23,7 @@ import {
 import type { Tool } from '../context/onboarding-context';
 import { nativeToolSlug } from './connected-tools';
 
-/** GitHub uses Macro's account integration; it must never fall through to MCP. */
+/** GitHub uses Fintail's account integration; it must never fall through to MCP. */
 export function createOnboardingToolConnect() {
   const updateNative = useUpdateMcpServerMutation();
   const updatePipedream = useUpdatePipedreamConnectionMutation();

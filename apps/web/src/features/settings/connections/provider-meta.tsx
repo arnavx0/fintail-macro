@@ -17,22 +17,22 @@ export const EMPTY_STARTERS: FeaturedStarter[] = [
   {
     id: 'github',
     name: 'GitHub',
-    note: 'Repos, pull requests, and issues for Macro AI',
+    note: 'Repos, pull requests, and issues for Fintail AI',
   },
   {
     id: 'linear',
     name: 'Linear',
-    note: 'Issues for Macro AI',
+    note: 'Issues for Fintail AI',
   },
   {
     id: 'notion',
     name: 'Notion',
-    note: 'Search pages with Macro AI',
+    note: 'Search pages with Fintail AI',
   },
   {
     id: 'slack',
     name: 'Slack',
-    note: 'Conversations for Macro AI',
+    note: 'Conversations for Fintail AI',
   },
 ];
 

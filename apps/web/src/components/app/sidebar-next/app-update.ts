@@ -21,31 +21,32 @@ type UpdateCopy = Pick<AppUpdate, 'title' | 'description' | 'actionLabel'>;
 export const UPDATE_COPY = {
   web: {
     title: 'New version available',
-    description: 'A new version of Macro is ready. Reload the page to use it.',
+    description:
+      'A new version of Fintail is ready. Reload the page to use it.',
     actionLabel: 'Reload',
   },
   webFailedLoad: {
     title: 'New version available',
     description:
-      "Part of Macro couldn't load because a new version is out. Reload the page to use it.",
+      "Part of Fintail couldn't load because a new version is out. Reload the page to use it.",
     actionLabel: 'Reload',
   },
   bundle: {
     title: 'Update ready',
     description:
-      'A new version of the Macro desktop app has downloaded. Update to start using it.',
+      'A new version of the Fintail desktop app has downloaded. Update to start using it.',
     actionLabel: 'Update',
   },
   native: {
     title: 'Desktop app update ready',
     description:
-      'Restart Macro to install it, or keep working and it installs when you quit.',
+      'Restart Fintail to install it, or keep working and it installs when you quit.',
     actionLabel: 'Restart and update',
   },
   nativePreparing: {
     title: 'Desktop app update ready',
     description:
-      'Saving your work before Macro restarts to install the update.',
+      'Saving your work before Fintail restarts to install the update.',
     actionLabel: 'Preparing to restart…',
   },
 } satisfies Record<string, UpdateCopy>;

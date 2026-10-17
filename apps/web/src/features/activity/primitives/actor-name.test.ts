@@ -35,7 +35,7 @@ describe('createActorName', () => {
   });
 
   it('names first-party bots from their constants', () => {
-    expect(nameOf(context, MACRO_AGENT_PRINCIPAL_ID)).toBe('Macro');
+    expect(nameOf(context, MACRO_AGENT_PRINCIPAL_ID)).toBe('Fintail');
   });
 
   it('resolves team bots through botName', () => {

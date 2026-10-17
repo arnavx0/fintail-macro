@@ -218,7 +218,7 @@ export function useEmailThreadTools(props: EmailThreadToolsOptions) {
       hotkeyToken: TOKENS.entity.action.markRead,
     },
     {
-      label: 'Ask Macro',
+      label: 'Ask Fintail',
       icon: ChatWithAgentIcon,
       action: () => {
         const threadId = emailCtx.thread()?.db_id;

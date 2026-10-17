@@ -1,6 +1,6 @@
 /**
  * Where a design's comments live and how they are written and shown,
- * injected by the block (Macro comments in the app, an in-memory store in
+ * injected by the block (Fintail comments in the app, an in-memory store in
  * the browser fixture), so the viewer's comment tool has no app
  * dependencies. The viewer owns the pins, the thread list, and where a
  * thread opens; the store supplies the thread and composer inside them.

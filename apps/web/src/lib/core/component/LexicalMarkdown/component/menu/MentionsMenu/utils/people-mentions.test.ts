@@ -35,7 +35,7 @@ const user: UserItem = {
   data: {
     id: 'macro|pat@example.com',
     email: 'pat@example.com',
-    name: 'Macro Pat',
+    name: 'Fintail Pat',
   },
 };
 
@@ -54,7 +54,7 @@ it('collapses full lowercased emails, keeps plus aliases, and picks a recent vis
   expect(result.map((item) => item.id)).toEqual(['z', 'plus']);
 });
 
-it('prefers a Macro user even when only their CRM name matches the search', () => {
+it('prefers a Fintail user even when only their CRM name matches the search', () => {
   expect(
     mergePeopleMentions([], [contact('crm', 'PAT@example.com')], [user])
   ).toEqual([user]);

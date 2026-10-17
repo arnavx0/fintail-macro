@@ -15,7 +15,7 @@ vi.mock('@core/mobile/isTouchDevice', () => ({
 }));
 
 /**
- * The in-memory Macro Agent keeps no display names, so every option comes
+ * The in-memory Fintail Agent keeps no display names, so every option comes
  * back named after its own slug.
  */
 const INMEM_MODELS: ModelOption[] = [

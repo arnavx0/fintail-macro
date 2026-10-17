@@ -1058,7 +1058,7 @@ export function Shortcuts() {
   return (
     <SettingsPage
       title="Keyboard shortcuts"
-      description="Quick ways to navigate, search, and work in Macro."
+      description="Quick ways to navigate, search, and work in Fintail."
     >
       <SettingsSurface class="px-5 py-4">
         <details>

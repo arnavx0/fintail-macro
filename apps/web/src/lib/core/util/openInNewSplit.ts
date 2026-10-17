@@ -1,7 +1,7 @@
 import { isTouchDevice } from '@core/mobile/isTouchDevice';
 
 /**
- * Macro uses "splits" as its tab-like navigation concept.
+ * Fintail uses "splits" as its tab-like navigation concept.
  *
  * For @mention pills we want:
  * - default click/enter: open in a new split

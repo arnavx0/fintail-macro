@@ -503,7 +503,7 @@ describe('Input slots', () => {
   });
 
   it.each([false, true])(
-    'offers one Macro entry in call chat with agents rollout %s',
+    'offers one Fintail entry in call chat with agents rollout %s',
     (enabled) => {
       editorMocks.agentsEnabled = enabled;
       render(() => (
@@ -518,7 +518,7 @@ describe('Input slots', () => {
       ));
       const users = editorMocks.mentionUsers?.() ?? [];
       expect(
-        users.filter((user) => user.name === 'Macro').map((user) => user.id)
+        users.filter((user) => user.name === 'Fintail').map((user) => user.id)
       ).toEqual([enabled ? MACRO_NEW_PRINCIPAL_ID : MACRO_AGENT_PRINCIPAL_ID]);
       expect(users.map((user) => user.id)).toEqual(
         expect.arrayContaining(['bot|owned', 'bot|team'])
@@ -526,27 +526,27 @@ describe('Input slots', () => {
     }
   );
 
-  it('offers a single Macro mention, aimed by the agents rollout', () => {
+  it('offers a single Fintail mention, aimed by the agents rollout', () => {
     render(() => <ChannelInput input={baseInput} />);
     expect(
-      editorMocks.mentionUsers?.().filter((user) => user.name === 'Macro')
+      editorMocks.mentionUsers?.().filter((user) => user.name === 'Fintail')
     ).toEqual([
       {
         id: MACRO_AGENT_PRINCIPAL_ID,
-        name: 'Macro',
-        email: 'Macro',
+        name: 'Fintail',
+        email: 'Fintail',
       },
     ]);
 
     editorMocks.agentsEnabled = true;
     render(() => <ChannelInput input={baseInput} />);
     expect(
-      editorMocks.mentionUsers?.().filter((user) => user.name === 'Macro')
+      editorMocks.mentionUsers?.().filter((user) => user.name === 'Fintail')
     ).toEqual([
       {
         id: MACRO_NEW_PRINCIPAL_ID,
-        name: 'Macro',
-        email: 'Macro',
+        name: 'Fintail',
+        email: 'Fintail',
       },
     ]);
   });

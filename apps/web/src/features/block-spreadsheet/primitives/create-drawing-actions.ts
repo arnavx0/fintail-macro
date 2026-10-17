@@ -241,7 +241,7 @@ export function createDrawingActions(options: {
 
   /**
    * Apply the dialog to a chart. Its data is read again from the range when
-   * the range or its reading changed. Macro then writes the chart on export,
+   * the range or its reading changed. Fintail then writes the chart on export,
    * in place of the part Excel saved. Returns an error to show, if any.
    */
   function applyChart(id: string, settings: ChartSettings): string | undefined {

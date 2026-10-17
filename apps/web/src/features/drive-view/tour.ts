@@ -5,7 +5,7 @@ export const documentsTour = defineViewTour({
   id: 'documents',
   title: 'Documents',
   connector: { kind: 'mcp', label: 'Notion', tools: ['Notion'] },
-  video: { youtubeId: 'V8wE8Hq5_qw', title: 'Macro Docs', duration: '1:09' },
+  video: { youtubeId: 'V8wE8Hq5_qw', title: 'Fintail Docs', duration: '1:09' },
   steps: [
     {
       target: VIEW_SHELL_TOUR.aside,
@@ -13,7 +13,7 @@ export const documentsTour = defineViewTour({
       entryLabel: 'Show the Documents sidebar to continue',
       title: 'A place for your ideas',
       description:
-        'Create a document or bring your existing files into Macro. Search and filter to find them again.',
+        'Create a document or bring your existing files into Fintail. Search and filter to find them again.',
     },
     {
       target: VIEW_SHELL_TOUR.main,

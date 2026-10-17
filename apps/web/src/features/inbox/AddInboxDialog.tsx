@@ -56,7 +56,7 @@ export function AddInboxDialog() {
         </Panel.Header>
         <Panel.Body class="p-6 font-sans flex flex-col gap-3">
           <Dialog.Description class="text-ink-muted text-sm/tight font-normal">
-            Connect another Gmail account to Macro?
+            Connect another Gmail account to Fintail?
           </Dialog.Description>
           <div class="pt-3 justify-end items-center gap-3 inline-flex">
             <Button

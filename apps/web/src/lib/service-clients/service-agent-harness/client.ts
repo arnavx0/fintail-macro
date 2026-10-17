@@ -49,7 +49,7 @@ const sessionError: ErrorResponseHandler<never> = async (response) => {
     code: response.status === 401 ? 'UNAUTHORIZED' : 'HTTP_ERROR',
     message:
       message === 'repository is not available to this user'
-        ? 'Connect GitHub to Macro with access to the selected repository, or choose a repository your Macro account can access.'
+        ? 'Connect GitHub to Fintail with access to the selected repository, or choose a repository your Fintail account can access.'
         : message || `Agent request failed (HTTP ${response.status}).`,
   };
 };

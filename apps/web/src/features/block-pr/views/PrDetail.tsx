@@ -51,7 +51,7 @@ import { prDisplayName, prHtmlUrl } from '../util/prKey';
 /** Share PR query state without coupling the host's header to the detail body. */
 export function usePrDetail(foreignEntityId: Accessor<string>) {
   const query = usePrForeignEntityQuery(foreignEntityId);
-  // Detail-lifetime local Macro discussion (prototype-only, lost on reload).
+  // Detail-lifetime local Fintail discussion (prototype-only, lost on reload).
   const discussionSource = createPrDiscussionSource();
   const data = (): PrForeignEntityData | undefined =>
     query.isPending ? undefined : query.data;

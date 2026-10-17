@@ -1,5 +1,5 @@
 /**
- * Tool renderers for the Macro Databases toolsets: QueryDatabase and
+ * Tool renderers for the Fintail Databases toolsets: QueryDatabase and
  * SaveDatabaseQuery from `crates/databases_sql/src/toolset`, the rest from
  * `crates/databases/src/inbound/toolset`.
  */

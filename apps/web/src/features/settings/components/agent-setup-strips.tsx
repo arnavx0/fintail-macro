@@ -49,7 +49,7 @@ function SetupStrip(props: {
   );
 }
 
-/** Where agents can run besides Macro: Cursor, and your own paired machines. */
+/** Where agents can run besides Fintail: Cursor, and your own paired machines. */
 export function AgentSetupStrips(props: {
   onCursor: () => void;
   onSetUpRuntime: () => void;
@@ -71,7 +71,7 @@ export function AgentSetupStrips(props: {
             icon={<CursorIcon />}
             title="Connect Cursor"
             subject="Cursor"
-            description="Use your Cursor subscription to run agents in Macro."
+            description="Use your Cursor subscription to run agents in Fintail."
             action="Connect"
             onAction={props.onCursor}
           />

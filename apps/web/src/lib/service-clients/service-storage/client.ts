@@ -458,9 +458,9 @@ export const storageServiceClient = {
       method: 'PUT',
       body: JSON.stringify({ trashed: true }),
     }),
-  /** Macro Databases — see `./databases.ts`. */
+  /** Fintail Databases — see `./databases.ts`. */
   databases: databasesClient,
-  /** Macro Forms — see `./forms.ts`. */
+  /** Fintail Forms — see `./forms.ts`. */
   forms: formsClient,
 
   async createSlackImport(args: {

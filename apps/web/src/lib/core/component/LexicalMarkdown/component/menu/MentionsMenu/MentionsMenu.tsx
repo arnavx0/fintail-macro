@@ -106,7 +106,7 @@ type MentionsMenuProps = {
   documentBuckets?: EntityBucket[];
   /** Scalar person fields cannot store group mentions. Defaults to true. */
   includeGroups?: boolean;
-  /** Disable CRM references for fields that only store Macro user identities. */
+  /** Disable CRM references for fields that only store Fintail user identities. */
   includeContacts?: boolean;
   /** Repeated cell editing opens immediately instead of animating each picker. */
   animate?: boolean;

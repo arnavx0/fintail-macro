@@ -347,7 +347,7 @@ function CalendarEventPreviewDetails(props: {
     props.event.organizerName ?? props.event.organizerEmail;
   const descriptionHtml = () =>
     sanitizeCalendarDescription(props.event.description ?? '');
-  // Opening a Macro link reads the split layout from context, so the handler
+  // Opening a Fintail link reads the split layout from context, so the handler
   // keeps this component's owner.
   const openDescriptionLink = createCallback((event: MouseEvent) => {
     const anchor = (event.target as Element | null)?.closest('a[href]');
@@ -762,7 +762,7 @@ export function DocumentPreviewContent(props: DocumentPreviewContentProps) {
             <Show when={canOpenInChat()}>
               <Dropdown.Item onSelect={handleOpenInChat}>
                 <SparkleIcon class="size-4" />
-                Ask Macro
+                Ask Fintail
               </Dropdown.Item>
             </Show>
             <Dropdown.Item onSelect={handleCopy}>

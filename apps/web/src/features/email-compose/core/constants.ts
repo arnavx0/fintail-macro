@@ -1,4 +1,4 @@
-export const MACRO_EMAIL_SIGNATURE = '-- Sent with Macro';
+export const MACRO_EMAIL_SIGNATURE = '-- Sent with Fintail';
 
 export const MAX_ATTACHMENTS_BYTES_SIZE = 18_000_000;
 

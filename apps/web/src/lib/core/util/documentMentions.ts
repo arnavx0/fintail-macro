@@ -7,7 +7,7 @@ export type DocumentMentionRef = {
 };
 
 /**
- * The items referenced by `<m-document-mention>` tags in Macro markdown, in
+ * The items referenced by `<m-document-mention>` tags in Fintail markdown, in
  * order of first appearance and without repeats. Malformed tags render as
  * unknown items rather than references, so they are skipped.
  */

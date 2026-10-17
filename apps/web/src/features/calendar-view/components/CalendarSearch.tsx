@@ -116,7 +116,7 @@ function meetingLinkForEvent(
     description,
     location: details?.location,
   });
-  if (macro) return { url: macro, kind: 'macro', label: 'Macro call' };
+  if (macro) return { url: macro, kind: 'macro', label: 'Fintail call' };
 
   const googleContent =
     googleMeetUrlInText(details?.location) ?? googleMeetUrlInText(description);
@@ -130,7 +130,7 @@ function meetingLinkForEvent(
   if (!conference) return undefined;
   const macroConference = calendarMacroCallUrl({ conferenceUrl: conference });
   if (macroConference) {
-    return { url: macroConference, kind: 'macro', label: 'Macro call' };
+    return { url: macroConference, kind: 'macro', label: 'Fintail call' };
   }
   const google = new URL(conference).hostname === 'meet.google.com';
   return {
@@ -923,7 +923,7 @@ function CalendarSearchControl(props: {
                                       >
                                         <VideoCameraIcon class="size-3.5" />
                                         {link().kind === 'macro'
-                                          ? 'Macro'
+                                          ? 'Fintail'
                                           : link().kind === 'google'
                                             ? 'Meet'
                                             : 'Join'}

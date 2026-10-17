@@ -11,7 +11,7 @@ import {
 } from 'lexical';
 import { plainRichText, serializeCanvasTextState } from '../core/text-codec';
 
-/** Legacy files contain internal Markdown, including Macro mention tags. */
+/** Legacy files contain internal Markdown, including Fintail mention tags. */
 export function importCanvasMarkdown(markdown: string): RichText {
   if (!markdown) return plainRichText();
   const wrapper = createLexicalWrapper({

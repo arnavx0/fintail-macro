@@ -40,7 +40,7 @@ describe('meeting transport authorization', () => {
       expect(error.code).toBe(code);
     }
   );
-  it('loads public metadata without Macro session credentials', async () => {
+  it('loads public metadata without Fintail session credentials', async () => {
     await callServiceClient.getMeeting('secret');
     expect(requests.public).toHaveBeenCalledWith(
       'https://gateway.example/dss/call/join/secret',

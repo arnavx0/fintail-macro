@@ -7,14 +7,14 @@ import type { AgentsMode } from './mode';
 /**
  * What an agent is for. A coder writes code: it takes a repository and runs on
  * a coding runtime (Cursor's cloud agents, or a macrod daemon on someone's
- * machine). Every other agent chats from Macro's own in-memory harness.
+ * machine). Every other agent chats from Fintail's own in-memory harness.
  *
  * The kind is not stored on the agent — the harness decides it, because only a
  * coding runtime can actually do coding work.
  */
 export type AgentKind = 'agent' | 'coder';
 
-/** Harness slugs that run inside Macro's process, with no coding runtime. */
+/** Harness slugs that run inside Fintail's process, with no coding runtime. */
 const CHAT_HARNESSES: ReadonlySet<string> = new Set([
   'in-memory',
   'macro-inmem',

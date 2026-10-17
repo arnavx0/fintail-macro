@@ -14,7 +14,7 @@ import type { Component, ComponentProps } from 'solid-js';
 /** The brand mark a first-party bot wears wherever an avatar is drawn. */
 export type FirstPartyBotMark = {
   Icon: Component<ComponentProps<'svg'>>;
-  /** Macro's own marks take the accent color; partner marks stay ink. */
+  /** Fintail's own marks take the accent color; partner marks stay ink. */
   tone: 'accent' | 'ink';
 };
 

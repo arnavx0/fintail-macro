@@ -60,7 +60,7 @@ function feedChars(
   return Array.from(text).flatMap((char) => plugin.transform(textPart(char)));
 }
 
-describe('Macro XML buffer plugin', () => {
+describe('Fintail XML buffer plugin', () => {
   it('passes plain text straight through', () => {
     const plugin = createMentionBufferPlugin();
     const out = plugin.transform(textPart('hello world'));
@@ -82,7 +82,7 @@ describe('Macro XML buffer plugin', () => {
     expect(plugin.isHolding()).toBe(false);
   });
 
-  it('never releases a partial Macro XML tag while it is streaming', () => {
+  it('never releases a partial Fintail XML tag while it is streaming', () => {
     for (const macroXml of [MENTION, ...OTHER_MACRO_XML_TAGS]) {
       const plugin = createMentionBufferPlugin();
       let emitted = '';
@@ -135,7 +135,7 @@ describe('Macro XML buffer plugin', () => {
     expect(plugin.isHolding()).toBe(false);
   });
 
-  it('gives up on any open Macro XML tag that grows past the size cap', () => {
+  it('gives up on any open Fintail XML tag that grows past the size cap', () => {
     const plugin = createMentionBufferPlugin();
     const runaway = `<m-future-widget>${'x'.repeat(MAX_MACRO_XML_LENGTH)}`;
     const out = textOf(feedChars(plugin, runaway));
@@ -143,7 +143,7 @@ describe('Macro XML buffer plugin', () => {
     expect(plugin.isHolding()).toBe(false);
   });
 
-  it('gives up on an unterminated Macro XML tag name that grows past the size cap', () => {
+  it('gives up on an unterminated Fintail XML tag name that grows past the size cap', () => {
     const plugin = createMentionBufferPlugin();
     const runaway = `<m-${'x'.repeat(MAX_MACRO_XML_LENGTH)}`;
     const out = textOf(feedChars(plugin, runaway));

@@ -317,7 +317,7 @@ describe('Harness', () => {
   it('shows Claude with the Anthropic logo above Cursor in the harness list', () => {
     render(() => <Harness />);
 
-    expect(screen.getByRole('heading', { name: 'Macro Agent' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Fintail Agent' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Cursor' })).toBeTruthy();
     const claude = screen.getByRole('heading', { name: 'Claude Cloud' });
     const cursor = screen.getByRole('heading', { name: 'Cursor' });
@@ -326,7 +326,9 @@ describe('Harness', () => {
     ).toBeTruthy();
     expect(screen.getByLabelText('Anthropic')).toBeTruthy();
     expect(
-      screen.getByText(/Uses official Macro tools and MCPs to get the job done/)
+      screen.getByText(
+        /Uses official Fintail tools and MCPs to get the job done/
+      )
     ).toBeTruthy();
   });
 

@@ -23,7 +23,7 @@ export function ConnectionCard(props: ConnectionCardProps) {
     if (props.busy) return;
     const confirmed = await confirmDialog({
       title: 'Disconnect Claude?',
-      body: 'Remove your Claude connection from Macro? Existing cloud sessions keep running. You can reconnect at any time.',
+      body: 'Remove your Claude connection from Fintail? Existing cloud sessions keep running. You can reconnect at any time.',
       confirmLabel: 'Disconnect',
       tone: 'danger',
     });
@@ -105,7 +105,7 @@ export function ConnectionCard(props: ConnectionCardProps) {
                     {props.status?.ephemeral
                       ? 'This connection is temporary. You may need to reconnect later.'
                       : 'Your connection is saved securely.'}{' '}
-                    Macro never asks for your Claude password.
+                    Fintail never asks for your Claude password.
                   </p>
                   <a
                     class="text-sm text-accent underline"

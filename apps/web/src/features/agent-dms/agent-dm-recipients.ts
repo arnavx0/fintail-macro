@@ -17,9 +17,9 @@ export function useAgentDmRecipients() {
     return [
       recipientEntityMapper('agent')({
         id: MACRO_NEW_BOT_ID,
-        name: 'Macro',
+        name: 'Fintail',
         handle: 'macro',
-        description: 'Your private conversation with Macro',
+        description: 'Your private conversation with Fintail',
       }),
       ...visibleAgents
         .filter((agent) =>

@@ -3,7 +3,7 @@
  *
  * Ported from opencode's
  * `packages/session-ui/src/v2/components/basic-tool-v2.tsx`
- * (github.com/sst/opencode, MIT © 2025 opencode), restyled to Macro's tokens
+ * (github.com/sst/opencode, MIT © 2025 opencode), restyled to Fintail's tokens
  * and the `Tool` card idiom.
  */
 

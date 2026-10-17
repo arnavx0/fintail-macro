@@ -12,7 +12,7 @@ interface EmailUserTooltipProps {
   recipient?: Recipient | null;
   children: JSX.Element;
   bold?: boolean;
-  /** Fallback photo (e.g. a synced contact photo) when there's no Macro profile picture. */
+  /** Fallback photo (e.g. a synced contact photo) when there's no Fintail profile picture. */
   photoUrl?: string;
 }
 

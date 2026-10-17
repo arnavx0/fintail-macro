@@ -66,7 +66,7 @@ vi.mock('@app/features/calendar/components/composer/EventForm', () => ({
           {(option) => <option value={option.id}>{option.label}</option>}
         </For>
       </select>
-      <output aria-label="Macro calls enabled">
+      <output aria-label="Fintail calls enabled">
         {String(props.macroCallsEnabled)}
       </output>
       <output aria-label="Conference">
@@ -76,7 +76,7 @@ vi.mock('@app/features/calendar/components/composer/EventForm', () => ({
         type="button"
         onClick={() => props.controller.setField('conference', 'macro')}
       >
-        Pick Macro call
+        Pick Fintail call
       </button>
       <button
         disabled={
@@ -271,16 +271,16 @@ describe('AI calendar draft account selection', () => {
   );
 });
 
-describe('AI calendar draft Macro calls', () => {
-  it('offers Macro calls under the quick-calls flag', () => {
+describe('AI calendar draft Fintail calls', () => {
+  it('offers Fintail calls under the quick-calls flag', () => {
     const [flag, setFlag] = createSignal({ loading: false, enabled: false });
     mocks.quickCalls = flag;
     showDraft();
-    expect(screen.getByLabelText('Macro calls enabled').textContent).toBe(
+    expect(screen.getByLabelText('Fintail calls enabled').textContent).toBe(
       'false'
     );
     setFlag({ loading: false, enabled: true });
-    expect(screen.getByLabelText('Macro calls enabled').textContent).toBe(
+    expect(screen.getByLabelText('Fintail calls enabled').textContent).toBe(
       'true'
     );
   });
@@ -290,14 +290,14 @@ describe('AI calendar draft Macro calls', () => {
     expect(screen.getByLabelText('Conference').textContent).toBe('macro');
   });
 
-  it('executes the tool with addMacroCall when the user picks a Macro call', async () => {
+  it('executes the tool with addMacroCall when the user picks a Fintail call', async () => {
     showDraft(undefined, {
       attendees: [{ email: 'guest@example.com' }],
       addGoogleMeet: false,
     });
     expect(screen.getByLabelText('Conference').textContent).toBe('none');
     await fireEvent.click(
-      screen.getByRole('button', { name: 'Pick Macro call' })
+      screen.getByRole('button', { name: 'Pick Fintail call' })
     );
     expect(screen.getByLabelText('Conference').textContent).toBe('macro');
     await fireEvent.click(screen.getByRole('button', { name: 'Create event' }));

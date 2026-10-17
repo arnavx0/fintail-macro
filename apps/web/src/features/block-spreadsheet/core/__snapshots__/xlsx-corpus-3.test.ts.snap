@@ -55,11 +55,11 @@ exports[`real-world XLSX corpus > ironcalc-example-pivots-charts-comments… 1`]
     "Chart sheets and other non-grid sheets are not imported.",
     "Diagonal borders are not imported.",
     "Excel tables are imported as ordinary cells; table formulas are converted to cell ranges.",
-    "Frozen panes are retained for Excel export; Macro uses its own scrolling view.",
-    "Hidden sheets are shown in Macro; their visibility is retained in Excel downloads.",
-    "Merged ranges are shown as individual cells in Macro and restored on Excel export when their covered cells remain empty.",
+    "Frozen panes are retained for Excel export; Fintail uses its own scrolling view.",
+    "Hidden sheets are shown in Fintail; their visibility is retained in Excel downloads.",
+    "Merged ranges are shown as individual cells in Fintail and restored on Excel export when their covered cells remain empty.",
     "Patterned fills are shown as a blended solid color.",
-    "Pivot tables show their last values in Macro; Excel rebuilds them from their data when the downloaded file opens.",
+    "Pivot tables show their last values in Fintail; Excel rebuilds them from their data when the downloaded file opens.",
     "Rich text is imported as plain text with the cell’s formatting.",
   ],
 }
@@ -80,7 +80,7 @@ exports[`real-world XLSX corpus > irs-soi-2023-partnerships-table3-balanc… 1`]
   "styledCells": 8677,
   "warnings": [
     "Font sizes are rounded and limited to 8–36 pt.",
-    "Merged ranges are shown as individual cells in Macro and restored on Excel export when their covered cells remain empty.",
+    "Merged ranges are shown as individual cells in Fintail and restored on Excel export when their covered cells remain empty.",
   ],
 }
 `;
@@ -103,7 +103,7 @@ exports[`real-world XLSX corpus > libreoffice-functions-excel-2010.xlsx 1`] = `
   "sheets": 2,
   "styledCells": 281,
   "warnings": [
-    "Merged ranges are shown as individual cells in Macro and restored on Excel export when their covered cells remain empty.",
+    "Merged ranges are shown as individual cells in Fintail and restored on Excel export when their covered cells remain empty.",
   ],
 }
 `;
@@ -125,9 +125,9 @@ exports[`real-world XLSX corpus > nrel-sam-ppa-single-owner-project-finan… 1`]
   "sheets": 3,
   "styledCells": 28010,
   "warnings": [
-    "Dynamic array formulas are recalculated by Macro; cached spill values are discarded and their cell formatting is retained.",
-    "Frozen panes are retained for Excel export; Macro uses its own scrolling view.",
-    "Merged ranges are shown as individual cells in Macro and restored on Excel export when their covered cells remain empty.",
+    "Dynamic array formulas are recalculated by Fintail; cached spill values are discarded and their cell formatting is retained.",
+    "Frozen panes are retained for Excel export; Fintail uses its own scrolling view.",
+    "Merged ranges are shown as individual cells in Fintail and restored on Excel export when their covered cells remain empty.",
     "Rich text is imported as plain text with the cell’s formatting.",
   ],
 }
@@ -164,10 +164,10 @@ exports[`real-world XLSX corpus > poi-cvlkra-kyc-file-structure-tika3163.… 1`]
   "sheets": 30,
   "styledCells": 52242,
   "warnings": [
-    "Excel sheet protection is not imported; Macro sharing controls determine edit access.",
-    "Hidden sheets are shown in Macro; their visibility is retained in Excel downloads.",
+    "Excel sheet protection is not imported; Fintail sharing controls determine edit access.",
+    "Hidden sheets are shown in Fintail; their visibility is retained in Excel downloads.",
     "Hyperlinks are imported as display text; link targets are not retained.",
-    "Merged ranges are shown as individual cells in Macro and restored on Excel export when their covered cells remain empty.",
+    "Merged ranges are shown as individual cells in Fintail and restored on Excel export when their covered cells remain empty.",
     "Rich text is imported as plain text with the cell’s formatting.",
     "Text number formats on numeric, boolean, date or formula cells are reset to preserve the original value types.",
   ],
@@ -191,7 +191,7 @@ exports[`real-world XLSX corpus > poi-data-validation-table-range-county-… 1`]
     "Excel table references are converted to cell ranges; tables are imported as ordinary cells.",
     "Excel tables are imported as ordinary cells; table formulas are converted to cell ranges.",
     "Font sizes are rounded and limited to 8–36 pt.",
-    "Merged ranges are shown as individual cells in Macro and restored on Excel export when their covered cells remain empty.",
+    "Merged ranges are shown as individual cells in Fintail and restored on Excel export when their covered cells remain empty.",
   ],
 }
 `;
@@ -228,9 +228,9 @@ exports[`real-world XLSX corpus > worldbank-commodity-prices-pink-sheet-m… 1`]
   "styledCells": 85343,
   "warnings": [
     "Excel tables are imported as ordinary cells; table formulas are converted to cell ranges.",
-    "Frozen panes are retained for Excel export; Macro uses its own scrolling view.",
-    "Hidden sheets are shown in Macro; their visibility is retained in Excel downloads.",
-    "Merged ranges are shown as individual cells in Macro and restored on Excel export when their covered cells remain empty.",
+    "Frozen panes are retained for Excel export; Fintail uses its own scrolling view.",
+    "Hidden sheets are shown in Fintail; their visibility is retained in Excel downloads.",
+    "Merged ranges are shown as individual cells in Fintail and restored on Excel export when their covered cells remain empty.",
     "Special font effects are simplified to the supported text formatting.",
   ],
 }
@@ -250,12 +250,12 @@ exports[`real-world XLSX corpus > zenodo-ccs-cement-post-tax-dcf-model.xl… 1`]
   "sheets": 12,
   "styledCells": 20467,
   "warnings": [
-    "Dynamic array formulas are recalculated by Macro; cached spill values are discarded and their cell formatting is retained.",
-    "Excel filters are retained for export; Macro displays all rows.",
+    "Dynamic array formulas are recalculated by Fintail; cached spill values are discarded and their cell formatting is retained.",
+    "Excel filters are retained for export; Fintail displays all rows.",
     "Hyperlinks are imported as display text; link targets are not retained.",
-    "Merged ranges are shown as individual cells in Macro and restored on Excel export when their covered cells remain empty.",
+    "Merged ranges are shown as individual cells in Fintail and restored on Excel export when their covered cells remain empty.",
     "Patterned fills are shown as a blended solid color.",
-    "Pivot tables show their last values in Macro; Excel rebuilds them from their data when the downloaded file opens.",
+    "Pivot tables show their last values in Fintail; Excel rebuilds them from their data when the downloaded file opens.",
     "Rich text is imported as plain text with the cell’s formatting.",
     "Text rotation, shrink-to-fit and right-to-left layout are not imported.",
   ],
@@ -276,10 +276,10 @@ exports[`real-world XLSX corpus > zenodo-circular-economy-business-case-c… 1`]
   "sheets": 14,
   "styledCells": 20074,
   "warnings": [
-    "Dynamic array formulas are recalculated by Macro; cached spill values are discarded and their cell formatting is retained.",
-    "Excel sheet protection is not imported; Macro sharing controls determine edit access.",
-    "Frozen panes are retained for Excel export; Macro uses its own scrolling view.",
-    "Merged ranges are shown as individual cells in Macro and restored on Excel export when their covered cells remain empty.",
+    "Dynamic array formulas are recalculated by Fintail; cached spill values are discarded and their cell formatting is retained.",
+    "Excel sheet protection is not imported; Fintail sharing controls determine edit access.",
+    "Frozen panes are retained for Excel export; Fintail uses its own scrolling view.",
+    "Merged ranges are shown as individual cells in Fintail and restored on Excel export when their covered cells remain empty.",
     "Rich text is imported as plain text with the cell’s formatting.",
   ],
 }

@@ -119,7 +119,7 @@ export const enableDatabases = defineFlag({
 });
 
 /**
- * Macro Forms (`block-form`): questionnaires whose answers land as rows of a
+ * Fintail Forms (`block-form`): questionnaires whose answers land as rows of a
  * database table. On under local HMR, like databases; deployed environments
  * follow PostHog. The flag gates authoring (create entries, builder, `/poll`,
  * `/form`, database controls); responding, form cards and mentions follow the
@@ -432,8 +432,8 @@ export const ENABLE_GRAPHQL_BACKFILL = defineFlag({
 export const ENABLE_CALLS = true;
 
 /**
- * Fintail: hide Macro surfaces that are neither investing nor AI agents
- * (customers, calls, scheduling, PR reviews). Off restores Macro's navigation.
+ * Fintail: hide Fintail surfaces that are neither investing nor AI agents
+ * (customers, calls, scheduling, PR reviews). Off restores Fintail's navigation.
  */
 export const ENABLE_FINTAIL = defineFlag({
   env: 'ENABLE_FINTAIL',
@@ -457,7 +457,7 @@ export const enableEmailSignatures = defineFlag({
 
 // CRM companies & contacts frontend: the Companies view + sidebar entry, the
 // company/contact detail blocks, CRM mentions / quick-access, and CRM rows in
-// global search. PostHog-gated (currently targeted at the Macro team in prod)
+// global search. PostHog-gated (currently targeted at the Fintail team in prod)
 // with a dev-mode default; override with VITE_ENABLE_CRM.
 export const enableCrm = defineFlag({
   key: 'enable-crm',
@@ -542,7 +542,7 @@ export const enableTaskDuplicates = defineFlag({
 });
 
 // Snippets: reusable markdown documents, the `c` launcher entry, and the `;`
-// insert menu. PostHog-gated (currently targeted at the Macro team) with a
+// insert menu. PostHog-gated (currently targeted at the Fintail team) with a
 // dev-mode default; override with VITE_ENABLE_SNIPPETS.
 export const enableSnippets = defineFlag({
   key: 'enable-snippets',

@@ -9,7 +9,7 @@ import { Tool } from './Tool';
 import { createToolRenderer } from './ToolRenderer';
 
 const HARNESS_NAMES: Record<string, string> = {
-  'in-memory': 'Macro',
+  'in-memory': 'Fintail',
   cursor: 'Cursor',
   'claude-cloud': 'Claude Cloud',
   macrod: 'Self-hosted harness',

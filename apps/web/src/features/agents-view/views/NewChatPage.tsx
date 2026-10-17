@@ -45,7 +45,7 @@ import { RepositoryPicker } from './RepositoryPicker';
 export type StartConversation = {
   prompt: string;
   attachments?: PromptAttachment[];
-  /** Persisted or first-party bot to run; omitted for Macro's default. */
+  /** Persisted or first-party bot to run; omitted for Fintail's default. */
   botId?: string;
   repoUrl?: string;
   repoBranch?: string;
@@ -89,7 +89,7 @@ export function NewChatPage(props: {
       : props.roster;
   };
   const [agentId, setAgentId] = createSignal<string>();
-  /** One-shot model from a coding agent's submenu; Macro uses {@link preferredInmem}. */
+  /** One-shot model from a coding agent's submenu; Fintail uses {@link preferredInmem}. */
   const [modelOverride, setModelOverride] = createSignal<string>();
   const [repositoryPickerOpen, setRepositoryPickerOpen] = createSignal(false);
   // A new conversation starts on Automatic until the caller picks a repository.
@@ -102,7 +102,7 @@ export function NewChatPage(props: {
       : persistedDraft.setDraft(text);
   const [branchOverride, setBranchOverride] = createSignal<string>();
   const recentAgentId = () => {
-    // Falling back to Macro before availability is known would open the
+    // Falling back to Fintail before availability is known would open the
     // compact composer, then swap to the last agent's layout once it settles.
     const settling = props.rosterLoading || props.availabilityLoading;
     return recentAgents
@@ -274,7 +274,7 @@ export function NewChatPage(props: {
           }
         : {}),
     });
-    // Macro's preferred model stays; coding-agent submenu picks are one-shot.
+    // Fintail's preferred model stays; coding-agent submenu picks are one-shot.
     setModelOverride(undefined);
     setEffortSelection(undefined);
   };
@@ -287,7 +287,7 @@ export function NewChatPage(props: {
     setAgentId(agent.id);
     if (agent.id === MACRO_PERSONA_ID) {
       if (model) preferredInmem.remember(model);
-      // Still set the override so the trigger updates when Macro was
+      // Still set the override so the trigger updates when Fintail was
       // already selected (agent id unchanged would otherwise skip a render).
       setModelOverride(model);
     } else {

@@ -153,8 +153,8 @@ export function InviteWelcome() {
                       Welcome, {details().firstName}
                     </h1>
                     <p class="max-w-md text-sm leading-relaxed text-ink-muted">
-                      Your Macro workspace is ready to set up. Bring your email,
-                      docs, and team together in one place — and your{' '}
+                      Your Fintail workspace is ready to set up. Bring your
+                      email, docs, and team together in one place — and your{' '}
                       {details().freeMonths === 1
                         ? 'first month'
                         : `first ${details().freeMonths} months`}{' '}
@@ -192,21 +192,21 @@ export function InviteWelcome() {
             <Match when={view().kind === 'expired'}>
               <UnavailableInvite
                 title="This invite link has expired"
-                body="Invite links stay open for 48 hours. Ask your Macro contact for a fresh one and we'll pick up right where this one left off."
+                body="Invite links stay open for 48 hours. Ask your Fintail contact for a fresh one and we'll pick up right where this one left off."
               />
             </Match>
 
             <Match when={view().kind === 'used'}>
               <UnavailableInvite
                 title="This invite link has already been used"
-                body="If that was you, log in to pick up where you left off. Otherwise, ask your Macro contact for a link of your own."
+                body="If that was you, log in to pick up where you left off. Otherwise, ask your Fintail contact for a link of your own."
               />
             </Match>
 
             <Match when={view().kind === 'revoked'}>
               <UnavailableInvite
                 title="This invite link is no longer active"
-                body="Ask your Macro contact for a new link."
+                body="Ask your Fintail contact for a new link."
               />
             </Match>
 
@@ -215,7 +215,7 @@ export function InviteWelcome() {
             >
               <UnavailableInvite
                 title="This invite link isn't valid"
-                body="Double-check the link you were sent, or ask your Macro contact for a new one."
+                body="Double-check the link you were sent, or ask your Fintail contact for a new one."
               />
             </Match>
           </Switch>

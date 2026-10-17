@@ -112,7 +112,7 @@ export function NewCallButton() {
                   options={destinationOptions}
                   selectedOptions={selectedOptions()}
                   setSelectedOptions={setSelectedOptions}
-                  placeholder="To: Macro users or email addresses"
+                  placeholder="To: Fintail users or email addresses"
                   triedToSubmit={triedToSubmit}
                   focusOnMount
                   triggerMode="input"

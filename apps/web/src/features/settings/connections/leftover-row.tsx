@@ -109,7 +109,7 @@ export function LeftoverRow(props: { leftover: Leftover }) {
 
   const remove = (connected: boolean) => {
     const leftover = props.leftover;
-    const ok = connected ? 'Disconnected from Macro' : 'Removed';
+    const ok = connected ? 'Disconnected from Fintail' : 'Removed';
     const fail = connected ? 'Failed to disconnect' : 'Failed to remove';
     match(leftover)
       .with({ kind: 'native-mcp' }, (row) => {
@@ -150,7 +150,7 @@ export function LeftoverRow(props: { leftover: Leftover }) {
 
   const askRemove = (connected: boolean) =>
     setDisconnect({
-      title: connected ? 'Disconnect from Macro' : 'Remove',
+      title: connected ? 'Disconnect from Fintail' : 'Remove',
       body: connected
         ? `Disconnect ${props.leftover.title}?`
         : `Remove ${props.leftover.title}?`,

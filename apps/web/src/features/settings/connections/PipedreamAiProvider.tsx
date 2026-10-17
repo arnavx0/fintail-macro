@@ -135,14 +135,14 @@ export function PipedreamAiProvider(props: {
       const url = cap.sourceUrl;
       if (!url) return;
       setDisconnect({
-        title: 'Disconnect from Macro',
+        title: 'Disconnect from Fintail',
         body: `Disconnect ${copy.name}?`,
         onConfirm: () =>
           native.remove.mutate(
             { url },
             {
               onSuccess: () =>
-                toast.success(`Disconnected ${copy.name} from Macro`),
+                toast.success(`Disconnected ${copy.name} from Fintail`),
               onError: () => toast.failure('Failed to disconnect'),
             }
           ),
@@ -150,14 +150,14 @@ export function PipedreamAiProvider(props: {
       return;
     }
     setDisconnect({
-      title: 'Disconnect from Macro',
+      title: 'Disconnect from Fintail',
       body: `Disconnect ${copy.name}?`,
       onConfirm: () =>
         remove.mutate(
           { app_slug: row()?.appSlug ?? props.provider },
           {
             onSuccess: () =>
-              toast.success(`Disconnected ${copy.name} from Macro`),
+              toast.success(`Disconnected ${copy.name} from Fintail`),
             onError: () => toast.failure('Failed to disconnect'),
           }
         ),
@@ -199,7 +199,7 @@ export function PipedreamAiProvider(props: {
       onBack={view.closeProvider}
       backLabel="Connections"
     >
-      <SettingsSection title="Macro AI">
+      <SettingsSection title="Fintail AI">
         <SettingsCard>
           <IntegrationRow
             icon={providerIcon(props.provider)}

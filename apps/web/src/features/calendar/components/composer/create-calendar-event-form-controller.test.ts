@@ -292,14 +292,14 @@ describe('pastEventWarning', () => {
 });
 
 describe('conferencing selection', () => {
-  it('defaults new events to Macro without requesting provider conferencing', () => {
+  it('defaults new events to Fintail without requesting provider conferencing', () => {
     const controller = controllerFor({ title: 'Planning' });
     expect(controller.state().conference).toBe('macro');
     expect(controller.submitValues()?.conferenceChoice).toBe('macro');
     expect(controller.submitValues()?.conference).toBeUndefined();
   });
 
-  it('carries changes between Macro, no link, and Google Meet through submission', () => {
+  it('carries changes between Fintail, no link, and Google Meet through submission', () => {
     const controller = controllerFor({ title: 'Planning' });
     controller.setField('conference', 'none');
     expect(controller.submitValues()?.conferenceChoice).toBe('none');
@@ -312,7 +312,7 @@ describe('conferencing selection', () => {
     expect(controller.submitValues()?.conference).toBeUndefined();
   });
 
-  it('clears existing provider conferencing when switching to Macro', () => {
+  it('clears existing provider conferencing when switching to Fintail', () => {
     const controller = controllerFor(
       { title: 'Planning', conference: 'google_meet' },
       { isEdit: true }

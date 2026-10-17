@@ -6,7 +6,7 @@
  * where one exists; anything else is declared here.
  *
  * Several components are ports of opencode's session-ui/ui packages
- * (github.com/sst/opencode, MIT © 2025 opencode), adapted to Macro's tokens
+ * (github.com/sst/opencode, MIT © 2025 opencode), adapted to Fintail's tokens
  * and the agent-fold vocabulary.
  */
 

@@ -19,13 +19,13 @@ import { ConnectionsViewProvider, useConnectionsView } from './view-state';
 function MacroMcpSignpost(props: { onOpen: () => void }) {
   return (
     <p class="text-xs text-ink-muted text-balance">
-      Looking to use Macro in another app?{' '}
+      Looking to use Fintail in another app?{' '}
       <button
         type="button"
         class="text-link outline-none hover:text-link-hover hover:underline focus-visible:underline"
         onClick={props.onOpen}
       >
-        Macro MCP
+        Fintail MCP
       </button>
     </p>
   );
@@ -71,7 +71,7 @@ function ConnectionsContent(props: { onOpenMacroMcp: () => void }) {
         capability.status === 'connected'
     );
   const description =
-    "Connect the tools your team already uses so Macro's agent can work in them.";
+    "Connect the tools your team already uses so Fintail's agent can work in them.";
 
   return (
     <Show

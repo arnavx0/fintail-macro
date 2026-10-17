@@ -11,7 +11,7 @@ function VariantsDemo() {
         {(variant) => (
           <CopyButton
             variant={variant}
-            onClick={() => navigator.clipboard.writeText('Copied from Macro')}
+            onClick={() => navigator.clipboard.writeText('Copied from Fintail')}
           >
             <CopyIcon />
             Copy {variant}
@@ -33,7 +33,7 @@ function SizesDemo() {
             size={size}
             variant="outline"
             label="Copy example"
-            onClick={() => navigator.clipboard.writeText('Copied from Macro')}
+            onClick={() => navigator.clipboard.writeText('Copied from Fintail')}
           >
             <CopyIcon />
             {size !== 'icon-md' && 'Copy'}

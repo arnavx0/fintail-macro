@@ -26,9 +26,9 @@ import { useChatV3AgentsFlag } from './use-chat-v3-agents-flag';
  * follow their rollout flags. Mentions are re-tagged as bot mentions at send
  * time.
  *
- * Macro gets exactly one entry. Both Macro bots are dropped from the incoming
+ * Fintail gets exactly one entry. Both Fintail bots are dropped from the incoming
  * list first, so a stray participant or channel-bot row cannot put a second
- * "Macro" in the menu; the rollout then decides which id that one entry
+ * "Fintail" in the menu; the rollout then decides which id that one entry
  * carries.
  */
 export function useAgentMentionUsers(

@@ -113,7 +113,7 @@ async function fillDetails(user: ReturnType<typeof userEvent.setup>) {
 }
 
 describe('BookingPicker', () => {
-  it('names a Macro call on the booking page', () => {
+  it('names a Fintail call on the booking page', () => {
     render(() => (
       <BookingPicker
         profile={profile}
@@ -122,7 +122,7 @@ describe('BookingPicker', () => {
         onReceipt={vi.fn()}
       />
     ));
-    expect(screen.getByText('Macro call')).toBeTruthy();
+    expect(screen.getByText('Fintail call')).toBeTruthy();
     expect(screen.queryByText('Google Meet')).toBeNull();
   });
 

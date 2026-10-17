@@ -1,7 +1,7 @@
 /**
  * Outlines of Excel's preset shapes as SVG paths in a box of `width` by
  * `height` pixels, following the formulas of DrawingML's preset shape
- * definitions closely enough to read as the same shape. Presets Macro does
+ * definitions closely enough to read as the same shape. Presets Fintail does
  * not know are drawn as their box.
  */
 
@@ -1022,7 +1022,7 @@ export function presetOutline(
       return { d, open: true };
     }
     default: {
-      // Arrows Macro does not draw point the same way, straight.
+      // Arrows Fintail does not draw point the same way, straight.
       const arrow = /Arrow/.exec(name ?? '');
       if (!arrow) return { d: box };
       const points = arrowRight(w, h, 50_000, 50_000);

@@ -27,7 +27,7 @@ type Attributes = Record<string, string>;
 const on = (value: string | undefined, fallback: boolean) =>
   value === undefined ? fallback : value === '1' || value === 'true';
 
-/** A cell reference's position, including one beyond Macro's grid. */
+/** A cell reference's position, including one beyond Fintail's grid. */
 function position(reference: string) {
   const match = /^\$?([A-Z]{1,3})\$?(\d{1,7})$/i.exec(reference);
   if (!match || match[2].startsWith('0')) return;
@@ -37,7 +37,7 @@ function position(reference: string) {
   return { row: Number(match[2]) - 1, column: column - 1 };
 }
 
-/** Excel's sqref within Macro's grid, or undefined when nothing remains. */
+/** Excel's sqref within Fintail's grid, or undefined when nothing remains. */
 export function importSqref(sqref: string | undefined): string | undefined {
   const ranges = (sqref ?? '')
     .trim()
@@ -80,7 +80,7 @@ function anchor(sqref: string) {
   return { row, column };
 }
 
-/** Excel 2010 rules Macro reads: those defined by formulas. */
+/** Excel 2010 rules Fintail reads: those defined by formulas. */
 const FORMULA_RULES: ReadonlySet<string> = new Set([
   'expression',
   'cellIs',
@@ -708,7 +708,7 @@ export function notesParts(
   });
   if (!entries.length) return;
   const comments = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<comments xmlns="${MAIN}"><authors><author>Macro</author></authors><commentList>${entries
+<comments xmlns="${MAIN}"><authors><author>Fintail</author></authors><commentList>${entries
     .map(
       ({ address, note }) =>
         `<comment ref="${address}" authorId="0"><text><r><t xml:space="preserve">${xml(note)}</t></r></text></comment>`

@@ -1,6 +1,6 @@
 /**
  * Comments kept in memory for the browser fixture: the `FigCommentStore`
- * contract the app fulfils with Macro comments. Its thread and composer are
+ * contract the app fulfils with Fintail comments. Its thread and composer are
  * plain stand-ins for the app's shared message thread and composer (which
  * need the message service), enough to drive the viewer's comment tool.
  * `arrive` adds a comment from someone else, as a live update would, and

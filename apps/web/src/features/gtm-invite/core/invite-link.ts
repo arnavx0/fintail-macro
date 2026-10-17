@@ -1,6 +1,6 @@
 /**
  * Pure helpers for GTM invite links: the personal, time-limited signup links
- * Macro staff hand to prospects. The welcome page (`/invite?token=…`) parks
+ * Fintail staff hand to prospects. The welcome page (`/invite?token=…`) parks
  * the token in localStorage until the visitor has an account; the first
  * authenticated load redeems it and the plan step shows the offer.
  */

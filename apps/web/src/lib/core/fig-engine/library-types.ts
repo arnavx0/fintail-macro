@@ -79,7 +79,7 @@ export interface LibraryCopy {
   id: string;
   name: string;
   kind: AssetKind;
-  /** The library (a Macro document id, or Figma's key). */
+  /** The library (a Fintail document id, or Figma's key). */
   library: string | null;
   /** The version it was copied at. */
   version: string | null;

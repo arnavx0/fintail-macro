@@ -28,10 +28,10 @@ export function LoginCard(props: {
             tabindex="-1"
             class="mt-8 font-[Roboto_Slab_Variable] text-[30px] font-[315] leading-[1.2] tracking-[-.025em] outline-none [text-wrap:balance] sm:text-[36px]"
           >
-            Welcome to Macro
+            Welcome to Fintail
           </h1>
           <p class="mt-4 font-[Inter_Variable] text-sm leading-6 text-ink-muted sm:text-[15px]">
-            The open source workspace
+            The unified workspace for investors
           </p>
         </Show>
         <div

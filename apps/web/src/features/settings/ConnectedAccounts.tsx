@@ -19,7 +19,7 @@ export function ConnectedAccounts() {
   return (
     <SettingsPage
       title="Integrations"
-      description="Connect your accounts so Macro can work across the tools you already use."
+      description="Connect your accounts so Fintail can work across the tools you already use."
     >
       <SettingsSection title="Accounts">
         <div class="flex flex-col gap-3">

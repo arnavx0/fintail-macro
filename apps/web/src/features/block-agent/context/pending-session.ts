@@ -76,7 +76,7 @@ const PENDING_SESSION_TTL_MS = 5 * 60_000;
  * Options captured by the preflight composer before a session exists.
  */
 export type StartPendingSessionOptions = {
-  /** Persisted managed persona to run; omitted for Macro Coder. */
+  /** Persisted managed persona to run; omitted for Fintail Coder. */
   botId?: string;
   /** Unsent composer context; never issued as a prompt. */
   initialInput?: string;

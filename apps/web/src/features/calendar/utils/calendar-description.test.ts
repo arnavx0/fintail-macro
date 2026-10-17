@@ -148,7 +148,7 @@ describe('sanitizeCalendarDescription', () => {
 });
 
 describe('calendarDescriptionToEditorHtml', () => {
-  it('marks Macro links so the editor rehydrates mention pills', () => {
+  it('marks Fintail links so the editor rehydrates mention pills', () => {
     const html = calendarDescriptionToEditorHtml(
       `<p>Review <a href="${window.location.origin}/app/md/${DOCUMENT_ID}">August Cycle Planning</a> and <a href="https://example.com/x">the brief</a></p>`
     );
@@ -163,7 +163,7 @@ describe('calendarDescriptionToEditorHtml', () => {
     expect(external.hasAttribute('data-document-mention')).toBe(false);
   });
 
-  it('only recognizes app links on Macro origins', () => {
+  it('only recognizes app links on Fintail origins', () => {
     expect(
       parseMacroAppLink(`https://evil.example/app/md/${DOCUMENT_ID}`)
     ).toBeUndefined();

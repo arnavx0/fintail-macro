@@ -678,10 +678,10 @@ describe('BuilderView', () => {
     const { shared } = mount();
     shared.setStatus({
       kind: 'error',
-      message: 'This form was edited by a newer version of Macro.',
+      message: 'This form was edited by a newer version of Fintail.',
     });
     expect(screen.getByRole('alert').textContent).toContain(
-      'This form was edited by a newer version of Macro.'
+      'This form was edited by a newer version of Fintail.'
     );
     expect(
       screen.getByRole('group', { name: 'Question 1: Name' })

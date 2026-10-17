@@ -44,7 +44,7 @@ export function validateReviewDraft(
     if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start)
       return 'The event must end after it starts.';
     if (draft.addMacroCall && draft.addGoogleMeet)
-      return 'Choose either a Macro call or Google Meet.';
+      return 'Choose either a Fintail call or Google Meet.';
     if (
       (draft.attendees ?? []).some(
         (guest) => !EmailValidator.validate(guest.email)

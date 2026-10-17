@@ -73,7 +73,7 @@ const KNOWN_ERRORS = new Set([
   '#REF!',
   '#VALUE!',
 ]);
-/** Macro's default column width in Excel character units. */
+/** Fintail's default column width in Excel character units. */
 const DEFAULT_COLUMN_CHARACTERS =
   Math.round(((DEFAULT_COLUMN_WIDTH - 5) / 7) * 256) / 256;
 const BUILTIN_FORMATS: Record<string, number> = {
@@ -338,7 +338,7 @@ function writtenValue(
   if (dateSerial !== undefined) return { kind: 'number', value: dateSerial };
   if (cellPlainText(cell.value) !== cell.value) {
     warnings.add(
-      'Macro mentions are exported as their display text; interactive pills remain in Macro.'
+      'Fintail mentions are exported as their display text; interactive pills remain in Fintail.'
     );
     return { kind: 'string', value: cellPlainText(cell.value) };
   }
@@ -426,7 +426,7 @@ function chartValues(
   };
 }
 
-/** Write Macro sheets as a SpreadsheetML package without an intermediate model. */
+/** Write Fintail sheets as a SpreadsheetML package without an intermediate model. */
 export function writeXlsxWorkbook(
   input: Pick<WorkbookFileData, 'sheets' | 'images'>
 ): WorkbookFileExport {
@@ -684,7 +684,7 @@ export function writeXlsxWorkbook(
       .join('');
     if (sheet.rowCount > Math.max(200, maxRow + 1))
       warnings.add(
-        'Extra blank rows beyond the used range are not preserved when importing this Excel file back into Macro.'
+        'Extra blank rows beyond the used range are not preserved when importing this Excel file back into Fintail.'
       );
     const hiddenColumns = new Set(metadata.hiddenColumns ?? []);
     const widthColumns = new Set([
@@ -951,11 +951,11 @@ export function writeXlsxWorkbook(
   );
   files['docProps/app.xml'] = strToU8(
     `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>Macro</Application></Properties>`
+<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>Fintail</Application></Properties>`
   );
   files['docProps/core.xml'] = strToU8(
     `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:creator>Macro</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${new Date().toISOString().replace(/\.\d+Z$/, 'Z')}</dcterms:created></cp:coreProperties>`
+<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:creator>Fintail</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${new Date().toISOString().replace(/\.\d+Z$/, 'Z')}</dcterms:created></cp:coreProperties>`
   );
   files['xl/workbook.xml'] = strToU8(
     `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>

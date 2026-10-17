@@ -9,7 +9,7 @@ import { DisplayResultsToolCall } from './DisplayResultsToolCall';
 import { MacroToolCall } from './MacroToolCall';
 import type { ToolCallCommon, ToolCallContext } from './shared';
 
-/** Observed inner calls keep their registered Macro result components. */
+/** Observed inner calls keep their registered Fintail result components. */
 export function CodeExecutionToolCall(props: {
   common: ToolCallCommon;
   context: ToolCallContext;

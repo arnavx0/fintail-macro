@@ -12,7 +12,7 @@ export interface LessonDefinition {
   title: string;
   subtitle?: string;
   content: Component<LessonContentProps>;
-  /** Optional component rendered in the right demo panel. When omitted the Macro logo is shown. */
+  /** Optional component rendered in the right demo panel. When omitted the Fintail logo is shown. */
   demo?: Component<LessonContentProps>;
   order?: number;
   /** ID of the lesson to navigate back to, or a function that returns it (or undefined to hide the button). When set, a back button appears in the sidebar. */

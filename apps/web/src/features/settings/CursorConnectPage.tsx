@@ -69,7 +69,7 @@ export function CursorConnectPage(props: { onClose: () => void }) {
     if (disconnect.isPending) return;
     const confirmed = await confirmDialog({
       title: 'Disconnect Cursor?',
-      body: "Remove your Cursor connection from Macro? This removes Macro's copy of the API key but does not revoke it in Cursor.",
+      body: "Remove your Cursor connection from Fintail? This removes Fintail's copy of the API key but does not revoke it in Cursor.",
       confirmLabel: 'Disconnect',
       tone: 'danger',
     });
@@ -86,7 +86,7 @@ export function CursorConnectPage(props: { onClose: () => void }) {
     <SettingsPage
       title={connected() ? 'Cursor' : 'Connect Cursor'}
       showTitleInSheet
-      description="Run agents on your own Cursor subscription. Sessions run in Cursor Cloud and stream into Macro."
+      description="Run agents on your own Cursor subscription. Sessions run in Cursor Cloud and stream into Fintail."
       actions={
         <Button variant="ghost" size="sm" onClick={props.onClose}>
           <ArrowLeftIcon />
@@ -123,8 +123,8 @@ export function CursorConnectPage(props: { onClose: () => void }) {
               </SetupStep>
               <SetupStep number={2} title="Paste your API key">
                 <p>
-                  Macro stores it encrypted and only uses it to start and follow
-                  your Cursor sessions.
+                  Fintail stores it encrypted and only uses it to start and
+                  follow your Cursor sessions.
                 </p>
                 <Show
                   when={loaded()}

@@ -3,10 +3,10 @@
  * `RenderTool`/handler-map analog (`tool/handler.tsx`).
  *
  * The fold has already decided what every call is: a coding-harness tool by
- * kind (terminal, edit, read, ...), a Macro tool by name, a user tool the
+ * kind (terminal, edit, read, ...), a Fintail tool by name, a user tool the
  * user finishes, or a delegated subagent. Generic calls explicitly addressed
- * to Macro's MCP server may also use a registered renderer, after that renderer
- * validates the payload. External servers never select Macro UI by name alone.
+ * to Fintail's MCP server may also use a registered renderer, after that renderer
+ * validates the payload. External servers never select Fintail UI by name alone.
  */
 
 import { hasToolRenderer } from '@core/component/AI/component/tool/handler';
@@ -38,7 +38,7 @@ import { UserToolCall } from './UserToolCall';
 
 export function ToolCallPart(props: {
   part: ToolUsePart;
-  /** Where the part sits, for the chat components Macro tools render with. */
+  /** Where the part sits, for the chat components Fintail tools render with. */
   context: ToolCallContext;
 }): JSX.Element {
   const failed = () => props.part.status === 'failed';

@@ -1,5 +1,5 @@
 /**
- * The vocabulary of Macro Forms: a form is a view of one database table. Its
+ * The vocabulary of Fintail Forms: a form is a view of one database table. Its
  * questions are the table's columns; the form owns only presentation
  * (sections, order, help text, required, widget, gate rules).
  *
@@ -11,7 +11,7 @@
  * it comes last.
  */
 
-/** Who may respond: signed-in Macro users, or anyone with the link. */
+/** Who may respond: signed-in Fintail users, or anyone with the link. */
 export type FormAudience = 'members' | 'public';
 
 export type FormStatus = 'open' | 'closed';
@@ -21,7 +21,7 @@ export type FormAccess = 'view' | 'edit' | 'owner';
 
 export type SectionKind = 'questions' | 'gate' | 'booking';
 
-/** A native Macro booking link: one event type of a scheduling profile. */
+/** A native Fintail booking link: one event type of a scheduling profile. */
 export type FormBookingTarget = { profileId: string; eventTypeId: string };
 
 /**
@@ -47,7 +47,7 @@ export type QuestionWidget =
   | 'dropdown'
   | 'checkboxes';
 
-/** A kind of Macro entity a reference column points at. */
+/** A kind of Fintail entity a reference column points at. */
 export type FormEntityKind =
   | 'USER'
   | 'DOCUMENT'

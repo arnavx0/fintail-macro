@@ -47,7 +47,7 @@ const getHash = async (
 };
 
 /**
- * Represents a file that is stored in the Macro proprietary Document Storage Service.
+ * Represents a file that is stored in the Fintail proprietary Document Storage Service.
  * @todo Scope this out further as we determine the requirements for this service.
  */
 export class IDocumentStorageServiceFile

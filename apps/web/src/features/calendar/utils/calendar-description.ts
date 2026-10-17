@@ -17,7 +17,7 @@ function parseHtml(html: string): Document {
 
 const APP_LINK_PATTERN = /^\/app\/([a-z0-9_-]+)\/([A-Za-z0-9_-]+)\/?$/i;
 
-/** Which Macro entity an `/app/<block>/<id>` link opens, if it is one. */
+/** Which Fintail entity an `/app/<block>/<id>` link opens, if it is one. */
 export function parseMacroAppLink(
   href: string
 ): { blockName: string; documentId: string } | undefined {
@@ -39,7 +39,7 @@ export function parseMacroAppLink(
 }
 
 /**
- * The HTML to seed the description editor with. Links to Macro entities are
+ * The HTML to seed the description editor with. Links to Fintail entities are
  * marked so the editor rehydrates them as mention pills.
  */
 export function calendarDescriptionToEditorHtml(raw: string): string {
@@ -59,7 +59,7 @@ export function calendarDescriptionToEditorHtml(raw: string): string {
 
 /**
  * The description to store for the editor's current content. Document
- * mentions become plain Macro links, every other mention keeps only its
+ * mentions become plain Fintail links, every other mention keeps only its
  * display text, and an empty editor is an empty description.
  */
 export function exportCalendarDescription(editor: LexicalEditor): string {

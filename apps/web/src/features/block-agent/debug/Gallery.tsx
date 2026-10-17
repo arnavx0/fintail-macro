@@ -119,7 +119,7 @@ const FIXTURE_MODELS: ModelOption[] = [
 ];
 
 /**
- * A Macro Agent catalog: the in-memory harness keeps no display names, so
+ * A Fintail Agent catalog: the in-memory harness keeps no display names, so
  * every option arrives named after its own slug.
  */
 const FIXTURE_INMEM_MODELS: ModelOption[] = [
@@ -638,7 +638,7 @@ const FIXTURE_MESSAGE: FoldedMessage = {
         error: null,
       },
     },
-    // A Macro MCP call whose payload does not fit the registered renderer:
+    // A Fintail MCP call whose payload does not fit the registered renderer:
     // keep its summary visible without exposing the raw exchange.
     {
       kind: 'tool_use',
@@ -1053,7 +1053,7 @@ function ElicitationFormDemo() {
   const [values, setValues] = createStore(initialValues(FIXTURE_ELICITATION));
   const errors = () => validate(FIXTURE_ELICITATION, values);
   return (
-    <ToolCard title="Macro Coder is asking" status="running" defaultOpen>
+    <ToolCard title="Fintail Coder is asking" status="running" defaultOpen>
       <ElicitationForm
         schema={FIXTURE_ELICITATION}
         values={values}
@@ -1361,8 +1361,8 @@ export default function AgentUiGallery() {
 
           <Item label="AgentInput with model selector (slug-named catalog)">
             <p class="text-xs text-ink-muted">
-              What Macro Agent reports: names that are only ids, shown as names
-              with their provider's logo.
+              What Fintail Agent reports: names that are only ids, shown as
+              names with their provider's logo.
             </p>
             <ModelSelectorDemo
               options={FIXTURE_INMEM_MODELS}

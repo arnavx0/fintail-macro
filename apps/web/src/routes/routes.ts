@@ -150,7 +150,7 @@ export const inviteRoute = defineRoute({
   externalSearch: '*',
 });
 
-/** Macro staff only: create and track GTM invite links. */
+/** Fintail staff only: create and track GTM invite links. */
 export const internalInviteLinksRoute = defineRoute({
   id: 'internal-invite-links',
   path: 'internal/invite-links',

@@ -71,7 +71,7 @@ export function selectRecentAgentConversations(
     );
 }
 
-/** Names the bot behind a session. Plain chats are always Macro's. */
+/** Names the bot behind a session. Plain chats are always Fintail's. */
 export type ConversationKindResolver = (botId: string | undefined) => AgentKind;
 
 /** Resolve navigation from the conversation itself, independent of composer mode. */

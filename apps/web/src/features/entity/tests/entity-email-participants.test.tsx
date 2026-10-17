@@ -4,7 +4,7 @@ import { EntityEmailParticipants } from '../extractors/entity-email-participants
 import type { EmailEntity } from '../types/entity';
 
 // The viewer's address book knows notifications@cal.com as "Nathan Flurry"
-// (the first person who booked through it) and wolf@macro.com as a Macro user.
+// (the first person who booked through it) and wolf@macro.com as a Fintail user.
 const addressBook: Record<string, string> = {
   'macro|notifications@cal.com': 'Nathan Flurry',
   'macro|wolf@macro.com': 'Wolf Ryan',
@@ -74,7 +74,7 @@ describe('EntityEmailParticipants', () => {
     expect(container.textContent).toBe('Cal.com, Nathan');
   });
 
-  it('falls back to the Macro display name when the message carries no From name', () => {
+  it('falls back to the Fintail display name when the message carries no From name', () => {
     const { container } = render(() => (
       <EntityEmailParticipants
         entity={emailEntity([{ email: 'wolf@macro.com' }])}

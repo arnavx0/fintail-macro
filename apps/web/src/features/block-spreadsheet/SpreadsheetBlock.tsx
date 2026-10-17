@@ -176,7 +176,7 @@ function SpreadsheetBlockContent(props: { share?: string }) {
                 <SplitHeaderRight>
                   <div class="order-[999] flex items-center">
                     <ChatWithAgentButton
-                      label="Ask Macro"
+                      label="Ask Fintail"
                       disabled={!store.ready()}
                       entity={{
                         type: 'document',

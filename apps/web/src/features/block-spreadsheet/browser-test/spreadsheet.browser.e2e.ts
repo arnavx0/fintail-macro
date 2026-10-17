@@ -505,7 +505,7 @@ test('explains that legacy .xls workbooks convert when uploaded', async ({
   });
   await expect(
     page.getByText(
-      'Legacy .xls workbooks are converted when uploaded. Upload the file, then choose Edit in Macro.'
+      'Legacy .xls workbooks are converted when uploaded. Upload the file, then choose Edit in Fintail.'
     )
   ).toBeVisible();
   await expect(

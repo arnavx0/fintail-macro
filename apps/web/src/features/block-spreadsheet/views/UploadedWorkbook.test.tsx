@@ -140,7 +140,7 @@ it('loads without suspending its host, exposes import notes, and preserves all d
         acknowledge = resolve;
       })
   );
-  fireEvent.click(screen.getByRole('button', { name: 'Edit in Macro' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Edit in Fintail' }));
   await waitFor(() => expect(mocks.save).toHaveBeenCalledOnce());
   expect(mocks.replace).not.toHaveBeenCalled();
   const doc = new LoroDoc();
@@ -168,11 +168,13 @@ it('loads without suspending its host, exposes import notes, and preserves all d
 it('keeps the source preview and retries the same copy after a failed durable save', async () => {
   mocks.save.mockRejectedValueOnce(new Error('Disconnected'));
   mount();
-  fireEvent.click(await screen.findByRole('button', { name: 'Edit in Macro' }));
+  fireEvent.click(
+    await screen.findByRole('button', { name: 'Edit in Fintail' })
+  );
   await waitFor(() => expect(mocks.failure).toHaveBeenCalledOnce());
   expect(screen.getByText('=SUM(B1:C1)')).toBeTruthy();
   expect(mocks.replace).not.toHaveBeenCalled();
-  fireEvent.click(screen.getByRole('button', { name: 'Edit in Macro' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Edit in Fintail' }));
   await waitFor(() => expect(mocks.replace).toHaveBeenCalledOnce());
   expect(mocks.create).toHaveBeenCalledOnce();
 });
@@ -180,7 +182,7 @@ it('shows import failures without offering conversion, and allows retry', async 
   mocks.load.mockRejectedValueOnce(new Error('Unsupported workbook'));
   mount();
   await screen.findByText('Unsupported workbook');
-  expect(screen.queryByRole('button', { name: 'Edit in Macro' })).toBeNull();
+  expect(screen.queryByRole('button', { name: 'Edit in Fintail' })).toBeNull();
   expect(mocks.create).not.toHaveBeenCalled();
   fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
   await screen.findByText('=SUM(B1:C1)');

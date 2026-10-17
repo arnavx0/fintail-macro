@@ -500,7 +500,7 @@ export function Account() {
       <SettingsCard>
         <SettingsRow
           label="Log out"
-          description="Sign out of Macro on this device."
+          description="Sign out of Fintail on this device."
         >
           <Button variant="outline" depth={3} onClick={() => logout()}>
             <SignOutIcon class="size-4" />
@@ -600,7 +600,7 @@ export function Account() {
                   onInput={(event) =>
                     setDeleteFeedback(event.currentTarget.value)
                   }
-                  placeholder="Your feedback helps us improve Macro"
+                  placeholder="Your feedback helps us improve Fintail"
                 />
                 <span class="text-ink-extra-muted text-xs">
                   Please don't include sensitive information.

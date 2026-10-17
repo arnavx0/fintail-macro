@@ -653,11 +653,13 @@ test('types text and keeps it after saving', async ({ page }) => {
   if (!box) throw new Error('The canvas is not visible.');
   await page.mouse.click(box.x + 120, box.y + 120);
   await expect(page.getByTestId('fig-text-editor')).toBeFocused();
-  await page.keyboard.type('Hello Macro');
+  await page.keyboard.type('Hello Fintail');
   await page.keyboard.press('Escape');
   await expect(page.getByTestId('fig-text-editor')).toBeHidden();
   await expect(page.getByTestId('fig-layer-row')).toHaveText(['Text 1']);
-  await expect(page.getByTestId('fig-text-content')).toHaveText('Hello Macro');
+  await expect(page.getByTestId('fig-text-content')).toHaveText(
+    'Hello Fintail'
+  );
   await expect
     .poll(() => savedCount(page), { timeout: 10_000 })
     .toBeGreaterThan(0);

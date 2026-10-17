@@ -43,7 +43,7 @@ function macroThread(id: string, createdAt: string): DiscussionThread {
     id: `${id}-c1`,
     threadId: id,
     authorId: 'user-1',
-    text: 'Macro comment',
+    text: 'Fintail comment',
     createdAt,
     updatedAt: createdAt,
     deletedAt: null,

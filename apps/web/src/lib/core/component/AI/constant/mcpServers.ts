@@ -64,7 +64,7 @@ export type QuickConnectServer = (typeof QUICK_CONNECT_SERVERS)[number];
  * presets absent from {@link QUICK_CONNECT_SERVERS} are dropped automatically.
  */
 const FEATURED_SERVER_TAGLINES: [name: string, tagline: string][] = [
-  ['Linear', 'Create and update issues without leaving Macro.'],
+  ['Linear', 'Create and update issues without leaving Fintail.'],
   ['Slack', 'Search conversations and post updates to channels.'],
   ['Notion', 'Search your pages, databases, and wikis.'],
   ['PostHog', 'Query product analytics and user insights.'],

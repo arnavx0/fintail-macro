@@ -499,7 +499,7 @@ export function CreateChannelModal() {
                       Working with people outside your team?
                     </strong>{' '}
                     Type their email above and press Enter. If they don’t have a
-                    Macro account, clicking Add emails them an invite.
+                    Fintail account, clicking Add emails them an invite.
                   </>
                 }
               >

@@ -27,7 +27,7 @@ vi.mock('./queries/public', () => ({
   usePublicProfileQuery: vi.fn(() => ({
     isSuccess: true,
     isError: false,
-    data: { id: 'team', name: 'Macro', eventTypes: [] },
+    data: { id: 'team', name: 'Fintail', eventTypes: [] },
   })),
 }));
 vi.mock('./views/booking-receipt-view', () => ({

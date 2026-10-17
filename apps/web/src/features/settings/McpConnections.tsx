@@ -15,7 +15,7 @@ export function McpConnections() {
       fallback={
         <SettingsPage
           title="Agent connections"
-          description="Connect the tools your team already uses so Macro's agent can work in them."
+          description="Connect the tools your team already uses so Fintail's agent can work in them."
         >
           <Suspense>
             <IntegrationsSection />

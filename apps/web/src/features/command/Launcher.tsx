@@ -30,6 +30,7 @@ import {
   enableForms,
   enableProjects,
   enablePsdEditor,
+  ENABLE_FINTAIL,
   enableSnippets,
   isFeatureEnabled,
 } from '@core/constant/featureFlags';
@@ -595,7 +596,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
   {
     label: 'Routine',
     icon: getIconConfig('routine').icon,
-    description: 'Run a model or agent on a schedule or Macro activity',
+    description: 'Run a model or agent on a schedule or Fintail activity',
     launcherHint: 'Schedules and activity triggers',
     keywords: ['new', 'make', 'add', 'schedule', 'agent', 'event', 'trigger'],
     blockName: 'routine',
@@ -646,7 +647,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
     launcherHint: 'Questions answered into a database',
     keywords: ['new', 'make', 'add', 'form', 'survey', 'questionnaire', 'poll'],
     blockName: 'form',
-    enabled: () => isFeatureEnabled(enableForms),
+    enabled: () => !ENABLE_FINTAIL && isFeatureEnabled(enableForms),
     hotkeyToken: TOKENS.create.form,
     altHotkeyToken: TOKENS.create.formNewSplit,
     hotkey: 'q',
@@ -703,7 +704,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
     description: 'Create project',
     keywords: ['new', 'make', 'add', 'project'],
     blockName: 'initiative',
-    enabled: () => isFeatureEnabled(enableProjects),
+    enabled: () => !ENABLE_FINTAIL && isFeatureEnabled(enableProjects),
     hotkeyToken: TOKENS.create.initiative,
     hotkey: 'p',
     keyDownHandler: () => {
@@ -713,6 +714,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
   },
   {
     label: 'Snippet',
+    enabled: () => !ENABLE_FINTAIL,
     icon: getIconConfig('snippet').icon,
     description: 'Create snippet',
     launcherHint: 'Reusable document template',
@@ -728,6 +730,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
   },
   {
     label: 'Message',
+    enabled: () => !ENABLE_FINTAIL,
     icon: ChatIcon,
     description: 'Create message',
     launcherHint: 'Quick send message',
@@ -743,6 +746,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
   },
   {
     label: 'Channel',
+    enabled: () => !ENABLE_FINTAIL,
     icon: getIconConfig('channel').icon,
     description: 'Create channel',
     launcherHint: 'Team-wide or group chat',
@@ -758,6 +762,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
   },
   {
     label: 'Canvas',
+    enabled: () => !ENABLE_FINTAIL,
     icon: getIconConfig('canvas').icon,
     description: 'Create canvas',
     keywords: ['new', 'make', 'add', 'diagram'],
@@ -774,7 +779,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
   },
   {
     label: 'Photoshop file',
-    enabled: () => isFeatureEnabled(enablePsdEditor),
+    enabled: () => !ENABLE_FINTAIL && isFeatureEnabled(enablePsdEditor),
     icon: getIconConfig('psd').icon,
     description: 'New Photoshop file',
     launcherHint: 'Layered image editing, saved as .psd',
@@ -790,7 +795,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
   },
   {
     label: 'Design',
-    enabled: () => isFeatureEnabled(enableFigViewer),
+    enabled: () => !ENABLE_FINTAIL && isFeatureEnabled(enableFigViewer),
     icon: getIconConfig('fig').icon,
     description: 'Create design',
     launcherHint: 'Figma-compatible canvas for UI and graphics',
@@ -806,7 +811,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
   },
   {
     label: 'Illustrator file',
-    enabled: () => isFeatureEnabled(enableAiEditor),
+    enabled: () => !ENABLE_FINTAIL && isFeatureEnabled(enableAiEditor),
     icon: getIconConfig('ai').icon,
     description: 'Create Illustrator file',
     launcherHint: 'Vector artwork on artboards, saved as .ai',
@@ -862,6 +867,7 @@ export const CREATABLE_BLOCKS: CreatableBlock[] = [
   },
   {
     label: 'Code',
+    enabled: () => !ENABLE_FINTAIL,
     icon: getIconConfig('code').icon,
     description: 'Create code file',
     keywords: ['new', 'make', 'add'],
@@ -885,7 +891,7 @@ export function useCreateCommands(): CreatableBlock[] {
     createCallCommand({
       navigate,
       close: () => setCreateMenuOpen(false, false),
-      enabled: () => quickCalls().enabled,
+      enabled: () => !ENABLE_FINTAIL && quickCalls().enabled,
     }),
   ];
 }
@@ -922,8 +928,10 @@ export function useCreateMenuBlocks(
     formsFlag();
     return (source() ?? commands).filter((block) => {
       if (block.blockName === 'spreadsheet') return spreadsheets();
-      if (block.blockName === 'snippet') return snippetsFlag().enabled;
-      if (block.blockName === 'initiative') return projectsFlag().enabled;
+      if (block.blockName === 'snippet')
+        return !ENABLE_FINTAIL && snippetsFlag().enabled;
+      if (block.blockName === 'initiative')
+        return !ENABLE_FINTAIL && projectsFlag().enabled;
       return block.enabled?.() ?? true;
     });
   });

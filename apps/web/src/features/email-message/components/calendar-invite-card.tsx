@@ -132,7 +132,7 @@ export function CalendarInviteCard(props: {
     props.actions?.respond;
   const fallbackStatus = () =>
     match(props.actions?.resolution?.kind)
-      .with('disconnected', () => 'Connect a calendar to respond from Macro.')
+      .with('disconnected', () => 'Connect a calendar to respond from Fintail.')
       .with(
         'ambiguous',
         () =>

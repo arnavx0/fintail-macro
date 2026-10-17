@@ -154,7 +154,7 @@ function sameResult(
 }
 
 export type CalculationFidelity = {
-  /** Formula cells with a cached Excel result that Macro recalculated. */
+  /** Formula cells with a cached Excel result that Fintail recalculated. */
   compared: number;
   matched: number;
   /** Formulas using volatile or environment-dependent functions. */
@@ -164,7 +164,7 @@ export type CalculationFidelity = {
   examples: string[];
 };
 
-/** Compare Macro's recalculation with the results Excel saved in the file. */
+/** Compare Fintail's recalculation with the results Excel saved in the file. */
 export function calculationFidelity(
   bytes: Uint8Array,
   workbook: WorkbookFileData,
@@ -199,7 +199,7 @@ export function calculationFidelity(
           (fidelity.mismatchedFunctions[name] ?? 0) + 1;
       if (fidelity.examples.length < exampleLimit)
         fidelity.examples.push(
-          `${sheet.name}!${address} ${source.slice(0, 80)} → Excel ${JSON.stringify(expected.value)}, Macro ${JSON.stringify(results[address]?.value ?? results[address]?.display ?? null)}`
+          `${sheet.name}!${address} ${source.slice(0, 80)} → Excel ${JSON.stringify(expected.value)}, Fintail ${JSON.stringify(results[address]?.value ?? results[address]?.display ?? null)}`
         );
     }
   });

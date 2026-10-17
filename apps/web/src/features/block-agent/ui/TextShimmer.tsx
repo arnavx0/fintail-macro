@@ -3,7 +3,7 @@
  * back to plain text when it settles.
  *
  * Ported from opencode's `packages/ui/src/components/text-shimmer.tsx`
- * (github.com/sst/opencode, MIT © 2025 opencode). Rewritten against Macro's
+ * (github.com/sst/opencode, MIT © 2025 opencode). Rewritten against Fintail's
  * tokens: the sweep reuses the global `magic-chip-shimmer` keyframes from
  * `index.css` (which already handles `prefers-reduced-motion`) instead of
  * opencode's CSS variable system.

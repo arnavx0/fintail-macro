@@ -144,7 +144,7 @@ function unescapeText(text: string) {
     : text;
 }
 
-/** Sheet metadata Macro stores, at most; parts that keep export fidelity
+/** Sheet metadata Fintail stores, at most; parts that keep export fidelity
  * give way first. */
 const MAX_METADATA_LENGTH = 900_000;
 
@@ -327,7 +327,7 @@ function rangeBounds(reference: string) {
   };
 }
 
-/** Any valid Excel address, including rows Macro cannot hold. */
+/** Any valid Excel address, including rows Fintail cannot hold. */
 function parseExcelAddress(address: string) {
   const match = /^([A-Z]{1,3})([1-9]\d{0,6})$/i.exec(address);
   if (!match) return;
@@ -378,7 +378,7 @@ type PendingShared = {
 };
 
 /**
- * A cell formula as Macro stores it, or undefined when a table reference
+ * A cell formula as Fintail stores it, or undefined when a table reference
  * cannot be converted. `intersect` applies the implicit intersection Excel
  * uses for formulas saved without dynamic-array or array evaluation.
  */
@@ -484,7 +484,7 @@ function readWorksheet(
     if (row >= SPREADSHEET_MAX_ROWS) {
       if (placed.value)
         throw new Error(
-          `“${entry.name}” has data beyond row ${SPREADSHEET_MAX_ROWS.toLocaleString('en-US')}, the most Macro supports. No sheets were imported.`
+          `“${entry.name}” has data beyond row ${SPREADSHEET_MAX_ROWS.toLocaleString('en-US')}, the most Fintail supports. No sheets were imported.`
         );
       droppedRows = true;
       return;
@@ -497,7 +497,7 @@ function readWorksheet(
     // Excel allows 32,767 characters; keep the workbook and shorten long notes.
     if (long)
       warnings.add(
-        'Text longer than 10,000 characters was shortened to fit Macro cells.'
+        'Text longer than 10,000 characters was shortened to fit Fintail cells.'
       );
     cells[formatCellAddress(row, column)] = long
       ? { ...placed, value: placed.value.slice(0, SPREADSHEET_MAX_CELL_LENGTH) }
@@ -638,7 +638,7 @@ function readWorksheet(
                 skipped.add(formatCellAddress(row, column));
           if (dynamic)
             warnings.add(
-              'Dynamic array formulas are recalculated by Macro; cached spill values are discarded and their cell formatting is retained.'
+              'Dynamic array formulas are recalculated by Fintail; cached spill values are discarded and their cell formatting is retained.'
             );
           else {
             arrayFormulas[address] =
@@ -878,7 +878,7 @@ function readWorksheet(
           return;
         case 'sheetProtection':
           warnings.add(
-            'Excel sheet protection is not imported; Macro sharing controls determine edit access.'
+            'Excel sheet protection is not imported; Fintail sharing controls determine edit access.'
           );
           return;
       }
@@ -988,7 +988,7 @@ function readWorksheet(
           : defaultWidth
       )
     );
-    // Excel's default is 64px; Macro's own default needs no stored width.
+    // Excel's default is 64px; Fintail's own default needs no stored width.
     if (pixels !== DEFAULT_COLUMN_WIDTH) columnWidths[column] = pixels;
     if (definition?.hidden) hiddenColumns.push(column);
   }
@@ -1046,7 +1046,7 @@ function readWorksheet(
   if (hiddenRows.length && hiddenRows.length < rowCount)
     metadata.hiddenRows = hiddenRows.filter((row) => row < rowCount);
   if (hiddenColumns.length) metadata.hiddenColumns = hiddenColumns;
-  // Rows at the sheet's default height already look the same in Macro.
+  // Rows at the sheet's default height already look the same in Fintail.
   const heights = Object.entries(rowHeights).filter(
     ([, height]) => Math.abs(height - defaultHeight) > 0.01
   );
@@ -1055,21 +1055,21 @@ function readWorksheet(
   if (entry.hidden) {
     metadata.hidden = true;
     warnings.add(
-      'Hidden sheets are shown in Macro; their visibility is retained in Excel downloads.'
+      'Hidden sheets are shown in Fintail; their visibility is retained in Excel downloads.'
     );
   }
   if (styles.defaultFont) metadata.defaultFont = styles.defaultFont;
   if (merges.length)
     warnings.add(
-      'Merged ranges are shown as individual cells in Macro and restored on Excel export when their covered cells remain empty.'
+      'Merged ranges are shown as individual cells in Fintail and restored on Excel export when their covered cells remain empty.'
     );
   if (metadata.freeze)
     warnings.add(
-      'Frozen panes are retained for Excel export; Macro uses its own scrolling view.'
+      'Frozen panes are retained for Excel export; Fintail uses its own scrolling view.'
     );
   if (metadata.autoFilter)
     warnings.add(
-      'Excel filters are retained for export; Macro displays all rows.'
+      'Excel filters are retained for export; Fintail displays all rows.'
     );
   // Tall rows show Excel's bottom alignment; ordinary rows look the same either
   // way. Measure against Excel's standard 15pt row so a round trip agrees.
@@ -1154,9 +1154,9 @@ function readTables(
   return tables;
 }
 
-/** Decode a validated XLSX package into Macro sheets, without ExcelJS. */
+/** Decode a validated XLSX package into Fintail sheets, without ExcelJS. */
 /**
- * GETPIVOTDATA reads the cells of the pivot tables Macro keeps. A lookup of
+ * GETPIVOTDATA reads the cells of the pivot tables Fintail keeps. A lookup of
  * any other table, or of one it cannot tell, keeps its last value.
  */
 function keepPivotLookups(
@@ -1193,7 +1193,7 @@ function keepPivotLookups(
       });
     if (kept) continue;
     context.warnings.add(
-      'Pivot table lookups (GETPIVOTDATA) of pivot tables Macro could not keep are imported as their last calculated values.'
+      'Pivot table lookups (GETPIVOTDATA) of pivot tables Fintail could not keep are imported as their last calculated values.'
     );
     const { value: _formula, ...style } = cell;
     if (lookup.literal || Object.keys(style).length)
@@ -1331,7 +1331,7 @@ export function readXlsxWorkbook(
   );
   if (total > XLSX_MAX_CELLS)
     throw new Error(
-      `This workbook has ${total.toLocaleString('en-US')} filled cells; Macro imports up to ${XLSX_MAX_CELLS.toLocaleString('en-US')}. No sheets were imported.`
+      `This workbook has ${total.toLocaleString('en-US')} filled cells; Fintail imports up to ${XLSX_MAX_CELLS.toLocaleString('en-US')}. No sheets were imported.`
     );
   const sheetIndex = new Map(
     sheets.map((sheet, index) => [index, worksheets.indexOf(sheet)])
@@ -1367,7 +1367,7 @@ export function readXlsxWorkbook(
   keepPivotLookups(result, context);
   if (context.unsupportedFunctions.size)
     warnings.add(
-      `Macro cannot calculate these Excel functions yet, so their formulas show errors: ${[...context.unsupportedFunctions].sort().join(', ')}.`
+      `Fintail cannot calculate these Excel functions yet, so their formulas show errors: ${[...context.unsupportedFunctions].sort().join(', ')}.`
     );
   for (const sheet of result)
     if (sheet.metadata && !Object.keys(sheet.metadata).length)

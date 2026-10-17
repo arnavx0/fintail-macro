@@ -15,7 +15,7 @@ import { parseRecurringSchedule } from '../core/schedule-language';
 
 const timezones = Intl.supportedValuesOf('timeZone');
 
-/** Macro's natural date search and calendar, rendered inline in the trigger panel. */
+/** Fintail's natural date search and calendar, rendered inline in the trigger panel. */
 function RunOnceSettings(props: {
   trigger: ScheduleTriggerDraft;
   onChange: (patch: Partial<ScheduleTriggerDraft>) => void;

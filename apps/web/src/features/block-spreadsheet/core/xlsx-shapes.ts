@@ -19,7 +19,7 @@ import {
   schemeColor,
 } from './drawingml-colors';
 
-/** Excel shapes, text boxes, lines, groups and SmartArt, as Macro draws them. */
+/** Excel shapes, text boxes, lines, groups and SmartArt, as Fintail draws them. */
 
 const XDR =
   'http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing';

@@ -13,7 +13,7 @@ export const emailTour = defineViewTour({
   id: 'mail',
   title: 'Email',
   connector: { kind: 'email', label: 'Google' },
-  video: { youtubeId: 'tnsxkywzTvY', title: 'Macro Mail', duration: '1:24' },
+  video: { youtubeId: 'tnsxkywzTvY', title: 'Fintail Mail', duration: '1:24' },
   steps: [
     {
       target: EMAIL_TOUR.signalNoise,

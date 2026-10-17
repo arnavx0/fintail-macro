@@ -191,7 +191,7 @@ async function selectTarget(
       const row = screen.getByRole('menuitem', { name: /^Researcher/ });
       row.focus();
       fireEvent.keyDown(row, { key: 'ArrowRight' });
-      // Do not select the same model from the root Macro catalog.
+      // Do not select the same model from the root Fintail catalog.
       menu = await screen.findByRole('menu', { name: /^Researcher/ });
       await within(menu).findByRole('textbox', { name: 'Search models' });
     }
@@ -409,7 +409,7 @@ describe('routine composer execution selection', () => {
     expect(screen.queryByRole('tab', { name: 'Run History' })).toBeNull();
     expect(host.create).not.toHaveBeenCalled();
   });
-  it('creates recurring schedules and Macro events together', async () => {
+  it('creates recurring schedules and Fintail events together', async () => {
     host.create.mockImplementation(async (body) => created(body));
     await mount();
     inputPrompt();
@@ -438,7 +438,7 @@ describe('routine composer execution selection', () => {
       },
     });
   });
-  it('offers the focused Macro event catalog and saves new task and email triggers', async () => {
+  it('offers the focused Fintail event catalog and saves new task and email triggers', async () => {
     host.create.mockImplementation(async (body) => created(body));
     await mount();
     inputPrompt();

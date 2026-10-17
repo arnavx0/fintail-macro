@@ -100,7 +100,7 @@ function Fixture() {
       >
         <SettingsSection
           title="Accounts"
-          description="Connect Gmail accounts and manage their sync with Macro."
+          description="Connect Gmail accounts and manage their sync with Fintail."
         >
           <SettingsCard>
             <For each={['alex@example.com', 'alex@gmail.com']}>

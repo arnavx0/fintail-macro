@@ -70,7 +70,7 @@ test('pivot tables over another workbook download with the data Excel saved', as
   );
   await expect(
     page.getByText(
-      'Pivot tables over other workbooks or data connections show their last values in Macro; the download keeps them with the data Excel saved, to refresh in Excel.'
+      'Pivot tables over other workbooks or data connections show their last values in Fintail; the download keeps them with the data Excel saved, to refresh in Excel.'
     )
   ).toBeVisible();
   // It has a Sheet1 of its own.

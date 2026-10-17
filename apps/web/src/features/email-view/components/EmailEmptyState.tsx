@@ -82,7 +82,7 @@ export function EmailEmptyState() {
         <EmptyStatePanel
           graphic={EmptyStateEmailGraphic}
           title="Connect your email"
-          description="Bring your inbox into Macro to triage signal from noise, reply faster, and let agents work alongside your mail."
+          description="Bring your inbox into Fintail to triage signal from noise, reply faster, and let agents work alongside your mail."
           primaryAction={{
             label: 'Connect email',
             onClick: () => void startAddInbox(),

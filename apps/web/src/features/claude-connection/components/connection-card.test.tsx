@@ -28,7 +28,7 @@ it('shows Claude before connection without adding setup details', () => {
   const value = props();
   render(() => <ConnectionCard {...value} />);
   expect(screen.getByText('Claude Cloud')).toBeTruthy();
-  expect(screen.queryByText(/Macro never asks/)).toBeNull();
+  expect(screen.queryByText(/Fintail never asks/)).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Connect Claude' }));
   expect(value.onBegin).toHaveBeenCalledOnce();
 });

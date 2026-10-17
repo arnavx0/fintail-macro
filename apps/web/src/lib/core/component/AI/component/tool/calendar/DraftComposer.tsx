@@ -123,7 +123,7 @@ function CalendarDraftComposerContent(props: CalendarDraftComposerProps) {
     requestedInbox()?.needs_reauth ||
     requestedInbox()?.needs_calendar_permission;
   const contacts = useContacts();
-  // The tool mints the Macro call when it executes, so the composer offers the
+  // The tool mints the Fintail call when it executes, so the composer offers the
   // choice under the same flag as the calendar's own event composer.
   const quickCalls = useQuickCallsFlag();
   const macroCallsEnabled = () => quickCalls().enabled && !quickCalls().loading;

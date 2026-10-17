@@ -174,7 +174,7 @@ function TauriProvider(props: { children: JSX.Element }) {
         <Surface depth={2}>
           <div class="flex flex-col gap-2 px-4 py-5">
             <Dialog.Title class="text-lg font-semibold text-ink">
-              Restarting Macro
+              Restarting Fintail
             </Dialog.Title>
             <Dialog.Description class="text-sm text-ink-extra-muted">
               Saving your changes before installing the app update…

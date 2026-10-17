@@ -3,7 +3,7 @@ import type { ThemeV3 } from '../types/themeTypes';
 /** Near-black neutral gray surfaces with a restrained depth ramp and muted blue accent. */
 export const macroDarkTheme = {
   id: 'Macro Dark',
-  name: 'Macro Dark',
+  name: 'Fintail Dark',
   version: 3,
   mode: 'dark',
   colorTokens: {

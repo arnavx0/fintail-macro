@@ -40,7 +40,7 @@ export function FormLoadFailureView(props: {
         <Match when={props.failure.kind === 'sign-in'}>
           <p class="font-medium text-ink">Sign in to respond</p>
           <p class="max-w-md text-sm text-ink-muted">
-            This form takes responses from Macro workspace members.
+            This form takes responses from Fintail workspace members.
           </p>
         </Match>
         <Match when={props.failure.kind === 'forbidden'}>

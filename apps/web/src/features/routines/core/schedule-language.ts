@@ -6,7 +6,7 @@ type ScheduleParts = Pick<
   'frequency' | 'time' | 'daysOfWeek'
 >;
 
-/** Deliberately bounded recurring phrases; one-off dates use Macro's date search. */
+/** Deliberately bounded recurring phrases; one-off dates use Fintail's date search. */
 export function parseRecurringSchedule(
   input: string
 ): ScheduleParts | undefined {

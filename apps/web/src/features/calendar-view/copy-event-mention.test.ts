@@ -45,7 +45,7 @@ describe('copyCalendarEventMentionTarget', () => {
   it('writes a mention span an editor can import', async () => {
     await copyCalendarEventMentionTarget({
       eventId: 'event-1',
-      title: 'Smart Macro Discussion',
+      title: 'Smart Fintail Discussion',
     });
 
     const html = written()?.['text/html'];

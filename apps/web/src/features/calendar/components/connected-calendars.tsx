@@ -39,7 +39,7 @@ export function ConnectedCalendars(props: {
   return (
     <SettingsSection
       title="Connected calendars"
-      description="Connect your accounts and choose which calendars appear in Macro."
+      description="Connect your accounts and choose which calendars appear in Fintail."
     >
       <SettingsCard>
         <SettingsRow
@@ -142,7 +142,7 @@ export function ConnectedCalendars(props: {
                 <Show when={!account().calendars.length}>
                   <p class="mt-2 pl-7 text-xs text-ink-muted">
                     {account().needsPermission
-                      ? 'Connect to give Macro access to this calendar.'
+                      ? 'Connect to give Fintail access to this calendar.'
                       : 'Your calendars will appear here after syncing.'}
                   </p>
                 </Show>

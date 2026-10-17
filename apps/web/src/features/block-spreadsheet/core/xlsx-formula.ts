@@ -509,7 +509,7 @@ function rangeOperands(pieces: Piece[], rangeNames: ReadonlySet<string>) {
 }
 
 /** Add Excel's `@` where a formula saved without dynamic-array evaluation
- * intersects a range, so Macro calculates the value Excel showed. */
+ * intersects a range, so Fintail calculates the value Excel showed. */
 export function markImplicitIntersections(
   formula: string,
   rangeNames: ReadonlySet<string>

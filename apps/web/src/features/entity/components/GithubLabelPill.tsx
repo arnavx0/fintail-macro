@@ -13,7 +13,7 @@ export function githubLabelColor(color: string | null | undefined): string {
 }
 
 /**
- * A GitHub label drawn like Macro's tag pills: a neutral outline pill with
+ * A GitHub label drawn like Fintail's tag pills: a neutral outline pill with
  * the label's color as a dot, so labels read the same as email and task tags.
  */
 export function GithubLabelPill(props: {

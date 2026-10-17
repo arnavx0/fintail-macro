@@ -4,7 +4,7 @@ import { createUniqueId, For, Show } from 'solid-js';
 
 type AppearanceMode = 'system' | 'light' | 'dark';
 
-/** A small, token-accurate preview of Macro, rather than a generic color chip. */
+/** A small, token-accurate preview of Fintail, rather than a generic color chip. */
 function ThemePreview(props: { theme: ThemeV3 }) {
   return (
     <div

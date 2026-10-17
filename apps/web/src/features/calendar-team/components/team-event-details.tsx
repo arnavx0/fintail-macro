@@ -53,7 +53,7 @@ export function TeamEventDetails(props: {
     >
       <h2 class="select-text text-lg font-semibold">{props.event.title}</h2>
       <p class="select-text text-xs text-ink-muted">{schedule()}</p>
-      <p class="text-xs text-ink-muted">Shared in Macro · Read only</p>
+      <p class="text-xs text-ink-muted">Shared in Fintail · Read only</p>
       <Show
         when={
           props.event.teamProjection?.contributesToAvailability !== undefined

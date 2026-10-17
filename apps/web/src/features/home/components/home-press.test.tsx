@@ -247,7 +247,7 @@ describe('Home document comment row', () => {
                   content: {
                     commentId: 'comment-1',
                     documentName: 'Plan',
-                    senderDisplayName: 'Macro',
+                    senderDisplayName: 'Fintail',
                   },
                 },
               },
@@ -258,7 +258,7 @@ describe('Home document comment row', () => {
       />
     )).container.querySelector<HTMLElement>('[data-home-item]')!;
 
-    expect(row.textContent).toContain('Macro replied on Recent chat');
+    expect(row.textContent).toContain('Fintail replied on Recent chat');
     expect(row.textContent).not.toContain('Someone');
   });
 });

@@ -36,7 +36,7 @@ export function SlackImportSidebar() {
                     />
                     <div class="min-w-0 flex-1">
                       <h2 class="text-xs font-medium text-ink">
-                        Bring Slack to Macro
+                        Bring Slack to Fintail
                       </h2>
                       <p class="mt-1 text-xs leading-relaxed text-ink-muted">
                         Bring over channels with or without message history.

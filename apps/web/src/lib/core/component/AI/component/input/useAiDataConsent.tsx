@@ -52,7 +52,7 @@ export function useAiDataConsentGate() {
             <div class="p-3">
               <p class="text-ink-muted text-sm">
                 AI Chat sends your messages to Anthropic for processing and may
-                access your files in Macro to provide relevant responses. Your
+                access your files in Fintail to provide relevant responses. Your
                 data is not retained or used for training.
               </p>
               <div class="flex justify-end mt-4 gap-2">

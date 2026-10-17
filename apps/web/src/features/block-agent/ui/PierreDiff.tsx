@@ -13,7 +13,7 @@
  * - Highlighting runs in a shared, lazy worker pool. The line limit also
  *   bounds diff calculation and DOM work, which still run on the main thread.
  * - Theme: pierre's built-in `pierre-light`/`pierre-dark` pair (its
- *   default). Macro flags dark mode via `html[data-theme-light="false"]`
+ *   default). Fintail flags dark mode via `html[data-theme-light="false"]`
  *   (see features/theme/utils/themeUtils.ts), so we watch that
  *   attribute and drive `setThemeType('light' | 'dark')` explicitly
  *   instead of pierre's OS-preference "system" mode.
@@ -130,7 +130,7 @@ function PierreFileView(props: {
     }
   });
 
-  // Theme: flip pierre's light/dark styles alongside Macro's theme.
+  // Theme: flip pierre's light/dark styles alongside Fintail's theme.
   createEffect(() => {
     const themeType = props.themeType();
     instance?.setThemeType(themeType);

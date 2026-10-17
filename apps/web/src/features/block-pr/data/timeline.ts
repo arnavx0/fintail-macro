@@ -42,7 +42,7 @@ function threadRootId(
 
 /**
  * Merge GitHub comments (issue comments, review comments, and reviews, as the
- * enrich endpoint returns them) with Macro discussion threads into a single
+ * enrich endpoint returns them) with Fintail discussion threads into a single
  * timestamp-ordered timeline. Review comments that reply to another comment
  * are grouped under their thread root, which carries the group's timestamp.
  * Empty bodies (e.g. approve-only reviews) are dropped; when a thread root's

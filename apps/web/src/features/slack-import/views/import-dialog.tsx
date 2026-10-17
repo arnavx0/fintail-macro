@@ -429,7 +429,7 @@ export function ImportDialog(props: Props): JSX.Element {
             <ActionDialogShell.Header>
               <ActionDialogShell.Title>
                 {choosingMethod()
-                  ? 'Bring Slack to Macro'
+                  ? 'Bring Slack to Fintail'
                   : 'Import from Slack'}
               </ActionDialogShell.Title>
               <ActionDialogShell.Description>

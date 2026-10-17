@@ -486,7 +486,7 @@ export function graphqlDraftQueueBlocked(): boolean {
 export function assertEmailDraftQueueAvailable(): void {
   if (graphqlDraftQueueBlocked()) {
     throw new Error(
-      'Draft sync is unavailable while queued changes are preserved. Reload or update Macro to resume the queue before saving or discarding.'
+      'Draft sync is unavailable while queued changes are preserved. Reload or update Fintail to resume the queue before saving or discarding.'
     );
   }
 }
@@ -600,13 +600,13 @@ export function getGraphqlSoupClient(): Client {
       fallbackAfterInitializationFailure();
       toast.failure(
         error instanceof NativeCacheUpgradeRequiredError
-          ? 'Macro update required'
+          ? 'Fintail update required'
           : 'Local cache unavailable',
         {
           subtext:
             error instanceof NativeCacheUpgradeRequiredError
               ? error.message
-              : 'Macro will continue without local caching for this session.',
+              : 'Fintail will continue without local caching for this session.',
         }
       );
       console.warn(

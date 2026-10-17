@@ -17,17 +17,21 @@ export type CreateMenuGroup = {
 };
 
 export const CREATE_MENU_GROUPS: readonly CreateMenuGroup[] = [
-  { id: 'docs', label: 'Docs', tagline: 'Write and template' },
+  { id: 'ai', label: 'AI', tagline: 'Put agents to work on your money' },
+  { id: 'docs', label: 'Research', tagline: 'Write theses and journal trades' },
+  { id: 'data', label: 'Analysis', tagline: 'Model, track and compare' },
+  {
+    id: 'tasks',
+    label: 'Follow-ups',
+    tagline: 'Never miss a date or decision',
+  },
   {
     id: 'organization',
-    label: 'Organization',
-    tagline: 'Keep related work together',
+    label: 'Organize',
+    tagline: 'Keep research together',
   },
+  { id: 'comms', label: 'Email', tagline: 'Reach brokers and advisers' },
   { id: 'design', label: 'Design', tagline: 'Diagram, sketch, design' },
-  { id: 'data', label: 'Data', tagline: 'Collect, organize, analyze' },
-  { id: 'comms', label: 'Comms', tagline: 'Reach people' },
-  { id: 'tasks', label: 'Tasks', tagline: 'Stay on top of the work' },
-  { id: 'ai', label: 'AI', tagline: 'Put agents to work' },
   { id: 'other', label: 'Other', tagline: 'Everything else' },
 ];
 
@@ -49,10 +53,10 @@ export type CreateMenuDetails = {
 const DETAILS: Record<string, CreateMenuDetails> = {
   Document: {
     group: 'docs',
-    tagline: 'Rich-text doc, edited live together',
+    tagline: 'Thesis, journal entry or research note',
     details:
-      'A collaborative document for notes, specs and write-ups, with headings, tables, embeds, comments and AI editing.',
-    examples: ['Meeting notes', 'Product spec', 'Team wiki'],
+      'A rich document for investment theses, trade journal entries and earnings notes, with tables, mentions, comments and AI editing.',
+    examples: ['Investment thesis', 'Trade journal', 'Earnings notes'],
   },
   Snippet: {
     group: 'docs',
@@ -70,10 +74,10 @@ const DETAILS: Record<string, CreateMenuDetails> = {
   },
   Folder: {
     group: 'organization',
-    tagline: 'Keep related files together',
+    tagline: 'Group research and documents',
     details:
-      'Organize documents, files and other folders in one place, and share them together.',
-    examples: ['Client files', 'Archive', 'Team drive'],
+      'Keep theses, models and statements together by company, sector or tax year.',
+    examples: ['Tech stocks', 'Tax year 2026', 'Broker statements'],
   },
   Canvas: {
     group: 'design',
@@ -91,17 +95,17 @@ const DETAILS: Record<string, CreateMenuDetails> = {
   },
   Database: {
     group: 'data',
-    tagline: 'Structured records in tables and boards',
+    tagline: 'Watchlists and logs in tables or boards',
     details:
-      'Organize structured records with custom fields, then explore them in tables and boards for trackers, inventories or customer lists.',
-    examples: ['CRM', 'Content calendar', 'Inventory'],
+      'Track stocks and trades as structured records with custom fields, then view them as a table or a stage board.',
+    examples: ['Watchlist', 'Trade log', 'Research pipeline'],
   },
   Spreadsheet: {
     group: 'data',
-    tagline: 'Excel-style workbook with formulas',
+    tagline: 'Models and trackers with formulas',
     details:
-      'A collaborative spreadsheet with formulas, multiple sheets and AI-assisted editing for models, budgets and analysis.',
-    examples: ['Budget', 'Financial model', 'Tracker'],
+      'An Excel-style workbook with formulas and AI-assisted editing for valuation models, dividend trackers and position sizing.',
+    examples: ['DCF model', 'Dividend tracker', 'Position sizing'],
   },
   Form: {
     group: 'data',
@@ -128,8 +132,12 @@ const DETAILS: Record<string, CreateMenuDetails> = {
     group: 'comms',
     tagline: 'Compose from your connected inbox',
     details:
-      'Write and send an email from your connected email account, with AI help drafting.',
-    examples: ['Follow-up', 'Intro', 'Update to a client'],
+      'Write to your broker, adviser or accountant from your connected email account, with AI help drafting.',
+    examples: [
+      'Question for my broker',
+      'Statement to accountant',
+      'Fee dispute',
+    ],
   },
   Message: {
     group: 'comms',
@@ -154,10 +162,14 @@ const DETAILS: Record<string, CreateMenuDetails> = {
   },
   Task: {
     group: 'tasks',
-    tagline: 'To-do with owner, status and due date',
+    tagline: 'Follow-up with a due date',
     details:
-      'Capture a piece of work, assign it, set a due date and track it through to done.',
-    examples: ['Bug', 'Follow-up', 'Review request'],
+      'Capture an investing to-do, set a due date and tick it off when done.',
+    examples: [
+      'Review NVDA before earnings',
+      'Rebalance in Q1',
+      'Gather tax documents',
+    ],
   },
   Project: {
     group: 'tasks',
@@ -170,29 +182,37 @@ const DETAILS: Record<string, CreateMenuDetails> = {
     group: 'tasks',
     tagline: 'Nudge yourself at a time you pick',
     details:
-      'Ask Macro to remind you about something later — no document or task required.',
-    examples: ['Call back', 'Check in Friday', 'Renew license'],
+      'Ask Fintail to remind you about a date that matters, with no document or task required.',
+    examples: [
+      'Check ex-dividend date',
+      'Review a stop-loss',
+      'Top up retirement account',
+    ],
   },
   Agent: {
     group: 'ai',
-    tagline: 'AI session that researches, writes and codes',
+    tagline: 'AI analyst for your portfolio and the markets',
     details:
-      'Start a dedicated AI session to research a topic, draft content or work through a coding task.',
-    examples: ['Research a topic', 'Draft a doc', 'Fix a bug'],
+      'Start an AI session that reads your holdings, prices, filings and news to explain what is happening. Information, not advice.',
+    examples: [
+      'Why did my portfolio drop?',
+      'Compare NVDA and AMD',
+      'Backtest a strategy',
+    ],
   },
   Routine: {
     group: 'ai',
-    tagline: 'Run an agent on a schedule or trigger',
+    tagline: 'Scheduled AI that watches your money',
     details:
-      'Automations that run a model or agent on a schedule, or whenever something happens in Macro.',
-    examples: ['Daily digest', 'Triage inbox', 'Weekly report'],
+      'Run an agent on a schedule or trigger, such as a morning brief, a weekly portfolio review or an earnings watch on what you own.',
+    examples: ['Morning brief', 'Weekly review', 'Earnings watch'],
   },
   Skill: {
     group: 'ai',
-    tagline: 'Reusable instructions for agents',
+    tagline: 'Your investing rules for the AI',
     details:
-      'Give agents reusable instructions for a specific process, writing style or workflow so they can follow your preferred approach.',
-    examples: ['Brand voice', 'PR review', 'Report format'],
+      'Teach agents your strategy, risk limits and checklists so every analysis follows the way you invest.',
+    examples: ['My investing rules', 'Risk checklist', 'Thesis format'],
   },
 };
 

@@ -36,7 +36,7 @@ export function NotificationSenderIcon(props: NotificationSenderIconProps) {
   const size = () => props.size ?? 'sm';
 
   // GitHub PR notifications always show the GitHub sender's avatar, never the
-  // linked Macro user's, mirroring how the description names the GitHub login.
+  // linked Fintail user's, mirroring how the description names the GitHub login.
   // GitHub stacks hold a single notification, so the first one is the sender.
   const githubSender = () => {
     const notification = props.notification ?? props.stack?.notifications[0];

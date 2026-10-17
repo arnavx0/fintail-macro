@@ -143,7 +143,7 @@ test('more chart types are inserted from the Insert menu and downloaded', async 
   expect(parts).toHaveLength(7);
   expect(parts.filter((part) => part.includes('stockChart'))).toHaveLength(3);
   expect(parts.find((part) => part.includes('upDownBars'))).toBeTruthy();
-  // Macro writes the chart it changed.
+  // Fintail writes the chart it changed.
   expect(parts.find((part) => part.includes('<c:stockChart>'))).toContain(
     '<c:hiLowLines/>'
   );

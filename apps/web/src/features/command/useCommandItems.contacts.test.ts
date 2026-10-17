@@ -225,7 +225,7 @@ describe('command menu contact discovery', () => {
     expect(t.discovery.active?.()).toBe(true);
   });
 
-  it('prefers the Macro user sharing the email even when only the CRM name matched', () => {
+  it('prefers the Fintail user sharing the email even when only the CRM name matched', () => {
     const t = setup('dms');
     const asher = user('asher@macro.com', 'Asher Smith');
     t.setUsers([asher]);

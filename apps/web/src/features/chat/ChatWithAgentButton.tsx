@@ -167,8 +167,8 @@ export function AskMacroButton(props: { entity: ChatWithAgentEntity }) {
   return (
     <HeaderActionButton
       onClick={() => openChatWithAgent(props.entity)}
-      tooltip="Ask Macro"
-      label="Ask Macro"
+      tooltip="Ask Fintail"
+      label="Ask Fintail"
       icon={<AgentIcon />}
     />
   );

@@ -143,7 +143,7 @@ export interface EventEditorSubmitValues {
   guestEmails: string[];
   location: string;
   description: string;
-  /** Selected conferencing, including client-managed Macro call links. */
+  /** Selected conferencing, including client-managed Fintail call links. */
   conferenceChoice: EventEditorConferenceChoice;
   /** Present only when provider conferencing should change. */
   conference?: ConferenceChange;

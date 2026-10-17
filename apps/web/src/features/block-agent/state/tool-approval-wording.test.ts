@@ -5,10 +5,10 @@ import {
   possessive,
 } from './tool-approval-wording';
 
-const macro = { slug: 'macro', name: 'Macro' };
+const macro = { slug: 'macro', name: 'Fintail' };
 
 describe('describeToolCall', () => {
-  it("says what one of Macro's tools does with the owner's data", () => {
+  it("says what one of Fintail's tools does with the owner's data", () => {
     expect(describeToolCall(macro, 'GetThread', 'your')).toBe(
       'read your email'
     );
@@ -19,7 +19,7 @@ describe('describeToolCall', () => {
 
   it('falls back to the tool name in words', () => {
     expect(describeToolCall(macro, 'NewerThanThisBuild', 'your')).toBe(
-      'use your Macro workspace (newer than this build)'
+      'use your Fintail workspace (newer than this build)'
     );
     expect(
       describeToolCall(
@@ -32,7 +32,7 @@ describe('describeToolCall', () => {
 });
 
 describe('describeStandingApproval', () => {
-  it("covers one of Macro's tools, or a whole connected app", () => {
+  it("covers one of Fintail's tools, or a whole connected app", () => {
     expect(describeStandingApproval(macro, 'GetThread', 'your')).toBe(
       'read your email'
     );

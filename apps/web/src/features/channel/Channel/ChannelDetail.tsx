@@ -152,7 +152,7 @@ export function ChannelDetailActions(props: ChannelDetailHeaderProps) {
   const channelType = useChannelType(props.channelId);
   const call = useCall(() => props.channelId);
 
-  // Seed for "Ask Macro": a new chat with this channel @mentioned.
+  // Seed for "Ask Fintail": a new chat with this channel @mentioned.
   const askMacroEntity = () => {
     const type = channelType();
     if (!type) return undefined;
@@ -186,7 +186,7 @@ export function ChannelDetailActions(props: ChannelDetailHeaderProps) {
       <Show when={askMacroEntity()}>
         {(entity) => (
           <DebugSuspense name="ChannelDetail.ask-macro">
-            <ChatWithAgentButton entity={entity()} label="Ask Macro" />
+            <ChatWithAgentButton entity={entity()} label="Ask Fintail" />
           </DebugSuspense>
         )}
       </Show>

@@ -248,7 +248,7 @@ type DecodedLayout =
   | { kind: 'layout'; layout: WireFormLayout }
   | { kind: 'invalid'; message: string };
 
-const NEWER_VERSION = 'This form was edited by a newer version of Macro.';
+const NEWER_VERSION = 'This form was edited by a newer version of Fintail.';
 const UNREADABLE = 'This form could not be opened.';
 
 type SectionSchema =

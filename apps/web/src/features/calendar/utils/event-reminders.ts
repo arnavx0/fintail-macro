@@ -4,7 +4,7 @@ import type { EventType } from '@service-storage/generated/schemas/eventType';
 import { type Duration, formatDuration } from 'date-fns';
 import { daysInWeek, minutesInDay, minutesInHour } from 'date-fns/constants';
 
-/** The reminder method that fires Macro notifications. */
+/** The reminder method that fires Fintail notifications. */
 export const REMINDER_METHOD_POPUP = 'popup';
 
 /** Google caps an event at five reminders. */

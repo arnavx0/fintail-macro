@@ -42,8 +42,8 @@ function ChartForm(props: {
     >
       <Dialog.Title class="mb-2 text-sm font-semibold">Edit chart</Dialog.Title>
       <Dialog.Description class="mb-4 text-xs text-ink-muted">
-        Charts redraw as their cells change. Macro writes edited charts in Excel
-        downloads with its own formatting.
+        Charts redraw as their cells change. Fintail writes edited charts in
+        Excel downloads with its own formatting.
       </Dialog.Description>
       <div class="grid grid-cols-2 gap-3 text-xs">
         <label class="block">

@@ -26,7 +26,7 @@ export function EmailSettings() {
     >
       <SettingsSection
         title="Accounts"
-        description="Connect Gmail accounts and manage their sync with Macro."
+        description="Connect Gmail accounts and manage their sync with Fintail."
       >
         <Suspense
           fallback={

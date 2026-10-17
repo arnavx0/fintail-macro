@@ -23,7 +23,7 @@ import {
 } from 'solid-js';
 import { ChatMessageMarkdown } from '../message/ChatMessageMarkdown';
 
-const SAMPLE_TEXT = `Here is a streamed Macro XML sample:
+const SAMPLE_TEXT = `Here is a streamed Fintail XML sample:
 
 <m-document-mention>{"documentId":"6a2b138d-dfbe-439a-a78b-282471a1e165","documentName":"Streaming notes","blockName":"md","blockParams":{}}</m-document-mention>
 

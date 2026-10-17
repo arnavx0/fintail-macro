@@ -10,10 +10,10 @@ describe('representativeThreadMessage', () => {
     // Newest-first: an unsent draft reply floats to the head with no subject.
     const messages = [
       { subject: '', is_draft: true },
-      { subject: '$1000 in credits from Macro', is_draft: false },
+      { subject: '$1000 in credits from Fintail', is_draft: false },
     ];
     expect(representativeThreadMessage(messages)?.subject).toBe(
-      '$1000 in credits from Macro'
+      '$1000 in credits from Fintail'
     );
   });
 

@@ -28,8 +28,8 @@ const MarkdownEditorErrorDescriptions: Record<
   // relaunch the app instead.
   [MarkdownEditorErrors.VERSION_MISMATCH_ERROR]: () =>
     isNativeMobilePlatform()
-      ? 'Close and re-open the app to edit this document. It may have been updated using a newer version of Macro.'
-      : 'Refresh the page to edit this document. It may have been updated using a newer version of Macro.',
+      ? 'Close and re-open the app to edit this document. It may have been updated using a newer version of Fintail.'
+      : 'Refresh the page to edit this document. It may have been updated using a newer version of Fintail.',
   [MarkdownEditorErrors.STAGING_VERSION_MISMATCH_ERROR]: () =>
     'This doc has been updated on an incompatible version of staging. If you are seeing this message, please open the document on staging to edit.',
 };

@@ -2,14 +2,14 @@
  * Layers on the system clipboard, the way Figma puts them there: an HTML
  * fragment whose comments carry the metadata (`(figmeta)`, base64 JSON)
  * and the copied layers as a `.fig` document (`(figma)`, base64), so they
- * paste into another file or tab. Macro adds the images the layers use
+ * paste into another file or tab. Fintail adds the images the layers use
  * (`(macroimages)`, a base64 ZIP), which Figma fetches from its servers.
  */
 
 import type { CopiedLayers, NodeType } from '@core/fig-engine/types';
 
 export interface ClipboardMeta {
-  /** The file the layers came from (a Macro document id). */
+  /** The file the layers came from (a Fintail document id). */
   fileKey: string;
   /** Distinguishes one copy from the next. */
   pasteID: number;
@@ -71,7 +71,7 @@ const between = (html: string, name: string) => {
   return match?.[1];
 };
 
-/** The copied layers in clipboard HTML (Macro's or Figma's), if any. */
+/** The copied layers in clipboard HTML (Fintail's or Figma's), if any. */
 export function decodeClipboard(html: string): ClipboardPayload | undefined {
   const buffer = between(html, 'figma');
   if (!buffer) return undefined;

@@ -10,7 +10,7 @@ export const PLAN_COMPARISON = [
   {
     feature: 'Email branding',
     values: {
-      free: '“Sent with Macro”',
+      free: '“Sent with Fintail”',
       premium: 'No watermark',
       max: 'No watermark',
     },

@@ -32,7 +32,7 @@ export function useAgentAssignees(
       }));
   };
   // Reuse the message composer's system-agent roster and rollout policy.
-  // Classic Macro replies inline without a session, so it cannot be assigned.
+  // Classic Fintail replies inline without a session, so it cannot be assigned.
   const available = useAgentMentionUsers(savedAgents, enabled);
   return () => available().filter((agent) => !isMacroAgentId(agent.id));
 }

@@ -18,9 +18,9 @@ export function NativeAppUpdateRequiredDialog(props: {
     setLinkFailed(!(await openNativeUpdateLink(platform)));
     setOpening(false);
   }
-  const title = 'Update Macro App required';
+  const title = 'Update Fintail App required';
   const description =
-    'There is a new version of Macro App available. Please update your app. You may experience degraded service until the app is updated.';
+    'There is a new version of Fintail App available. Please update your app. You may experience degraded service until the app is updated.';
 
   return (
     <Dialog

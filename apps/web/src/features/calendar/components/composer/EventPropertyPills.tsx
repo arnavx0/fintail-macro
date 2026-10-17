@@ -374,7 +374,7 @@ const GOOGLE_MEET_OPTION: EventComposerConferenceOption = {
 };
 const MACRO_CALL_OPTION: EventComposerConferenceOption = {
   value: 'macro',
-  label: 'Macro call',
+  label: 'Fintail call',
 };
 const NO_CONFERENCING_OPTION: EventComposerConferenceOption = {
   value: 'none',

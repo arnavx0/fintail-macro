@@ -1010,7 +1010,7 @@ describe('GraphQL Soup browser cache session gate', () => {
     expect(soup.graphqlCacheEnabled()).toBe(false);
     expect(mocks.cleanupOrder()).toEqual(['subscriptions', 'host']);
     expect(mocks.toastFailure).toHaveBeenCalledWith('Local cache unavailable', {
-      subtext: 'Macro will continue without local caching for this session.',
+      subtext: 'Fintail will continue without local caching for this session.',
     });
     expect(warn).toHaveBeenCalledWith(
       'graphql cache async init failed; using uncached client',
@@ -1071,7 +1071,7 @@ describe('GraphQL Soup browser cache session gate', () => {
     const cached = soup.getGraphqlSoupClient();
     mocks.failInitialization(new NativeCacheUpgradeRequiredError());
     expect(mocks.toastFailure).toHaveBeenCalledWith(
-      'Macro update required',
+      'Fintail update required',
       expect.objectContaining({
         subtext: expect.stringContaining('queued drafts are preserved'),
       })

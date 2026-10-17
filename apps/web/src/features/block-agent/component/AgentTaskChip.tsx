@@ -1,5 +1,5 @@
 /**
- * Compact header chip for the session's linked Macro task: its title, opening
+ * Compact header chip for the session's linked Fintail task: its title, opening
  * the task in a split. While the preview loads, or when the viewer cannot see
  * the task, it reads "Task" and still opens it.
  */

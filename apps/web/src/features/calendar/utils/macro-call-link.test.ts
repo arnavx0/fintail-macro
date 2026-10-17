@@ -9,7 +9,7 @@ import {
 const URL = 'https://macro.com/app/meet/8m8mGwzHqxzYjeIN5-nJRquRbzyTEhGF';
 const SETUP_URL = URL.replace('/meet/', '/meet/join/');
 
-describe('Macro calendar call links', () => {
+describe('Fintail calendar call links', () => {
   it('recognizes shared links in invitations and drops autojoin parameters', () => {
     expect(
       calendarMacroCallUrl({
@@ -106,7 +106,7 @@ describe('Macro calendar call links', () => {
     ).toEqual({ description: '<p>Agenda</p>', location: 'Room 2' });
   });
 
-  it('hides generated Macro invitations even when the series URL differs', () => {
+  it('hides generated Fintail invitations even when the series URL differs', () => {
     expect(
       removeCalendarMacroCall(
         {

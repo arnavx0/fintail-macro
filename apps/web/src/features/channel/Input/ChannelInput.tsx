@@ -392,7 +392,7 @@ export function ChannelInput(props: ChannelInputProps) {
     );
     editor.dispatchCommand(TYPE_AT_SYMBOL_COMMAND, undefined);
   };
-  // Whichever Macro the `@macro` typeahead offers: the classic chat reply or
+  // Whichever Fintail the `@macro` typeahead offers: the classic chat reply or
   // the agent-session bot, depending on rollout.
   const macroUser = () =>
     mentionUsers().find(
@@ -471,7 +471,7 @@ export function ChannelInput(props: ChannelInputProps) {
             ? [
                 {
                   id: 'ask-macro',
-                  label: 'Ask Macro',
+                  label: 'Ask Fintail',
                   icon: <EntityIcon targetType="agent" size="xs" />,
                   hint: '@macro',
                   onSelect: () =>

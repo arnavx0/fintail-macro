@@ -220,7 +220,7 @@ function GithubCommentMessage(props: {
  * A read-only GitHub comment rendered with the channel message components,
  * collapsed to a preview when long (bot comments tend to be walls of text).
  * Review-thread replies render indented under the root along the thread
- * rail, mirroring Macro discussion threads.
+ * rail, mirroring Fintail discussion threads.
  */
 export function GithubMessageView(props: {
   comment: GithubPullRequestComment;

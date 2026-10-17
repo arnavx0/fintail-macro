@@ -151,7 +151,7 @@ describe('GitHub pull request smart paste', () => {
     expect(fetchPullRequestByGithubKey).not.toHaveBeenCalled();
   });
 
-  it('keeps the link when Macro has not synced the PR', async () => {
+  it('keeps the link when Fintail has not synced the PR', async () => {
     vi.mocked(fetchPullRequestByGithubKey).mockResolvedValue(null);
 
     paste(PR_URL);

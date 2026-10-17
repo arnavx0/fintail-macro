@@ -107,7 +107,7 @@ const INSPECT_MUTATIONS_COMMAND = 'graphql_cache_inspect_mutations';
 export class NativeCacheUpgradeRequiredError extends Error {
   constructor() {
     super(
-      'Update Macro to sync drafts saved on this device. Your queued drafts are preserved until the app is updated.'
+      'Update Fintail to sync drafts saved on this device. Your queued drafts are preserved until the app is updated.'
     );
     this.name = 'NativeCacheUpgradeRequiredError';
   }

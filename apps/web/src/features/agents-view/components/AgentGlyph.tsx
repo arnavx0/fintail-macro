@@ -22,7 +22,7 @@ const MACRO_IDS: ReadonlySet<string> = new Set([
   MACRO_CODER_BOT_ID,
 ]);
 
-/** The mark for an agent: Macro's own logo, Cursor's, or a robot. */
+/** The mark for an agent: Fintail's own logo, Cursor's, or a robot. */
 export function AgentIcon(props: {
   agent: Pick<GlyphAgent, 'id' | 'botId'>;
   class?: string;

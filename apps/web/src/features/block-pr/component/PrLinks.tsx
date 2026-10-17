@@ -402,19 +402,19 @@ export function PrOriginIcon(props: { tool: PrOriginTool; class?: string }) {
   );
 }
 
-/** "Claude, from its branch name"; Macro sessions say which tool they ran. */
+/** "Claude, from its branch name"; Fintail sessions say which tool they ran. */
 export function prOriginDescription(origin: PrOrigin) {
   const tool = PR_ORIGIN_LABELS[origin.tool];
   if (origin.signal === 'agent-session')
     return origin.tool === 'macro'
-      ? 'Started from a Macro agent session'
-      : `Started from ${tool} in a Macro agent session`;
+      ? 'Started from a Fintail agent session'
+      : `Started from ${tool} in a Fintail agent session`;
   return `Started from ${tool}, ${PR_ORIGIN_SIGNAL_LABELS[origin.signal]}`;
 }
 
 /**
  * Where the pull request was started. Opens the originating session: the
- * Macro agent session in a split, or the external session link in a tab.
+ * Fintail agent session in a split, or the external session link in a tab.
  */
 export function PrOriginBadge(props: { origin: PrOrigin; onOpen: OpenPrLink }) {
   const target = () => props.origin.sessionId ?? props.origin.url;

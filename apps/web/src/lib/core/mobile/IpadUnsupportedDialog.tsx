@@ -48,7 +48,7 @@ export function IpadUnsupportedDialog() {
                 Optimized for iPhone
               </Dialog.Title>
               <Dialog.Description class="text-sm leading-5 text-ink-extra-muted">
-                The Macro iOS app is currently built for iPhone. Some parts of
+                The Fintail iOS app is currently built for iPhone. Some parts of
                 the app may feel off on iPad. Full iPad support coming soon.
               </Dialog.Description>
             </div>

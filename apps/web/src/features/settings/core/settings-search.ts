@@ -234,7 +234,7 @@ const SETTINGS: Setting[] = [
   },
   {
     tab: 'Agent',
-    title: 'Connect to the Macro MCP server',
+    title: 'Connect to the Fintail MCP server',
     keywords: 'claude chatgpt external client url setup',
   },
   {

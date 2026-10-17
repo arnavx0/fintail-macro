@@ -8,7 +8,7 @@ export const tasksTour = defineViewTour({
   id: 'tasks',
   title: 'Tasks',
   connector: { kind: 'mcp', label: 'Linear', tools: ['Linear'] },
-  video: { youtubeId: 'gxJquVXRX5A', title: 'Macro Tasks', duration: '1:35' },
+  video: { youtubeId: 'gxJquVXRX5A', title: 'Fintail Tasks', duration: '1:35' },
   steps: [
     {
       target: VIEW_SHELL_TOUR.aside,
@@ -16,7 +16,7 @@ export const tasksTour = defineViewTour({
       entryLabel: 'Show the task sidebar to continue',
       title: 'Turn plans into progress',
       description:
-        'Create a task with a clear next step, or connect Linear to bring your issues into Macro.',
+        'Create a task with a clear next step, or connect Linear to bring your issues into Fintail.',
     },
     {
       target: VIEW_SHELL_TOUR.main,

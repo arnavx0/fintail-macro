@@ -50,7 +50,7 @@ export function CodingPreferencesSetting() {
         <PreferenceRow
           preference="createTasks"
           label="Create tasks"
-          description="Link each coding session to a Macro task"
+          description="Link each coding session to a Fintail task"
         />
         <PreferenceRow
           preference="openPullRequests"

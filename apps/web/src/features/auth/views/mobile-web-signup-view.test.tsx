@@ -26,7 +26,7 @@ describe('mobile-web sign-up', () => {
   it('emails a desktop link and records the lead', async () => {
     const { fake } = setup();
     submit(' visitor@acme.com ');
-    await screen.findByText('Macro is better on desktop.');
+    await screen.findByText('Fintail is better on desktop.');
     expect(fake.calls()).toEqual(
       expect.arrayContaining([
         'identify:visitor@acme.com',

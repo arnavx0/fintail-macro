@@ -105,7 +105,7 @@ describe('live reply', () => {
   });
 
   it('says what the agent is doing in words', () => {
-    expect(typingLabel('Macro', 'writing')).toBe('Macro is typing');
+    expect(typingLabel('Fintail', 'writing')).toBe('Fintail is typing');
     expect(typingLabel('Scout', 'working')).toBe('Scout is working');
     expect(typingLabel('Scout', 'waiting')).toBe(
       'Scout is waiting for an answer'

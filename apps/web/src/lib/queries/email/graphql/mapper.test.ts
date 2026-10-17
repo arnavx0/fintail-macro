@@ -30,7 +30,7 @@ const message: EmailThreadMessageFieldsFragment = {
   labels: [{ providerLabelId: 'INBOX', name: 'Inbox' }],
   bodyText: 'Plain text',
   bodyHtmlSanitized: '<p>HTML</p>',
-  bodyMacro: 'Macro',
+  bodyMacro: 'Fintail',
   bodyReplyless: '<p>Replyless</p>',
   attachments: [
     {

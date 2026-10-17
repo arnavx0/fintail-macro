@@ -83,7 +83,7 @@ function descriptionPreview(raw: string | undefined): string {
     .trim();
 }
 
-/** The organizer resolved to a Macro user (id) when their email is one, else
+/** The organizer resolved to a Fintail user (id) when their email is one, else
  * keyed by the raw email so a non-Macro organizer still gets a contact icon. */
 function organizerIconProps(
   entity: CalendarEventEntity
@@ -94,7 +94,7 @@ function organizerIconProps(
   return macroId ? { id: macroId } : { email };
 }
 
-/** Organizer display: the Macro profile name when resolved, else the source's
+/** Organizer display: the Fintail profile name when resolved, else the source's
  * own name, else the email. Read reactively so it fills in when the user's
  * name cache resolves. The profile lookup falls back to the email for an
  * address without a profile, such as a shared calendar's, so that fallback
@@ -136,7 +136,7 @@ export function CalendarWideContent(props: { entity: CalendarEventEntity }) {
           {(name) => (
             <span class="flex shrink-0 items-center gap-1.5">
               <Dot />
-              {/* Avatar only when the organizer resolves to a Macro user (needs
+              {/* Avatar only when the organizer resolves to a Fintail user (needs
                   an email); a name-only organizer still shows its name. */}
               <Show when={iconProps()}>
                 {(props_) => (

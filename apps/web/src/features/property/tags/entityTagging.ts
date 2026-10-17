@@ -19,7 +19,7 @@ export function isTaggableEntityType(entityType: PropertyEntityType): boolean {
   return TAGGABLE_ENTITY_TYPES.has(entityType);
 }
 
-/** Resolve a full Macro entity to the identity used by tag mutations. */
+/** Resolve a full Fintail entity to the identity used by tag mutations. */
 export function tagEntityType(
   entity: EntityData
 ): PropertyEntityType | undefined {
@@ -52,7 +52,7 @@ export function tagEntityType(
 }
 
 /**
- * Whether tags can be offered for a tag-mutation target: either a full Macro
+ * Whether tags can be offered for a tag-mutation target: either a full Fintail
  * entity, or the minimal `{ entityType }` shape the property editor accepts
  * when no full entity is available (the second arm of PropertyEditorEntity).
  */

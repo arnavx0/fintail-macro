@@ -29,8 +29,8 @@ export function getUniqueSenderIds(notifications: Notification[]): string[] {
 /**
  * The GitHub login of the user who triggered a GitHub PR notification, carried
  * in the notification metadata. GitHub notifications always name the sender by
- * this login — never by the linked Macro user's name — even when the actor is
- * a Macro user and the notification has a `sender_id`.
+ * this login — never by the linked Fintail user's name — even when the actor is
+ * a Fintail user and the notification has a `sender_id`.
  * @internal
  */
 export function getGithubSenderLogin(

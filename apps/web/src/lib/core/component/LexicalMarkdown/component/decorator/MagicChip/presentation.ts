@@ -30,7 +30,7 @@ export type MagicChipActivity = {
 
 /** Who is answering, for the chip's header: the persona and its model. */
 export type MagicChipHeader = {
-  /** The persona's name, e.g. `Macro Agent`. */
+  /** The persona's name, e.g. `Fintail Agent`. */
   agent?: string;
   /** The model's display name, when the runtime has reported one. */
   model?: string;
@@ -426,7 +426,7 @@ function latestChunk(response: FoldedMessage | undefined): string {
  * The row is one line of prose, so the block structure goes: fences, list
  * bullets, heading hashes and quote marks are dropped and every run of
  * whitespace becomes one space. Emphasis and inline code markers go too -
- * the row has no formatting to carry them. Macro's own `<m-*>` tags are
+ * the row has no formatting to carry them. Fintail's own `<m-*>` tags are
  * resolved first, so a mention reads as its name rather than its JSON.
  *
  * An underscore between two word characters is left alone: agents write

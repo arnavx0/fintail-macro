@@ -60,7 +60,7 @@ const browserPage: ReloadPage = {
     if (!isTouchDevice()) return;
     toast.custom(
       {
-        title: 'A new version of Macro is ready',
+        title: 'A new version of Fintail is ready',
         actions: [{ label: 'Reload', onClick: reload }],
       },
       { persistent: true }

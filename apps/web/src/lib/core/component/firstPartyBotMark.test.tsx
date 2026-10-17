@@ -37,7 +37,7 @@ vi.mock('@core/signal/profilePicture', () => ({
 afterEach(cleanup);
 
 describe('firstPartyBotMark', () => {
-  it('gives both Macro bots and the coder the Macro logo', () => {
+  it('gives both Fintail bots and the coder the Fintail logo', () => {
     for (const id of [
       MACRO_AGENT_PRINCIPAL_ID,
       MACRO_NEW_PRINCIPAL_ID,
@@ -77,7 +77,7 @@ describe('UserIcon for first-party bots', () => {
     expect(svgOf(cursor)?.innerHTML).toBe(svgOf(reference)?.innerHTML);
   });
 
-  it('draws the Macro logo for the agent-session Macro bot', () => {
+  it('draws the Fintail logo for the agent-session Fintail bot', () => {
     const { container: macro } = render(() => (
       <UserIcon id={MACRO_NEW_PRINCIPAL_ID} />
     ));

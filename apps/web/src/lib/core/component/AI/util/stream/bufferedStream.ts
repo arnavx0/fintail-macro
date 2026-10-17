@@ -434,7 +434,7 @@ function flushPlugins(plugins: StreamPlugin[]): ChatStream[] {
  * they arrive, it replays them character-by-character at a steady cadence for a
  * typewriter feel, while still snapping forward to the live position whenever it
  * falls too far behind (e.g. on reconnect). Every outgoing unit is routed
- * through the plugin chain (by default the Macro XML buffer, which keeps partial
+ * through the plugin chain (by default the Fintail XML buffer, which keeps partial
  * `<m-...>` tags from rendering as raw text); with no plugins the
  * returned stream emits the same content in the same order as the source —
  * only the chunking and timing differ.

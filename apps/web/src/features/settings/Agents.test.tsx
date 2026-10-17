@@ -525,7 +525,7 @@ describe('Agents', () => {
       expect(
         screen.getByRole('radio', { name: 'In Claude Code' })
       ).toHaveProperty('checked', true);
-      fireEvent.click(screen.getByRole('radio', { name: 'In Macro' }));
+      fireEvent.click(screen.getByRole('radio', { name: 'In Fintail' }));
       await waitFor(() =>
         expect(screen.getByLabelText('Default model')).toHaveProperty(
           'textContent',
@@ -554,12 +554,12 @@ describe('Agents', () => {
     }
   });
 
-  it('lists the built-in global Macro agent as a team agent', () => {
+  it('lists the built-in global Fintail agent as a team agent', () => {
     render(() => <Agents {...agentsPageProps} />);
 
     const list = screen.getByRole('region', { name: 'Your agents' });
 
-    expect(within(list).getByText('Macro')).toBeTruthy();
+    expect(within(list).getByText('Fintail')).toBeTruthy();
     expect(
       within(list)
         .getAllByText(/^@/)
@@ -567,13 +567,13 @@ describe('Agents', () => {
     ).toEqual(['@macro']);
     expect(within(list).getByText('Team')).toBeTruthy();
     expect(
-      within(list).getByText('In Macro · Sonnet 5.5 · All channels')
+      within(list).getByText('In Fintail · Sonnet 5.5 · All channels')
     ).toBeTruthy();
     expect(
-      within(list).queryByRole('button', { name: 'Delete Macro' })
+      within(list).queryByRole('button', { name: 'Delete Fintail' })
     ).toBeNull();
     expect(
-      within(list).queryByRole('button', { name: 'Edit Macro' })
+      within(list).queryByRole('button', { name: 'Edit Fintail' })
     ).toBeNull();
   });
 
@@ -683,7 +683,7 @@ describe('Agents', () => {
 
     const list = screen.getByRole('region', { name: 'Your agents' });
 
-    // Macro first, then team agents, then private agents.
+    // Fintail first, then team agents, then private agents.
     expect(
       within(list)
         .getAllByText(/^@/)
@@ -696,14 +696,14 @@ describe('Agents', () => {
       ?.parentElement as HTMLElement;
     expect(within(releaseRow).getByText('Team')).toBeTruthy();
     expect(
-      within(releaseRow).getByText('In Macro · Sonnet 5.5 · #engineering')
+      within(releaseRow).getByText('In Fintail · Sonnet 5.5 · #engineering')
     ).toBeTruthy();
 
     const bugFixerRow = within(list).getByText('Bug fixer').parentElement
       ?.parentElement as HTMLElement;
     expect(within(bugFixerRow).getByText('Private')).toBeTruthy();
     expect(
-      within(bugFixerRow).getByText('In Macro · Sonnet 5.5 · All channels')
+      within(bugFixerRow).getByText('In Fintail · Sonnet 5.5 · All channels')
     ).toBeTruthy();
   });
 
@@ -1184,7 +1184,7 @@ describe('Agents', () => {
     expect(within(dialog).queryByLabelText('Description')).toBeNull();
     expect(within(dialog).getByLabelText('Instructions')).toBeTruthy();
     expect(
-      within(dialog).getByRole('radio', { name: 'In Macro' })
+      within(dialog).getByRole('radio', { name: 'In Fintail' })
     ).toHaveProperty('checked', true);
     expect(
       within(dialog).queryByRole('radio', { name: 'In Claude Code' })
@@ -1222,7 +1222,7 @@ describe('Agents', () => {
       within(dialog).getByRole('button', { name: 'Connect Cursor' })
     ).toBeTruthy();
     expect(
-      within(dialog).getByRole('radio', { name: 'In Macro' })
+      within(dialog).getByRole('radio', { name: 'In Fintail' })
     ).toHaveProperty('checked', true);
   });
 
@@ -1395,7 +1395,7 @@ describe('Agents', () => {
 
     const dialog = screen.getByRole('region', { name: /^(New|Edit) agent$/ });
     expect(
-      within(dialog).getByRole('radio', { name: 'In Macro' })
+      within(dialog).getByRole('radio', { name: 'In Fintail' })
     ).toHaveProperty('checked', true);
     expect(
       within(dialog).getByRole('radio', { name: 'In Cursor' })
@@ -1672,7 +1672,7 @@ describe('Agents', () => {
       target: { value: 'Chatty' },
     });
     fireEvent.click(within(dialog).getByRole('button', { name: 'Show' }));
-    // Macro's in-memory runtime chats; a macrod harness codes.
+    // Fintail's in-memory runtime chats; a macrod harness codes.
     expect(within(dialog).getByLabelText('Chat agent')).toHaveProperty(
       'checked',
       true
@@ -2074,7 +2074,7 @@ it.each(['in-memory', 'cursor', 'claude-cloud'])(
     fireEvent.click(
       within(dialog).getByRole('radio', {
         name: {
-          'in-memory': 'In Macro',
+          'in-memory': 'In Fintail',
           cursor: 'In Cursor',
           'claude-cloud': 'In Claude Code',
         }[harness]!,

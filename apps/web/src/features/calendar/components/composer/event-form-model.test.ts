@@ -21,7 +21,7 @@ function localMidnight(date: string): string {
 }
 
 describe('new event conferencing', () => {
-  it('defaults new events and calendar selections to Macro call', () => {
+  it('defaults new events and calendar selections to Fintail call', () => {
     expect(defaultEditorInitialValues(NOW, true).conference).toBe('macro');
     expect(
       calendarSelectionToEditorInitialValues(
@@ -39,7 +39,7 @@ describe('new event conferencing', () => {
     expect(defaultEditorInitialValues(NOW).conference).toBe('none');
   });
 
-  it('uses the host capability when enabling Macro calls', () => {
+  it('uses the host capability when enabling Fintail calls', () => {
     expect(defaultEditorInitialValues(NOW).conference).toBe('none');
     expect(defaultEditorInitialValues(NOW, true).conference).toBe('macro');
   });

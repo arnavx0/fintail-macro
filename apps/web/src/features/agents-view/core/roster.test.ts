@@ -89,7 +89,7 @@ describe('buildAgentRoster', () => {
       'coder',
     ]);
     expect(saved[0]?.runtime).toEqual({
-      label: 'Macro Agent',
+      label: 'Fintail Agent',
       connected: true,
     });
     expect(saved[0]?.unavailableReason).toBeUndefined();
@@ -130,24 +130,24 @@ describe('rosterForAgentPicker and kindForBot', () => {
       persisted({ harness: 'future-runtime' }),
       persisted({
         harness: 'in-memory',
-        bot: { id: MACRO_AGENT_BOT_ID, name: 'Macro', handle: 'macro' },
+        bot: { id: MACRO_AGENT_BOT_ID, name: 'Fintail', handle: 'macro' },
       }),
       persisted({
         harness: 'in-memory',
         bot: {
           id: `bot|${MACRO_AGENT_BOT_ID}`,
-          name: 'Macro',
+          name: 'Fintail',
           handle: 'macro',
         },
       }),
       persisted({
         harness: 'in-memory',
-        bot: { id: 'saved-macro-name', name: 'Macro', handle: 'my-macro' },
+        bot: { id: 'saved-macro-name', name: 'Fintail', handle: 'my-macro' },
       }),
     ],
   });
 
-  it('includes every runtime and excludes only the built-in Macro identity', () => {
+  it('includes every runtime and excludes only the built-in Fintail identity', () => {
     expect(rosterForAgentPicker(roster).map((a) => a.id)).toEqual([
       CURSOR_BOT_ID,
       'bot-in-memory',

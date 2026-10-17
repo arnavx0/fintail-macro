@@ -55,7 +55,7 @@ export function createMeetingNavigation(
       return;
     leavingOwner = owner;
     // Cleanup may report a disconnected session before the router unmounts it.
-    // Explicit Leave returns to Macro; only unexpected disconnects show setup.
+    // Explicit Leave returns to Fintail; only unexpected disconnects show setup.
     setConnection(undefined);
     capabilities.returnToApp();
   }

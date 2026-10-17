@@ -28,7 +28,7 @@ export const ONBOARDING_PRIORITY_TOOLS = [
   ['trello', 'Trello'],
 ] as const;
 
-/** Macro owns GitHub account linking; this entry does not depend on Pipedream. */
+/** Fintail owns GitHub account linking; this entry does not depend on Pipedream. */
 export const NATIVE_GITHUB_TOOL = {
   slug: 'github',
   name: 'GitHub',

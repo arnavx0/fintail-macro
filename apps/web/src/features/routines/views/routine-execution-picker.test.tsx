@@ -146,7 +146,7 @@ async function openModels(name: string) {
   const row = screen.getByRole('menuitem', { name: new RegExp(`^${name}`) });
   row.focus();
   fireEvent.keyDown(row, { key: 'ArrowRight' });
-  // The root Macro catalog also has a search box; wait for the agent submenu.
+  // The root Fintail catalog also has a search box; wait for the agent submenu.
   const menu = await screen.findByRole('menu', {
     name: new RegExp(`^${name}`),
   });
@@ -187,7 +187,7 @@ afterEach(() => {
 });
 
 describe('routine execution picker', () => {
-  it('selects Macro models with the keyboard and restores trigger focus', async () => {
+  it('selects Fintail models with the keyboard and restores trigger focus', async () => {
     const { selection } = mount({
       kind: 'agent',
       agentId: managedId,
@@ -322,7 +322,7 @@ describe('routine execution picker', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it('preserves a missing agent and override visibly instead of falling back to Macro', () => {
+  it('preserves a missing agent and override visibly instead of falling back to Fintail', () => {
     const { selection, onChange } = mount({
       kind: 'agent',
       agentId: missingId,

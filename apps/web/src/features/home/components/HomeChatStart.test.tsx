@@ -94,6 +94,8 @@ describe('Home agent composer alignment', () => {
     expect(
       document.querySelector('[data-home-composer-topbar-align]')
     ).toBeNull();
-    expect(screen.getByText('What should we get done in Macro?')).toBeTruthy();
+    expect(
+      screen.getByText('What should we get done in Fintail?')
+    ).toBeTruthy();
   });
 });

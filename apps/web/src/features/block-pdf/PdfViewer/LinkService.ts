@@ -44,7 +44,7 @@ export class LinkService extends PDFLinkService {
 
     super.addLinkAttributes(link, url, _newWindow);
 
-    // Without this, external URLs will open inside of the Macro tab's view which
+    // Without this, external URLs will open inside of the Fintail tab's view which
     // enables phishing attacks among other things we don't want
     if (external) {
       link.onclick = (e) => {

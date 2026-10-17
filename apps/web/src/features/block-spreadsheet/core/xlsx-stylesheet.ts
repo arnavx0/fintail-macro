@@ -228,7 +228,7 @@ export function withLightness(
 }
 
 export type XlsxStylesheet = {
-  /** Macro styles for a cell's `s` index, relative to `defaultFont`. */
+  /** Fintail styles for a cell's `s` index, relative to `defaultFont`. */
   cellStyle: (index: number) => SpreadsheetCellStyle;
   /** The format of a conditional formatting rule's `dxfId`. */
   differentialStyle: (index: number) => ConditionalStyle | undefined;

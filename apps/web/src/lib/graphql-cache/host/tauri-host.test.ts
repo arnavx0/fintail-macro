@@ -170,7 +170,7 @@ describe('createTauriCacheHost', () => {
     ).rejects.toBeInstanceOf(NativeCacheUpgradeRequiredError);
     expect(onInitializationError).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: expect.stringContaining('Update Macro'),
+        message: expect.stringContaining('Update Fintail'),
       })
     );
     expect(invokeMock.mock.calls.map(([command]) => command)).toEqual([

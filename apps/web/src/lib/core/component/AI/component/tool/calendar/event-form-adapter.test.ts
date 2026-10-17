@@ -169,7 +169,7 @@ describe('editorSubmitValuesToCreateCalendarEvent', () => {
     expect(none.addGoogleMeet).toBe(false);
   });
 
-  it('drops the Macro call from an out-of-office event', () => {
+  it('drops the Fintail call from an out-of-office event', () => {
     const merged = editorSubmitValuesToCreateCalendarEvent(
       submitValues({
         conferenceChoice: 'macro',

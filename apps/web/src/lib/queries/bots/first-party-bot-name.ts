@@ -10,7 +10,7 @@ import { isMacroSystemId, MACRO_SYSTEM_NAME } from '@core/constant/macroSystem';
  * from constants so it never waits on the bots list. Undefined for team bots.
  */
 export function firstPartyBotName(id: string): string | undefined {
-  // Both Macro bots present as "Macro": the chat reply and the agent session
+  // Both Fintail bots present as "Fintail": the chat reply and the agent session
   // are the same persona to a reader, only a different id on the wire.
   if (isMacroAgentId(id) || isMacroNewId(id)) return MACRO_AGENT_NAME;
   if (isMacroCoderId(id)) return MACRO_CODER_NAME;

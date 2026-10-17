@@ -441,7 +441,7 @@ export function EventEditor(props: EventEditorProps) {
                   >
                     <For
                       each={[
-                        { kind: 'macro', label: 'Macro call' },
+                        { kind: 'macro', label: 'Fintail call' },
                         { kind: 'google', label: 'Google Meet' },
                         { kind: 'custom', label: 'Custom' },
                       ]}

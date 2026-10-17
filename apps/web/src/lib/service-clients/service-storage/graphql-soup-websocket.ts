@@ -144,7 +144,7 @@ export function createGraphqlSoupWebSocketUrlResolver({
   return async () => {
     if (bearerTokenAuth) {
       const apiToken = await getApiToken();
-      if (!apiToken) throw new Error('No Macro API token');
+      if (!apiToken) throw new Error('No Fintail API token');
       return buildGraphqlSoupWebSocketUrl(dssHost, apiToken);
     }
 

@@ -54,7 +54,7 @@ export function buildImagePdf(pages: PdfPage[], title = ''): Uint8Array {
         .join(' ')}] >>`
     )
   );
-  object(3, () => push(`<< /Title ${literal(title)} /Producer (Macro) >>`));
+  object(3, () => push(`<< /Title ${literal(title)} /Producer (Fintail) >>`));
   pages.forEach((page, i) => {
     const id = pageId(i);
     const w = num(page.width);

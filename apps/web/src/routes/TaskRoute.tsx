@@ -19,7 +19,7 @@ export function TaskRoute(props: { taskSlug: string }) {
   );
   const taskQuery = useTeamTaskQuery(slugToResolve);
   const documentId = () => taskQuery.data?.documentMetadata.documentId;
-  // FORBIDDEN covers a user who is not part of a Macro team yet; to them the
+  // FORBIDDEN covers a user who is not part of a Fintail team yet; to them the
   // reference is just as unavailable as a slug that does not resolve.
   const taskNotFound = () =>
     thrownResultErrorHasCode(taskQuery.error, 'NOT_FOUND') ||

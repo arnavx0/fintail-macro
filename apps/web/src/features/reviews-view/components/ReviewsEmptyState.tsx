@@ -113,7 +113,7 @@ export function ReviewsEmptyState(props: {
           centered
           graphic={GitPullRequestIcon}
           title="No pull requests authored by you"
-          description="Pull requests you authored and can access in Macro will appear here."
+          description="Pull requests you authored and can access in Fintail will appear here."
         />
       </Match>
       <Match when={props.scope === 'assigned'}>
@@ -121,7 +121,7 @@ export function ReviewsEmptyState(props: {
           centered
           graphic={GitPullRequestIcon}
           title="No pull requests assigned to you"
-          description="Pull requests assigned to you and accessible in Macro will appear here."
+          description="Pull requests assigned to you and accessible in Fintail will appear here."
         />
       </Match>
       <Match when={props.scope === 'review_requests'}>

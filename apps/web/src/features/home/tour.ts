@@ -9,7 +9,7 @@ export const homeTour = defineViewTour({
   title: 'Home',
   video: {
     youtubeId: 'Fn5hdzXsQQ8',
-    title: 'Macro Product Demo',
+    title: 'Fintail Product Demo',
     duration: '4:45',
   },
   steps: [

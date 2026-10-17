@@ -8,7 +8,7 @@ export const SOUP_TOUR = defineTourTargets('soup', ['list']);
 export const callsTour = defineViewTour({
   id: 'calls',
   title: 'Calls',
-  video: { youtubeId: 'MMG00RA7kU0', title: 'Macro Calls', duration: '1:15' },
+  video: { youtubeId: 'MMG00RA7kU0', title: 'Fintail Calls', duration: '1:15' },
   steps: [
     {
       target: SOUP_TOUR.list,

@@ -15,7 +15,10 @@ const teo = {
   name: 'Teo',
   email: 'teo@example.com',
 };
-const agent = { id: 'bot|00000000-0000-0000-0000-00000000c5c5', name: 'Macro' };
+const agent = {
+  id: 'bot|00000000-0000-0000-0000-00000000c5c5',
+  name: 'Fintail',
+};
 
 /** The origin of a prompt the real composer wrote. */
 function originOf(input: AgentContextPrompt) {

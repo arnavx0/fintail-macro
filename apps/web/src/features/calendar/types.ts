@@ -70,7 +70,7 @@ export interface CalendarEvent {
   /** Direct conference join URL, when available. */
   conferenceUrl?: string;
   /**
-   * Which conferencing system backs `conferenceUrl`. Macro can generate a
+   * Which conferencing system backs `conferenceUrl`. Fintail can generate a
    * Google Meet; other conferencing is preserved unless explicitly replaced.
    */
   conferenceProvider?: ConferenceProvider;
@@ -85,7 +85,7 @@ export interface CalendarEvent {
   /** Attendees and their RSVP metadata. */
   attendees: CalendarAttendee[];
   /**
-   * Reminder configuration of the primary copy, the one Macro's alerts
+   * Reminder configuration of the primary copy, the one Fintail's alerts
    * follow whichever copy a chip shows. Absent means the calendar default.
    */
   reminders?: EventReminders;

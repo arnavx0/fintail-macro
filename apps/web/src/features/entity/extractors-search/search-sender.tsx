@@ -10,7 +10,7 @@ interface SearchSenderProps {
 
 /**
  * Displays the sender of a search hit (for channel/email/call_record).
- * Call guests have session-scoped uuids instead of Macro ids.
+ * Call guests have session-scoped uuids instead of Fintail ids.
  */
 export function SearchSender(props: SearchSenderProps) {
   const senderId = () => (props.hit ? getSenderId(props.hit) : undefined);

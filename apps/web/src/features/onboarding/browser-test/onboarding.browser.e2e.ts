@@ -61,7 +61,7 @@ test('a new user signs up, connects everything, and starts the trial', async ({
   await page.getByRole('button', { name: 'Start 30 day trial' }).click();
 
   // Stripe returns on the success leg; the flow waits for the webhook's license.
-  await expectLanded(page, 'Entered Macro at /home');
+  await expectLanded(page, 'Entered Fintail at /home');
   const world = await fakeWorld(page);
   expect(world.viewer).toMatchObject({
     tutorialComplete: true,
@@ -87,7 +87,7 @@ test('a deep link survives the inbox OAuth round-trip', async ({ page }) => {
   await page.getByRole('button', { name: 'Skip for now' }).click();
   await page.getByRole('button', { name: 'Continue with Free' }).last().click();
 
-  await expectLanded(page, 'Entered Macro at /channel/launch');
+  await expectLanded(page, 'Entered Fintail at /channel/launch');
 });
 
 test('Free, Pro, and Max appear below the unchanged trial offer', async ({
@@ -132,7 +132,7 @@ test('Free, Pro, and Max appear below the unchanged trial offer', async ({
   ).toBe(true);
   await page.getByRole('button', { name: 'Continue with Free' }).last().click();
 
-  await expectLanded(page, 'Entered Macro at /md/notes');
+  await expectLanded(page, 'Entered Fintail at /md/notes');
   expect(await fakeEvents(page)).toContainEqual({
     event: 'onboarding_v4_completed',
     data: expect.objectContaining({ plan: 'free' }),
@@ -151,7 +151,7 @@ test('Max checkout returns with a licensed account and no trial', async ({
   });
   await page.reload();
   await page.getByRole('button', { name: 'Continue with Max' }).click();
-  await expectLanded(page, 'Entered Macro at /home');
+  await expectLanded(page, 'Entered Fintail at /home');
   expect((await fakeWorld(page)).viewer).toMatchObject({
     tutorialComplete: true,
     licensed: true,
@@ -229,7 +229,7 @@ test('an invite’s free months replace the trial and keep its promotion', async
     page.getByRole('button', { name: 'Start 30 day trial' })
   ).toHaveCount(0);
   await page.getByRole('button', { name: 'Claim your free months' }).click();
-  await expectLanded(page, 'Entered Macro at /home');
+  await expectLanded(page, 'Entered Fintail at /home');
   expect((await fakeWorld(page)).viewer?.licensed).toBe(true);
 });
 
@@ -258,7 +258,7 @@ test('staff can bypass onboarding from any step', async ({ page }) => {
   });
   await expect(heading(page, 'Create your workspace')).toBeVisible();
   await page.getByRole('button', { name: 'Bypass' }).click();
-  await expectLanded(page, 'Entered Macro at /home');
+  await expectLanded(page, 'Entered Fintail at /home');
   expect((await fakeWorld(page)).record.status).toBe('completed');
 });
 
@@ -271,7 +271,7 @@ test('a finished user is sent straight into the app', async ({ page }) => {
       licensed: false,
     },
   });
-  await expectLanded(page, 'Entered Macro at /md/doc');
+  await expectLanded(page, 'Entered Fintail at /md/doc');
 });
 
 test.describe('with motion', () => {
@@ -706,7 +706,7 @@ for (const width of [1280, 390]) {
       page.getByText('30 days free, then', { exact: false })
     ).toHaveCount(0);
     await page.getByRole('button', { name: 'Get Pro', exact: true }).click();
-    await expectLanded(page, 'Entered Macro at /home');
+    await expectLanded(page, 'Entered Fintail at /home');
   });
 }
 

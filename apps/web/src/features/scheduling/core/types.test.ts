@@ -34,11 +34,11 @@ describe('scheduling form validation', () => {
     );
     expect(validateEvent(event, [])).toBeUndefined();
   });
-  it('defaults a new link to a Macro call', () => {
+  it('defaults a new link to a Fintail call', () => {
     const event = newEventType('schedule', ['host'], false);
     expect(event.macroCall).toBe(true);
     expect(event.googleMeet).toBe(false);
-    expect(meetingPlaceLabel(event)).toBe('Macro call');
+    expect(meetingPlaceLabel(event)).toBe('Fintail call');
     expect(
       meetingPlaceLabel({ ...event, macroCall: false, googleMeet: true })
     ).toBe('Google Meet');

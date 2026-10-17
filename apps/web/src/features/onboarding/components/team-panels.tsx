@@ -20,7 +20,7 @@ export function OnTeamPanel(props: {
         {/* Copy must stay true for auto-join, invite-accept, and the
             optimistic mid-create flash alike. */}
         <p class="max-w-xs text-xs text-ink-muted leading-snug">
-          Your team is set up — everything your teammates bring into Macro is
+          Your team is set up — everything your teammates bring into Fintail is
           shared with you.
         </p>
       </div>

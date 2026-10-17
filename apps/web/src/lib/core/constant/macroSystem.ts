@@ -1,5 +1,5 @@
 /**
- * Identity for the autonomous Macro platform principal. Mirrors
+ * Identity for the autonomous Fintail platform principal. Mirrors
  * `bot_id::MACRO_SYSTEM_BOT_ID` on the backend, which attributes actions the
  * platform takes on its own (onboarding seeds, scheduled jobs) to this bot.
  */

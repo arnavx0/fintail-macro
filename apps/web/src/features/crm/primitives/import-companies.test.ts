@@ -230,7 +230,7 @@ describe('company import', () => {
             },
           ]
         ),
-        'Macro Customers Oct 16 2026.csv'
+        'Fintail Customers Oct 16 2026.csv'
       )
     );
     expect(state.pipelineData()?.fields).toEqual(['Stage', 'Owner']);
@@ -245,7 +245,7 @@ describe('company import', () => {
     expect(create).toHaveBeenCalledTimes(3);
     expect(
       created.map((pipeline) => [pipeline.name, pipeline.sharing])
-    ).toEqual([['Macro Customers Oct 16 2026', 'private']]);
+    ).toEqual([['Fintail Customers Oct 16 2026', 'private']]);
     expect(state.pipeline()?.added).toBe(2);
     expect(inserted).toEqual([
       [

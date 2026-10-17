@@ -187,7 +187,7 @@ export function resolveThemeColors(
   const defaults = mode === 'dark' ? macroDarkTheme : macroLightTheme;
   const defaultTokens = {
     // index.css defines control outside the authored theme registry; input
-    // may link to it (as Macro Dark does).
+    // may link to it (as Fintail Dark does).
     control: 'var(--color-surface-2)',
     ...defaults.colorTokens,
   };

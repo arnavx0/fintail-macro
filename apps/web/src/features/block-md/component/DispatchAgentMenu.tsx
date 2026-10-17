@@ -106,7 +106,7 @@ async function generateDocumentPrompt(
 
   const lines: string[] = [];
 
-  lines.push(`Read the Macro document ${documentName}:`);
+  lines.push(`Read the Fintail document ${documentName}:`);
   lines.push('');
   lines.push(`<document identifier="${shortId}">`);
   lines.push(`<title>${documentName}</title>`);
@@ -126,7 +126,7 @@ async function generateDocumentPrompt(
 
   lines.push('');
   lines.push(
-    'If you have the Macro MCP server enabled, use it to gather additional context about this document.'
+    'If you have the Fintail MCP server enabled, use it to gather additional context about this document.'
   );
 
   return lines.join('\n');
@@ -142,7 +142,7 @@ async function generateTaskPrompt(
 
   const lines: string[] = [];
 
-  lines.push(`Work on Macro task ${documentName}:`);
+  lines.push(`Work on Fintail task ${documentName}:`);
   lines.push('');
   lines.push(`<task identifier="${shortId}">`);
   lines.push(`<title>${documentName}</title>`);
@@ -165,7 +165,7 @@ async function generateTaskPrompt(
   lines.push(`Please use the branch "${branchName}" for your work.`);
   lines.push('');
   lines.push(
-    'If you have the Macro MCP server enabled, use it to gather additional context about this task.'
+    'If you have the Fintail MCP server enabled, use it to gather additional context about this task.'
   );
   lines.push('');
   lines.push(

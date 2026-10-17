@@ -1,5 +1,5 @@
 /**
- * Production wiring for Macro Forms: the real query adapters, the app's
+ * Production wiring for Fintail Forms: the real query adapters, the app's
  * pickers, the database grid and condition editor, toasts and dialogs. Only
  * the app-facing entry points import this; views and primitives read the
  * contract from `context/form-context`.

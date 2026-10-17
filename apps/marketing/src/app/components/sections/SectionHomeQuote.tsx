@@ -562,7 +562,7 @@ export function SectionHomeQuote(props: { variant?: 'default' | 'migrate' }) {
                     'padding-left': '20px',
                   }}
                 >
-                  Macro is the open-source workspace for ambitious teams.
+                  Fintail is the unified workspace for investors.
                 </p>
                 <button
                   type="button"

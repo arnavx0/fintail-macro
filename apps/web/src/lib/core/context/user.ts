@@ -68,7 +68,7 @@ export const [UserContextProvider, useUserContext] =
     const email = createMemo(() => userInfo()?.email);
     const permissions = createMemo(() => userInfo()?.permissions ?? []);
     const author = createMemo(
-      () => userInfo()?.name || userInfo()?.email || 'Macro User'
+      () => userInfo()?.name || userInfo()?.email || 'Fintail User'
     );
     const licenseStatus = createMemo(() => userInfo()?.licenseStatus);
     const tutorialCompleted = createMemo(() => userInfo()?.tutorialComplete);

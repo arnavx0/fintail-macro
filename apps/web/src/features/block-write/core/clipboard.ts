@@ -7,7 +7,7 @@ import type {
 
 /**
  * The clipboard for DOCX documents. A copy goes out as plain text and as
- * HTML that carries Macro's own form of the paragraphs in an attribute, so
+ * HTML that carries Fintail's own form of the paragraphs in an attribute, so
  * pasting back into a DOCX keeps every run's formatting while other
  * applications read ordinary HTML. Pasted HTML from elsewhere (Word, Google
  * Docs, web pages) becomes paragraphs with headings, lists and basic

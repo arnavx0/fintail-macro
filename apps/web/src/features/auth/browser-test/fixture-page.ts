@@ -33,7 +33,7 @@ export const fakeCalls = (page: Page) =>
 
 export async function expectLanded(page: Page, target: string) {
   await expect(page.getByTestId('landed')).toHaveText(
-    `Entered Macro at ${target}`
+    `Entered Fintail at ${target}`
   );
 }
 

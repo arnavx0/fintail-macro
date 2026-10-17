@@ -191,7 +191,7 @@ describe('static agent session previews', () => {
 describe('static pull request mentions', () => {
   it.each([
     [
-      'a Macro id',
+      'a Fintail id',
       '<m-pr-mention>{"id":"foreign-1","label":"macro-inc/macro#7956"}</m-pr-mention>',
       'foreign-1',
     ],

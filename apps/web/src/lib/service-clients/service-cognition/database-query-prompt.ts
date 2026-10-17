@@ -62,7 +62,7 @@ export function databaseCompletionRequest(input: DatabaseQuestionInput) {
           sql: {
             type: 'string',
             description:
-              'One read-only SELECT in the Macro Databases dialect to run and save. Use every table and column sqlName verbatim; they are display names already quoted. Return real columns/aggregates, not literal success messages.',
+              'One read-only SELECT in the Fintail Databases dialect to run and save. Use every table and column sqlName verbatim; they are display names already quoted. Return real columns/aggregates, not literal success messages.',
           },
           explanation: { type: 'string' },
           title: { type: 'string' },

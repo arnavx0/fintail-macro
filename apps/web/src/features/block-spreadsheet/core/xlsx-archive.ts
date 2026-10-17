@@ -118,10 +118,10 @@ function archiveEntries(
     !names.has('xl/workbook.xml')
   )
     throw invalid();
-  // Imports drop macros with a warning; Macro's own exports must never
+  // Imports drop macros with a warning; Fintail's own exports must never
   // contain them.
   if (!allowMacros && [...names].some(isMacroPart))
-    throw new Error('Workbooks written by Macro must not contain macros.');
+    throw new Error('Workbooks written by Fintail must not contain macros.');
   return { entries, centralStart };
 }
 
@@ -200,7 +200,7 @@ function isMacroPart(name: string) {
   );
 }
 
-/** Warnings for package parts Macro does not import, from entry names alone. */
+/** Warnings for package parts Fintail does not import, from entry names alone. */
 export function xlsxFeatureWarnings(names: string[]): string[] {
   const warnings = new Set<string>();
   for (const name of names) {
@@ -214,7 +214,7 @@ export function xlsxFeatureWarnings(names: string[]): string[] {
       );
     if (/(^|\/)vbaProject\.bin$/i.test(name))
       warnings.add(
-        'VBA macros are not imported. Cells, formulas and formatting are; the macros do not run in Macro.'
+        'VBA macros are not imported. Cells, formulas and formatting are; the macros do not run in Fintail.'
       );
     if (/^xl\/macrosheets\//i.test(name))
       warnings.add('Excel 4.0 macro sheets are not imported.');

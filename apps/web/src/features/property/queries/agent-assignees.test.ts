@@ -129,7 +129,7 @@ describe('task agent assignees', () => {
     });
   });
 
-  it('reuses system session-agent rollout and excludes classic Macro', () => {
+  it('reuses system session-agent rollout and excludes classic Fintail', () => {
     fixture.agentRollout = true;
     fixture.claudeRollout = true;
     fixture.codexRollout = true;

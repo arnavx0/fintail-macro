@@ -90,7 +90,7 @@ const landed = (): FixtureLanding | undefined => {
 
 const landingText = (landing: FixtureLanding | undefined) =>
   landing?.t === 'app'
-    ? `Entered Macro at ${landing.target}`
+    ? `Entered Fintail at ${landing.target}`
     : landing?.t === 'sign-in'
       ? 'Sign in'
       : 'Signed out';

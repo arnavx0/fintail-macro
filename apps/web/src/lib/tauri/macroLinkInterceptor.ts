@@ -4,7 +4,7 @@ import { registerExternalUrlInterceptor } from '@core/util/url';
 import { emit } from '@tauri-apps/api/event';
 
 /**
- * `openExternalUrl` interceptor: inside the native Tauri shell, routes a Macro
+ * `openExternalUrl` interceptor: inside the native Tauri shell, routes a Fintail
  * `/app` link in-app via the same `navigate` event the deep-link handler emits,
  * instead of letting it fall through to `window.open` — which bypasses the
  * webview's navigation hook and would open the link in the system browser.

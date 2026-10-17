@@ -677,7 +677,7 @@ export function createQuickAccessValue(): QuickAccessContextValue {
   });
 
   // CRM contacts (live CRM list, most recently interacted first). They are
-  // not Macro users, so they stay out of the 'person' bucket.
+  // not Fintail users, so they stay out of the 'person' bucket.
   const crmContactEntries = createLazyMemo(() => {
     const allEntries: IndexEntry[] = [];
     const hidden = hiddenIds();

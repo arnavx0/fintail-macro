@@ -204,7 +204,8 @@ export function createDocxSession(options: DocxSessionOptions): DocxSession {
     if (version !== undefined && version > DOCX_FORMAT_VERSION) {
       setState({
         t: 'error',
-        message: 'This document uses a newer format. Update Macro to open it.',
+        message:
+          'This document uses a newer format. Update Fintail to open it.',
       });
       return;
     }

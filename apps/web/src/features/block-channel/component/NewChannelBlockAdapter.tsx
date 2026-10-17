@@ -164,7 +164,7 @@ function NewTop(props: { channelId: string }) {
     },
   });
 
-  // Seed for "Ask Macro": a new chat with this channel @mentioned, so the
+  // Seed for "Ask Fintail": a new chat with this channel @mentioned, so the
   // user does not have to create an agent and mention the channel by hand.
   const askMacroEntity = () => {
     const type = channelType();
@@ -214,7 +214,7 @@ function NewTop(props: { channelId: string }) {
           mobileViews={isMobile() ? mobileViews() : undefined}
           tools={[
             {
-              label: 'Ask Macro',
+              label: 'Ask Fintail',
               icon: ChatWithAgentIcon,
               action: () => {
                 const entity = askMacroEntity();
@@ -273,7 +273,7 @@ function NewTop(props: { channelId: string }) {
         {(entity) => (
           <SplitHeaderRight>
             <HeaderIsland>
-              <ChatWithAgentButton entity={entity()} label="Ask Macro" />
+              <ChatWithAgentButton entity={entity()} label="Ask Fintail" />
             </HeaderIsland>
           </SplitHeaderRight>
         )}

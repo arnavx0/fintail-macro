@@ -6,11 +6,11 @@ export function DesktopAppDownload() {
   return (
     <SettingsPage
       title="Desktop App"
-      description="Get Macro for your computer."
+      description="Get Fintail for your computer."
     >
       <SettingsCard>
         <SettingsRow
-          label="Download Macro"
+          label="Download Fintail"
           description="Get the latest release for macOS or Linux."
           stackOnNarrow
         >
@@ -32,7 +32,7 @@ export function DesktopAppInfo(props: { version: string; buildDate?: Date }) {
   return (
     <SettingsPage
       title="Desktop App"
-      description="Your installed version of Macro."
+      description="Your installed version of Fintail."
     >
       <SettingsCard>
         <SettingsRow label="Version">

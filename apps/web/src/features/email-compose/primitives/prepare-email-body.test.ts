@@ -50,7 +50,7 @@ function quotedImageSources(html: string) {
 
 describe('prepareEmailBodyFromHtml', () => {
   it.each(['reply', 'forward'] as const)(
-    'keeps quoted Macro document links re-importable as rich mentions in a %s',
+    'keeps quoted Fintail document links re-importable as rich mentions in a %s',
     (replyType) => {
       const prepared = prepareEmailBodyFromHtml('<p>My reply</p>', {
         replyType,

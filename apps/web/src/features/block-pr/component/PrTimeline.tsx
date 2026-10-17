@@ -20,7 +20,7 @@ import { GithubMessageView } from './GithubMessageView';
 /**
  * Unified PR discussion section, styled like the task block's: a collapsible
  * "Discussion" divider over read-only GitHub comments interleaved by
- * timestamp with editable Macro discussion threads, plus a composer.
+ * timestamp with editable Fintail discussion threads, plus a composer.
  */
 export function PrTimeline(props: {
   githubItems: GithubPullRequestComment[];

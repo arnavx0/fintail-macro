@@ -48,7 +48,7 @@ describe('meeting route ownership', () => {
     expect(navigation.entry()).toBe(owner);
   });
 
-  it('returns to Macro on explicit leave and ignores cleanup before the route unmounts', () => {
+  it('returns to Fintail on explicit leave and ignores cleanup before the route unmounts', () => {
     const navigation = setup({ kind: 'new' });
     const owner = navigation.entry();
     navigation.setCallState(owner, true, 'private-token');

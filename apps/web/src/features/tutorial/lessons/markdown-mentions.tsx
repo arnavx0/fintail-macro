@@ -18,7 +18,7 @@ function MarkdownMentionsContent(_props: LessonContentProps) {
   return (
     <div class="flex flex-col gap-8 onboarding-stagger">
       <p class="text-ink-muted mt-2">
-        Macro's editor supports rich markdown, mentions, and emoji. Try
+        Fintail's editor supports rich markdown, mentions, and emoji. Try
         mentioning someone or something by typing <strong>@</strong> in the
         editor.
       </p>

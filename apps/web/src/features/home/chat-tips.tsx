@@ -69,7 +69,7 @@ export function ChatTipsSection() {
         <SetupRow
           icon={<PuzzlePieceIcon class="size-4" />}
           title="Connect your own agents"
-          desc="Use Macro as a tool from Claude Code, Cursor, or any MCP client"
+          desc="Use Fintail as a tool from Claude Code, Cursor, or any MCP client"
           trailing={
             /* The arrow MUST stay BLACK. See comment at top of file. */
             <ChevronRightIcon class={SETUP_ROW_ARROW_CLASSES} />

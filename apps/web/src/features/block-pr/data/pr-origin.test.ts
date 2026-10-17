@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { detectPrOrigin, toolForHarness } from './pr-origin';
 
 describe('detectPrOrigin', () => {
-  it('prefers the Macro agent session that opened the pull request', () => {
+  it('prefers the Fintail agent session that opened the pull request', () => {
     expect(
       detectPrOrigin({
         description: 'https://claude.ai/code/session_123',

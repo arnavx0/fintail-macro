@@ -28,7 +28,7 @@ export type PartSegment = {
 };
 
 /**
- * Macro tools whose call renders the answer itself rather than a card about
+ * Fintail tools whose call renders the answer itself rather than a card about
  * it: `DisplayResults` renders the dynamic-UI view the model composed, the
  * same full-width dashboard the chat shows. `GenerateImage` shows the generated
  * image document. `DispatchCodingAgent` shows the dispatched session's Magic Chip.
@@ -45,7 +45,7 @@ const SELF_RENDERING_TOOLS: ReadonlySet<string> = new Set([
 
 /**
  * Whether a part is a tool call that renders its own view (see
- * {@link SELF_RENDERING_TOOLS}). Only Macro's own tools do: the fold names
+ * {@link SELF_RENDERING_TOOLS}). Only Fintail's own tools do: the fold names
  * them, and the chat component library is what renders them.
  */
 export function rendersOwnView(part: MessagePart | undefined): boolean {
@@ -105,7 +105,7 @@ export function segmentParts(parts: readonly MessagePart[]): PartSegment[] {
   return segments;
 }
 
-/** Only Macro's session-authenticated internal server may select this view. */
+/** Only Fintail's session-authenticated internal server may select this view. */
 export function isCodeExecution(part: MessagePart): boolean {
   return (
     part.kind === 'tool_use' &&

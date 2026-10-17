@@ -24,7 +24,7 @@ describe('session request errors', () => {
     const error = await errorHandler()(
       new Response('repository is not available to this user', { status: 403 })
     );
-    expect(error.message).toContain('Connect GitHub to Macro');
+    expect(error.message).toContain('Connect GitHub to Fintail');
   });
 
   it('preserves the service reason when a control request is rejected', async () => {

@@ -88,7 +88,7 @@ describe('useAgentMentionUsers', () => {
     });
   });
 
-  it('offers the classic Macro bot as the only Macro entry without the rollout', () => {
+  it('offers the classic Fintail bot as the only Fintail entry without the rollout', () => {
     createRoot((dispose) => {
       const users = useAgentMentionUsers(() => []);
       expect(macroEntries(users())).toEqual([
@@ -118,14 +118,14 @@ describe('useAgentMentionUsers', () => {
     });
   });
 
-  it('keeps one Macro entry when the other Macro bot is already in the list', () => {
+  it('keeps one Fintail entry when the other Fintail bot is already in the list', () => {
     createRoot((dispose) => {
       flags.agents = () => true;
       const users = useAgentMentionUsers(() => [
         {
           id: MACRO_AGENT_PRINCIPAL_ID,
-          name: 'Macro',
-          email: 'Macro',
+          name: 'Fintail',
+          email: 'Fintail',
         },
         {
           id: MACRO_NEW_PRINCIPAL_ID,

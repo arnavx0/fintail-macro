@@ -36,7 +36,7 @@ import { RecurrenceBuilder } from './RecurrenceBuilder';
 
 export interface EventFormProps {
   controller: CalendarEventFormController;
-  /** Whether this host can create and attach Macro call links. */
+  /** Whether this host can create and attach Fintail call links. */
   macroCallsEnabled: boolean;
   isEdit?: boolean;
   disabledFields?: EventEditorDisabledFields;

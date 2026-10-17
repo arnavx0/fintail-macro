@@ -115,7 +115,7 @@ export function RoutinesList(props: {
               </p>
               <Show when={!props.loading && !props.error && !search().trim()}>
                 <p>
-                  Create a routine to run an agent on a schedule or a Macro
+                  Create a routine to run an agent on a schedule or a Fintail
                   event.
                 </p>
               </Show>

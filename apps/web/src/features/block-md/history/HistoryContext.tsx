@@ -125,7 +125,7 @@ export function HistoryProvider(props: {
   );
 
   // AI peers are recognizable from the peer id alone (reserved block) and all
-  // collapse into the single Macro identity. Checked before the peer map,
+  // collapse into the single Fintail identity. Checked before the peer map,
   // which may attribute them to whoever's token the AI worker connected with.
   const resolvePeerUser = (peers: Map<string, string>, peer: string): string =>
     isAiPeer(BigInt(peer))

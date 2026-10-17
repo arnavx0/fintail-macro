@@ -6,7 +6,7 @@ import { Input, type InputProps, inputOutlineFocusClasses } from './Input';
 
 // Adapted from hngngn/shadcn-solid's MIT-licensed TextField primitive.
 // The slot API follows our compound-component convention and the visual
-// treatment uses Macro's semantic, layer-aware tokens.
+// treatment uses Fintail's semantic, layer-aware tokens.
 
 export type TextFieldProps<T extends ValidComponent = 'div'> = ComponentProps<
   typeof KobalteTextField<T>

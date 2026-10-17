@@ -1,4 +1,4 @@
-/** Functions Macro calculates: `formula-functions.json` plus engine functions
+/** Functions Fintail calculates: `formula-functions.json` plus engine functions
  * without catalog help (FORECAST.ETS) and HYPERLINK, which the calculation
  * adapter evaluates to its display text. Kept in sync by a unit test. */
 export const CALCULATED_FUNCTIONS: ReadonlySet<string> = new Set(

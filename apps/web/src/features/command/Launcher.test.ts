@@ -2,7 +2,7 @@ import { TOKENS } from '@core/hotkey/tokens';
 import { describe, expect, it, vi } from 'vitest';
 import { CREATABLE_BLOCKS } from './Launcher';
 
-const flags = vi.hoisted(() => ({ agents: false }));
+const flags = vi.hoisted(() => ({ agents: false, fintail: false }));
 
 // Keep the actual shared create-menu entries, with all pilots enabled. Their
 // action implementations are unrelated to shortcut selection.
@@ -34,6 +34,9 @@ vi.mock('@core/component/EntityIcon', () => ({
   getIconConfig: () => ({ icon: () => null }),
 }));
 vi.mock('@core/constant/featureFlags', () => ({
+  get ENABLE_FINTAIL() {
+    return flags.fintail;
+  },
   enableAiEditor: 'ai',
   enableChatV3Agents: 'agents',
   enableDatabases: 'databases',
@@ -83,4 +86,39 @@ describe('create-menu keyboard shortcuts', () => {
       });
     }
   );
+});
+
+describe('Fintail create menu', () => {
+  it('offers only investing and AI options when the Fintail switch is on', () => {
+    flags.fintail = true;
+    const labels = CREATABLE_BLOCKS.filter(
+      (item) => item.enabled?.() ?? true
+    ).map((item) => item.label);
+    flags.fintail = false;
+
+    for (const hidden of [
+      'Form',
+      'Message',
+      'Channel',
+      'Canvas',
+      'Design',
+      'Photoshop file',
+      'Illustrator file',
+      'Code',
+    ]) {
+      expect(labels).not.toContain(hidden);
+    }
+    for (const kept of [
+      'Email',
+      'Routine',
+      'Database',
+      'Skill',
+      'Document',
+      'Task',
+      'Spreadsheet',
+      'Folder',
+    ]) {
+      expect(labels).toContain(kept);
+    }
+  });
 });

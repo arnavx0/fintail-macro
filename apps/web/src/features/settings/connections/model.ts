@@ -80,20 +80,20 @@ export const CURATED_AI: Record<
   github: {
     title: 'GitHub',
     outcome:
-      'Macro AI can answer questions about your repos, pull requests, and issues.',
+      'Fintail AI can answer questions about your repos, pull requests, and issues.',
   },
   linear: {
     title: 'Linear',
     outcome:
-      'Macro AI can create, read, and update Linear issues without leaving Macro.',
+      'Fintail AI can create, read, and update Linear issues without leaving Fintail.',
   },
   notion: {
     title: 'Notion',
-    outcome: 'Macro AI can search your pages and wikis.',
+    outcome: 'Fintail AI can search your pages and wikis.',
   },
   slack: {
     title: 'Slack',
-    outcome: 'Macro AI can search conversations and post updates for you.',
+    outcome: 'Fintail AI can search conversations and post updates for you.',
   },
 };
 

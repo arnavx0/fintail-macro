@@ -33,7 +33,7 @@ export type FromWebsocketMessage = {
 async function resolveWsUrl() {
   if (ENABLE_BEARER_TOKEN_AUTH) {
     const apiToken = await getMacroApiToken();
-    if (!apiToken) throw new Error('No Macro API token');
+    if (!apiToken) throw new Error('No Fintail API token');
 
     return `${wsHost}?macro-api-token=${apiToken}`;
   }

@@ -59,7 +59,7 @@ describe('Slack import sidebar', () => {
     expect(screen.getByText('Import dialog host')).toBeTruthy();
     view.unmount();
     render(() => <SlackImportSidebar />);
-    expect(screen.queryByText('Bring Slack to Macro')).toBeNull();
+    expect(screen.queryByText('Bring Slack to Fintail')).toBeNull();
     setTeamId('another-team');
     expect(
       screen.getByRole('button', { name: 'Import from Slack' })
@@ -74,7 +74,7 @@ describe('Slack import sidebar', () => {
   it('hides immediately after completion without unmounting import progress', () => {
     render(() => <SlackImportSidebar />);
     hideSlackImportPromotion(userId(), teamId());
-    expect(screen.queryByText('Bring Slack to Macro')).toBeNull();
+    expect(screen.queryByText('Bring Slack to Fintail')).toBeNull();
     expect(screen.getByText('Import dialog host')).toBeTruthy();
   });
 
@@ -84,6 +84,6 @@ describe('Slack import sidebar', () => {
   ])('preserves the feature and admin gates: %o', (gate) => {
     Object.assign(host, gate);
     render(() => <SlackImportSidebar />);
-    expect(screen.queryByText('Bring Slack to Macro')).toBeNull();
+    expect(screen.queryByText('Bring Slack to Fintail')).toBeNull();
   });
 });

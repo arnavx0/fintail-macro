@@ -13,7 +13,7 @@ const held = {
   approvalId: 'approval-1',
   turn: 0,
   serverSlug: 'macro',
-  serverName: 'Macro',
+  serverName: 'Fintail',
   toolName: 'ListEmails',
   requestedBy: 'macro|julia@macro.com',
 } satisfies PendingInteraction;

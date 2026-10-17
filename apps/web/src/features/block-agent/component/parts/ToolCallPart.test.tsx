@@ -218,7 +218,7 @@ describe('ToolCallPart routing', () => {
     expect(rendered.getByTestId('subtitle').textContent).toBe('');
   });
 
-  it('reuses a known renderer for calls from the explicit Macro MCP server', () => {
+  it('reuses a known renderer for calls from the explicit Fintail MCP server', () => {
     const rendered = render(() => (
       <ToolCallPart
         part={{
@@ -266,7 +266,7 @@ describe('ToolCallPart routing', () => {
     expect(rendered.getByTestId('body').textContent).toBe('');
   });
 
-  it('does not select a Macro renderer for an external server with the same tool name', () => {
+  it('does not select a Fintail renderer for an external server with the same tool name', () => {
     const rendered = render(() => (
       <ToolCallPart
         part={{
@@ -289,7 +289,7 @@ describe('ToolCallPart routing', () => {
     expect(rendered.getByTestId('body').textContent).toBe('');
   });
 
-  it('keeps malformed Macro MCP results hidden instead of exposing JSON', () => {
+  it('keeps malformed Fintail MCP results hidden instead of exposing JSON', () => {
     const rendered = render(() => (
       <ToolCallPart
         part={{
@@ -311,7 +311,7 @@ describe('ToolCallPart routing', () => {
     expect(rendered.getByTestId('body').textContent).toBe('');
   });
 
-  it('updates a generic Macro MCP result without remounting its existing renderer', () => {
+  it('updates a generic Fintail MCP result without remounting its existing renderer', () => {
     const call = (text: string): ToolUsePart => ({
       ...toolUse({
         kind: 'other',
@@ -399,7 +399,7 @@ describe('ToolCallPart routing', () => {
   });
 });
 
-describe('ToolCallPart Macro tools', () => {
+describe('ToolCallPart Fintail tools', () => {
   // A ReadContent call the fold already named and unwrapped.
   const readContent = (overrides?: Partial<Omit<ToolUsePart, 'name'>>) =>
     toolUse(
@@ -412,7 +412,7 @@ describe('ToolCallPart Macro tools', () => {
       { name: 'ReadContent', status: 'running', ...overrides }
     );
 
-  it('keeps a running Macro tool on the compact active row', () => {
+  it('keeps a running Fintail tool on the compact active row', () => {
     const rendered = render(() => (
       <ToolCallPart part={readContent()} context={context(true)} />
     ));
@@ -421,7 +421,7 @@ describe('ToolCallPart Macro tools', () => {
     expect(rendered.getByTestId('tool-card').dataset.expandable).toBe('false');
   });
 
-  it('marks a Macro call cut off by the turn as stopped', () => {
+  it('marks a Fintail call cut off by the turn as stopped', () => {
     // The turn ended with this call still `running` in the log; it settles
     // and, with no response to show, keeps the labelled card.
     const rendered = render(() => (
@@ -473,7 +473,7 @@ describe('ToolCallPart Macro tools', () => {
     expect(rendered.queryByTestId('tool-card')).toBeNull();
   });
 
-  it('keeps an unknown Macro tool on a labelled card', () => {
+  it('keeps an unknown Fintail tool on a labelled card', () => {
     const rendered = render(() => (
       <ToolCallPart
         part={toolUse(
@@ -530,7 +530,7 @@ describe('ToolCallPart Macro tools', () => {
     expect(rendered.getByTestId('tool-card')).not.toBeNull();
   });
 
-  it('shows a failed Macro tool as a faded summary', () => {
+  it('shows a failed Fintail tool as a faded summary', () => {
     const rendered = render(() => (
       <ToolCallPart
         part={toolUse(
@@ -1286,7 +1286,7 @@ describe('ToolCallPart result summaries', () => {
     }
   );
 
-  it('does not infer a result count from an invalid Macro response', () => {
+  it('does not infer a result count from an invalid Fintail response', () => {
     const rendered = render(() => (
       <ToolCallPart
         part={toolUse(

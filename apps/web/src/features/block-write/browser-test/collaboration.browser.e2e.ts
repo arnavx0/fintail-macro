@@ -204,7 +204,7 @@ test('two people edit the same DOCX live through the sync service', async ({
     expect(documentXml).toContain('Renewal requires mutual written consent.');
     expect(documentXml).toContain('Signed by the parties below.');
     expect(documentXml).toContain('<w:numPr>');
-    // Comments are Macro threads: the Word file itself carries no comments.
+    // Comments are Fintail threads: the Word file itself carries no comments.
     expect(files['word/comments.xml']).toBeUndefined();
 
     // Bob reloads and gets the merged document back from the server.

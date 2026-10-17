@@ -39,7 +39,7 @@ export function Admin() {
   return (
     <SettingsPage
       title="Debug"
-      description="Local toggles for debugging — only visible to Macro staff."
+      description="Local toggles for debugging — only visible to Fintail staff."
       actions={
         <Button
           variant="outline"

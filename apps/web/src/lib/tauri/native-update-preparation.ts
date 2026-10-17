@@ -14,12 +14,12 @@ export function createNativeUpdatePreparation(options: {
     async prepare() {
       if (options.isBlocked())
         throw new Error(
-          'Finish your call, upload, or import before restarting Macro.'
+          'Finish your call, upload, or import before restarting Fintail.'
         );
       await Promise.all([...saves].map((save) => save()));
       await options.flush();
       if (options.isBlocked())
-        throw new Error('Finish your current work before restarting Macro.');
+        throw new Error('Finish your current work before restarting Fintail.');
     },
   };
 }

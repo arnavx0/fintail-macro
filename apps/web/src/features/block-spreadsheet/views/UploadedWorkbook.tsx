@@ -165,7 +165,7 @@ function UploadedWorkbookPreview(props: {
           disabled={!!actions.pending()}
           onClick={() => void actions.edit()}
         >
-          {actions.pending() ? 'Saving…' : 'Edit in Macro'}
+          {actions.pending() ? 'Saving…' : 'Edit in Fintail'}
         </Button>
         <Show when={props.workbook.warnings.length}>
           <details class="w-full">

@@ -162,7 +162,7 @@ export function createStageEditor(input: {
     resetMutation.mutate(undefined, {
       onSuccess: () => {
         setShowResetModal(false);
-        input.onSuccess('Stages reset to Macro defaults');
+        input.onSuccess('Stages reset to Fintail defaults');
       },
     });
   };

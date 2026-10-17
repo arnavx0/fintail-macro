@@ -9,7 +9,7 @@ import type { ToolName as MacroToolName } from '@service-cognition/generated/too
 type Wording = (whose: string) => string;
 
 /**
- * Every Macro tool, so a new one does not type-check until it is worded.
+ * Every Fintail tool, so a new one does not type-check until it is worded.
  * `null` for the tools that use nobody's access and so are never held.
  */
 const MACRO_TOOLS: Record<MacroToolName, Wording | null> = {
@@ -202,12 +202,12 @@ export function describeToolCall(
   const wording = isMacroTool(tool) ? MACRO_TOOLS[tool] : null;
   return wording
     ? wording(whose)
-    : `use ${whose} Macro workspace (${toolWords(tool)})`;
+    : `use ${whose} Fintail workspace (${toolWords(tool)})`;
 }
 
 /**
  * What approving a call for good covers, as a verb phrase: the same tool on
- * Macro, whose one server reaches all of the owner's data, or the whole
+ * Fintail, whose one server reaches all of the owner's data, or the whole
  * connected app.
  */
 export function describeStandingApproval(

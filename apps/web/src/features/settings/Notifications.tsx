@@ -66,7 +66,7 @@ export function Notifications() {
       if (enabled && !platformSettings.isEnabled()) {
         toast.failure(
           isTauri() && osType() === 'macos'
-            ? 'Open System Settings → Notifications → Macro and turn on Allow notifications.'
+            ? 'Open System Settings → Notifications → Fintail and turn on Allow notifications.'
             : 'Allow notification permissions, then try again.'
         );
       }

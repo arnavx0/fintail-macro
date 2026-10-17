@@ -336,11 +336,11 @@ describe('rendersOwnView', () => {
     ]);
   });
 
-  it('is true for a Macro displayResults call', () => {
+  it('is true for a Fintail displayResults call', () => {
     expect(rendersOwnView(displayResults())).toBe(true);
   });
 
-  it('recognizes a Macro displayResults call with an MCP namespace', () => {
+  it('recognizes a Fintail displayResults call with an MCP namespace', () => {
     const part = displayResults();
     expect(
       rendersOwnView({
@@ -356,10 +356,10 @@ describe('rendersOwnView', () => {
     expect(rendersOwnView(undefined)).toBe(false);
   });
 
-  // A harness tool that happens to share the name is not Macro's: the fold
+  // A harness tool that happens to share the name is not Fintail's: the fold
   // decides whose shape a call is in, and only a `macro` detail carries the
   // tool's own arguments.
-  it('is false for a same-named call the fold did not read as a Macro tool', () => {
+  it('is false for a same-named call the fold did not read as a Fintail tool', () => {
     expect(
       rendersOwnView({
         kind: 'tool_use',

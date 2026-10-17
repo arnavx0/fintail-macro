@@ -14,9 +14,9 @@ const CSI_PATTERN = /\x1b\[([0-9;]*)([A-Za-z])/g;
 
 /**
  * Standard 16-color ANSI foreground palette. Deliberately fixed rather than
- * drawn from Macro's own semantic tokens (accent/success/failure/...): a
+ * drawn from Fintail's own semantic tokens (accent/success/failure/...): a
  * tool colored its output on purpose, and that palette means something
- * different from Macro's UI palette - conflating them would misrepresent
+ * different from Fintail's UI palette - conflating them would misrepresent
  * what the tool actually printed.
  */
 const FG_COLORS: Record<number, string> = {

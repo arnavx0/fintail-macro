@@ -53,7 +53,7 @@ export function TurnOffCalendarDialog(props: {
         <Panel.Body class="p-6 font-sans flex flex-col gap-3">
           <Dialog.Description class="text-ink-muted text-sm/tight font-normal">
             Turn off calendar for{' '}
-            <span class="text-ink">{props.target?.emailAddress}</span>? Macro
+            <span class="text-ink">{props.target?.emailAddress}</span>? Fintail
             deletes its copy of these events and gives up calendar access. Your
             Google Calendar is untouched and email keeps syncing, but turning
             calendar back on means granting access again.

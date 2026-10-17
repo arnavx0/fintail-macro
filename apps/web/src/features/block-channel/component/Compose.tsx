@@ -292,7 +292,7 @@ export function ChannelCompose() {
               placeholder={
                 ENABLE_AGENT_DMS
                   ? 'To: People, agents, or email addresses'
-                  : 'To: Macro users or email addresses'
+                  : 'To: Fintail users or email addresses'
               }
               triedToSubmit={triedToSubmit}
               focusOnMount
@@ -301,10 +301,10 @@ export function ChannelCompose() {
             <div class="mt-6 p-3 flex flex-row items-center border border-edge-muted text-ink-placeholder rounded-md">
               <InfoIcon class="shrink-0 size-8 mr-4 fill-edge" />
               <p class="text-xs">
-                Send a Macro message to anyone. Share your files, tasks, emails;
-                you can <code>@mention</code> anything. If your message
-                recipient is not already a Macro user, they will receive an
-                email letting them know they received a message on Macro.
+                Send a Fintail message to anyone. Share your files, tasks,
+                emails; you can <code>@mention</code> anything. If your message
+                recipient is not already a Fintail user, they will receive an
+                email letting them know they received a message on Fintail.
               </p>
             </div>
           </div>

@@ -5,7 +5,7 @@ import { IMAGE_INPUT_WARNING } from '../state/image-input';
 /**
  * The agent block's composer: the chat input's look and its markdown editing
  * surface (`MarkdownShell` over a lean `EditorConfigBuilder`), including `@`
- * mentions so users can attach Macro items the same way they do in chat, and
+ * mentions so users can attach Fintail items the same way they do in chat, and
  * file attachments - drop, paste, or the paperclip - shown as the channel
  * composer's chips. Uploading itself stays out: the parent owns the
  * attachment list and hands files back through `onAttachFiles`. Model

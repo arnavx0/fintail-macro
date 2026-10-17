@@ -55,7 +55,7 @@ export function HomeChatStart() {
             <div class="self-end">
               <Show when={!agents().enabled}>
                 <h1 class="mb-6 min-h-0 min-w-0 self-end text-center text-2xl font-normal leading-[42px] text-ink">
-                  What should we get done in Macro?
+                  What should we get done in Fintail?
                 </h1>
               </Show>
             </div>

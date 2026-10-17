@@ -1,6 +1,6 @@
 /**
  * EMF and WMF metafiles, which Office uses for logos and pasted drawings and
- * browsers cannot show. Macro plays their drawing records onto a canvas for
+ * browsers cannot show. Fintail plays their drawing records onto a canvas for
  * a picture to display, and keeps the metafile itself for export.
  */
 
@@ -1470,7 +1470,7 @@ const MAX_PREVIEW_SIDE = 1600;
 /**
  * A PNG of an EMF or WMF metafile, drawn at twice its natural size for
  * sharpness when zoomed, or undefined where there is no canvas to draw on
- * (outside browsers) or the metafile draws nothing Macro can show.
+ * (outside browsers) or the metafile draws nothing Fintail can show.
  */
 export async function metafilePreview(
   bytes: Uint8Array

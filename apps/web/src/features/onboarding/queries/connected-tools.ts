@@ -25,7 +25,7 @@ export function onboardingConnectedTools(
     );
     if (preset) connected.add(canonicalPipedreamSlug(preset.app_slug));
   }
-  // The GitHub card links Macro's native account, not an MCP connector.
+  // The GitHub card links Fintail's native account, not an MCP connector.
   connected.delete('github');
   if (githubLinked) connected.add('github');
   return connected;

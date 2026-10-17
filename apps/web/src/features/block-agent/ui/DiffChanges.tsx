@@ -3,7 +3,7 @@
  * five-block proportional bar with the `bars` variant.
  *
  * Port of opencode's diff-changes — github.com/sst/opencode, MIT © 2025
- * opencode — adapted to Macro tokens and Tailwind.
+ * opencode — adapted to Fintail tokens and Tailwind.
  */
 
 import { createMemo, For, Match, Show, Switch } from 'solid-js';

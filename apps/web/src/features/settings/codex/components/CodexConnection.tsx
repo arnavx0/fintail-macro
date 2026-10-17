@@ -40,7 +40,7 @@ export function CodexConnection(props: {
     if (props.pending) return;
     const confirmed = await confirmDialog({
       title: 'Disconnect ChatGPT?',
-      body: 'Remove your ChatGPT connection from Macro? Existing Codex cloud sessions keep running. You can reconnect at any time.',
+      body: 'Remove your ChatGPT connection from Fintail? Existing Codex cloud sessions keep running. You can reconnect at any time.',
       confirmLabel: 'Disconnect',
       tone: 'danger',
     });
@@ -63,7 +63,7 @@ export function CodexConnection(props: {
           </Show>
         </div>
         <p class="mt-1 text-sm text-ink-muted">
-          Use your ChatGPT account to run Codex cloud sessions in Macro.
+          Use your ChatGPT account to run Codex cloud sessions in Fintail.
         </p>
         <Show when={props.error}>
           <p role="alert" class="mt-3 text-sm text-negative">

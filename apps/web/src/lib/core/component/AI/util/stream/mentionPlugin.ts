@@ -9,7 +9,7 @@ export const MENTION_CLOSE = '</m-document-mention>';
 export const MACRO_XML_PREFIX = '<m-';
 const MACRO_XML_OPEN_TAG = /^<(m-[a-zA-Z0-9_-]+)>/;
 /*
-  Most inline Macro XML tags are compact. If a held tag grows past this,
+  Most inline Fintail XML tags are compact. If a held tag grows past this,
   stop holding so malformed tags and large block payloads do not stay hidden.
 */
 export const MAX_MACRO_XML_LENGTH = 4096;
@@ -36,10 +36,10 @@ function toTextPart(template: TextResponse, text: string): TextResponse {
 export type IsCodeContext = () => boolean;
 
 /**
- * Holds back text that looks like an in-progress Macro XML tag (`<m-...>`) so
+ * Holds back text that looks like an in-progress Fintail XML tag (`<m-...>`) so
  * the viewer never sees raw internal markup dripping in character by character;
  * a completed tag is released as one atomic text part so it renders as its
- * parsed node immediately. Text held for a tag that turns out not to be Macro
+ * parsed node immediately. Text held for a tag that turns out not to be Fintail
  * XML is released unchanged, and an open tag that grows past
  * MAX_MACRO_XML_LENGTH is given up on — combined with the buffered stream's
  * flush-on-quiet and flush-on-done, an unclosed tag is never held forever.
@@ -93,8 +93,8 @@ export function createMentionBufferPlugin(
   }
 
   /*
-   Release everything held that can no longer become (part of) Macro XML.
-   Only holds from a '<' that is still a viable Macro XML prefix onward.
+   Release everything held that can no longer become (part of) Fintail XML.
+   Only holds from a '<' that is still a viable Fintail XML prefix onward.
   */
   function drain(): ChatStream[] {
     const out: ChatStream[] = [];
@@ -122,16 +122,16 @@ export function createMentionBufferPlugin(
         if (openTag) {
           const closeTag = `</${openTag[1]}>`;
           const close = text.indexOf(closeTag, openTag[0].length);
-          /* a complete Macro XML tag -> release it as one atomic part */
+          /* a complete Fintail XML tag -> release it as one atomic part */
           if (close !== -1) {
             out.push(...releaseMerged(close + closeTag.length));
             continue;
           }
         }
-        /* Macro XML (or a prefix that may become it) still streaming -> hold */
+        /* Fintail XML (or a prefix that may become it) still streaming -> hold */
         break;
       }
-      /* not Macro XML here (wrong tag, or inside code where the tag renders
+      /* not Fintail XML here (wrong tag, or inside code where the tag renders
          literally) -> release up to the next '<' */
       const next = text.indexOf('<', 1);
       out.push(...release(next === -1 ? text.length : next));

@@ -224,7 +224,7 @@ export function CallOverlay(props: {
   showTeamSharing?: boolean;
   sharedWithTeam?: boolean;
   localName?: string;
-  /** Shared messages require an authenticated Macro participant. */
+  /** Shared messages require an authenticated Fintail participant. */
   showChat?: boolean;
 }) {
   const callCtx = useCallContext();

@@ -1,5 +1,5 @@
 /**
- * A design's comments as Macro comments: document discussions
+ * A design's comments as Fintail comments: document discussions
  * (`/dss/messages/document/<id>`), the store markdown, PDF, and spreadsheet
  * comments share, written with the shared composer's payload. A pinned
  * thread's root carries `{ type: 'fig', pageId, nodeId, x, y }`, the `fig`

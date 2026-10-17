@@ -49,7 +49,7 @@ export function CalendarPermissionPrompt() {
     toast: (link, dismiss) => ({
       title: 'Enable calendar',
       content(): string {
-        return `Macro can now sync your Google Calendar. Grant calendar access for ${link.email_address} to turn it on.`;
+        return `Fintail can now sync your Google Calendar. Grant calendar access for ${link.email_address} to turn it on.`;
       },
       actions: [
         {

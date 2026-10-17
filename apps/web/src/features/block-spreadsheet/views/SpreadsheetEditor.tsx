@@ -762,7 +762,7 @@ export function SpreadsheetEditor(props: {
     if (/\.xls$/i.test(file.name)) {
       // Converting .xls to .xlsx needs the server; uploads are upgraded.
       actions.setNotice(
-        'Legacy .xls workbooks are converted when uploaded. Upload the file, then choose Edit in Macro.'
+        'Legacy .xls workbooks are converted when uploaded. Upload the file, then choose Edit in Fintail.'
       );
       return;
     }

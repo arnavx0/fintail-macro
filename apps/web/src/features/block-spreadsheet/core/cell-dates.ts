@@ -41,7 +41,7 @@ const dayMonthYear = new RegExp(
 );
 
 /** A typed date as an Excel serial, with the Excel format that shows it the
- * way it was typed; without one it shows as Macro's default m/d/yyyy. */
+ * way it was typed; without one it shows as Fintail's default m/d/yyyy. */
 export type TypedDate = { serial: number; numberFormat?: string };
 
 const localeDateParts = Result.fromThrowable(
@@ -246,7 +246,7 @@ const readDateFormat = Result.fromThrowable(
 
 /**
  * The cell style for an Excel date or time format code, or undefined when the
- * code is not one Macro can display.
+ * code is not one Fintail can display.
  */
 export function dateFormatStyle(
   code: string

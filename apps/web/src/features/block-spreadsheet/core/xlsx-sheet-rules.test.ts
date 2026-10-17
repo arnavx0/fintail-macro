@@ -159,7 +159,7 @@ describe('Excel notes, data validation and conditional formatting', () => {
     ]);
   });
 
-  it('exports them so that Excel readers and Macro read them back', async () => {
+  it('exports them so that Excel readers and Fintail read them back', async () => {
     const imported = await decodeXlsx(await bytes(source()));
     const exported = await encodeXlsx(imported);
     expect((await decodeXlsx(exported.bytes)).sheets[0].metadata).toEqual(

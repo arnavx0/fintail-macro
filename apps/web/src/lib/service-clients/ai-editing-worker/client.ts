@@ -141,7 +141,7 @@ export async function requestAiEdit(args: {
         prompt: args.prompt,
         models: MODELS,
         mode: args.mode,
-        // Inline edits are Macro's own; its name labels the cursors readers
+        // Inline edits are Fintail's own; its name labels the cursors readers
         // watch, the same way an agent's edits carry the agent's name.
         editor: { name: MACRO_AGENT_NAME },
         interpret: false,

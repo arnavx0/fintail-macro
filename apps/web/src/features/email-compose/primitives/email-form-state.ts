@@ -45,7 +45,7 @@ export type DraftFormAttachment =
     }
   | {
       /**
-       * A Macro document attached by reference; the backend fetches its file
+       * A Fintail document attached by reference; the backend fetches its file
        * when the email is sent. Used by the AI draft composer, whose email has
        * no draft row to upload into until it is sent.
        */

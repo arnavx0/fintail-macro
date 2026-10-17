@@ -86,7 +86,7 @@ type AgentSummary = {
   tag: string;
   avatarUrl?: string;
   instructions: string;
-  /** "In Macro", "In Cursor", … for the row's subtitle. */
+  /** "In Fintail", "In Cursor", … for the row's subtitle. */
   whereItRuns: string;
   defaultModel: string;
   channelSummary: string;
@@ -116,10 +116,10 @@ const IN_MEMORY_HARNESS: ConnectedHarness = {
 
 const MACRO_AGENT: AgentSummary = {
   id: MACRO_AGENT_BOT_ID,
-  name: 'Macro',
+  name: 'Fintail',
   tag: 'macro',
   instructions: '',
-  whereItRuns: 'In Macro',
+  whereItRuns: 'In Fintail',
   defaultModel: MODEL_PRETTYNAME[Model.sonnet55],
   channelSummary: 'All channels',
   share: 'Team',
@@ -422,7 +422,7 @@ function summarizeAgent(
 }
 
 function whereItRunsLabel(id: string, harness?: ConnectedHarness): string {
-  if (id === 'in-memory') return 'In Macro';
+  if (id === 'in-memory') return 'In Fintail';
   if (id === 'cursor') return 'In Cursor';
   if (id === 'claude-cloud') return 'In Claude Code';
   // Any other id is a registered macrod harness uuid; if it is not in the
@@ -1074,8 +1074,8 @@ function AgentEditorPage(props: {
                   <legend class="sr-only">Where it runs</legend>
                   <WhereItRunsOption
                     value="in-memory"
-                    title="In Macro"
-                    description="Fast and built in. Uses Macro tools and your connected apps."
+                    title="In Fintail"
+                    description="Fast and built in. Uses Fintail tools and your connected apps."
                     icon={<MacroLogo />}
                     checked={harnessId() === IN_MEMORY_HARNESS.id}
                     onSelect={() => handleHarnessChange(IN_MEMORY_HARNESS.id)}

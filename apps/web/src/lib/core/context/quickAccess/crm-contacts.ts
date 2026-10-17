@@ -57,11 +57,11 @@ export function deduplicateContactItems<T extends QuickAccessItem>(
 
 export type ContactPerson = {
   contact: EntityItem<CrmContactEntity>;
-  /** The Macro user with the contact's email, which takes the contact's place. */
+  /** The Fintail user with the contact's email, which takes the contact's place. */
   user?: UserItem;
 };
 
-/** One entry per visible contact email, paired with its Macro user when the
+/** One entry per visible contact email, paired with its Fintail user when the
  * viewer can see one — even when only the contact's CRM name matched. */
 export function resolveContactPeople(
   contacts: QuickAccessItem[],

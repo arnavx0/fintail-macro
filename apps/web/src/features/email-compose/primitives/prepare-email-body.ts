@@ -450,7 +450,7 @@ export function prepareEmailBodyFromHtml(
   // Apply image scale to width/height attributes so the recipient sees the resized dimensions
   applyMediaScale(parsed.body);
 
-  // Convert Macro document mentions to HTML links in the parsed DOM
+  // Convert Fintail document mentions to HTML links in the parsed DOM
   const mentions = convertDocumentMentionsToLinks(parsed.body);
 
   // HtmlRenderNode exports as declarative shadow DOM; email clients and the

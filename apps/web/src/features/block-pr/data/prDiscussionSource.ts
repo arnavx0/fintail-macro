@@ -6,7 +6,7 @@ import type {
 import { useUserId } from '@core/context/user';
 import { createSignal } from 'solid-js';
 
-// THROWAWAY (prototype): in-memory Macro discussion threads, lost on reload.
+// THROWAWAY (prototype): in-memory Fintail discussion threads, lost on reload.
 // The production implementation follows the CRM-comments pattern
 // (crates/crm/src/domain/comment.rs) with a `github_pr` entity
 // type keyed by github_key; only this file changes when it lands.

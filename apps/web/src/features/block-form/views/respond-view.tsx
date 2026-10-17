@@ -466,7 +466,7 @@ export function RespondView(props: {
                                 columnFacts().kind,
                                 question.widget
                               );
-                            // Files and Macro pickers need an account; an
+                            // Files and Fintail pickers need an account; an
                             // anonymous visitor is told so, not shown a dead end.
                             const needsSignIn = () => {
                               if (signedIn()) return undefined;
@@ -474,7 +474,7 @@ export function RespondView(props: {
                                 return 'asks for a file';
                               const kind = columnFacts().kind.type;
                               return kind === 'entity' || kind === 'relation'
-                                ? 'picks from Macro'
+                                ? 'picks from Fintail'
                                 : undefined;
                             };
                             return (

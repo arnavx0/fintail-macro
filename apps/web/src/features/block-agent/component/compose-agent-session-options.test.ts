@@ -36,10 +36,10 @@ describe('sessionRepositoryUrl', () => {
 });
 
 describe('harnessDisplayName', () => {
-  it('names Macro runtimes after the product', () => {
-    expect(harnessDisplayName('in-memory')).toBe('Macro Agent');
-    expect(harnessDisplayName('macro-inmem')).toBe('Macro Agent');
-    expect(harnessDisplayName('sandbox')).toBe('Macro Agent');
+  it('names Fintail runtimes after the product', () => {
+    expect(harnessDisplayName('in-memory')).toBe('Fintail Agent');
+    expect(harnessDisplayName('macro-inmem')).toBe('Fintail Agent');
+    expect(harnessDisplayName('sandbox')).toBe('Fintail Agent');
   });
 
   it('names the Cursor runtime', () => {
@@ -52,10 +52,10 @@ describe('harnessDisplayName', () => {
 });
 
 describe('harnessTitle', () => {
-  it('uses the product name for Macro slugs instead of title-casing them', () => {
-    expect(harnessTitle('macro-inmem')).toBe('Macro Agent');
-    expect(harnessTitle('in-memory')).toBe('Macro Agent');
-    expect(harnessTitle('sandbox')).toBe('Macro Agent');
+  it('uses the product name for Fintail slugs instead of title-casing them', () => {
+    expect(harnessTitle('macro-inmem')).toBe('Fintail Agent');
+    expect(harnessTitle('in-memory')).toBe('Fintail Agent');
+    expect(harnessTitle('sandbox')).toBe('Fintail Agent');
   });
 
   it('title-cases other slugs', () => {
@@ -83,9 +83,11 @@ describe('sessionHarnessTitle', () => {
     );
   });
 
-  it('uses the product name for Macro slugs', () => {
-    expect(sessionHarnessTitle({ harness: 'macro-inmem' })).toBe('Macro Agent');
-    expect(sessionHarnessTitle({ harness: 'in-memory' })).toBe('Macro Agent');
+  it('uses the product name for Fintail slugs', () => {
+    expect(sessionHarnessTitle({ harness: 'macro-inmem' })).toBe(
+      'Fintail Agent'
+    );
+    expect(sessionHarnessTitle({ harness: 'in-memory' })).toBe('Fintail Agent');
   });
 });
 

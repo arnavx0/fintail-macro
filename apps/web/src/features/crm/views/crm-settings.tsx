@@ -579,7 +579,7 @@ function DealStagesSection() {
               </div>
               <div class="flex items-center justify-between gap-4 px-6 py-3.5">
                 <p class="text-xs text-ink-muted">
-                  Stages are Macro's defaults. Customize them for your team.
+                  Stages are Fintail's defaults. Customize them for your team.
                 </p>
                 <Show when={canEdit()}>
                   <Button
@@ -703,7 +703,7 @@ function DealStagesSection() {
       >
         <p>
           This removes your team's custom stage set and returns everyone to
-          Macro's default stages.
+          Fintail's default stages.
         </p>
         <p class="text-sm text-ink-muted">
           Companies keep their stored stage values, and stages whose names match

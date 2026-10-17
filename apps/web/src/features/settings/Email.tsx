@@ -310,7 +310,7 @@ export function EmailCard() {
                 }
               >
                 Remove <span class="text-ink">{removeTarget()?.email}</span>?
-                This clears all of its email data from Macro and cannot be
+                This clears all of its email data from Fintail and cannot be
                 undone.
               </Show>
             </Dialog.Description>

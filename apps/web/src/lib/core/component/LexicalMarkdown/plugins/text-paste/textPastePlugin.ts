@@ -195,7 +195,7 @@ function $isSelectionInCode(): boolean {
 /**
  * Insert a pasted GitHub pull request URL as a PR mention. A PR already in the
  * cache becomes a mention immediately; otherwise the URL is inserted as a link
- * and upgraded once the lookup finds a synced PR. PRs Macro has not synced
+ * and upgraded once the lookup finds a synced PR. PRs Fintail has not synced
  * stay links.
  */
 function $insertPastedGithubPullRequest(
@@ -267,7 +267,7 @@ function registerTextPastePlugin(
           const pastedText: string =
             event.clipboardData?.getData('text/plain') || '';
 
-          // Check for theme JSON before checking for Macro URL
+          // Check for theme JSON before checking for Fintail URL
           const themeV3 =
             parseThemeV3Json(pastedText) ??
             (() => {

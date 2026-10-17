@@ -474,7 +474,7 @@ export function Appearance() {
       <SettingsPage title="Appearance">
         <SettingsSection
           title="Color Theme"
-          description="Choose how Macro looks on your screen."
+          description="Choose how Fintail looks on your screen."
         >
           <div
             class="mx-auto w-full max-w-lg py-4"

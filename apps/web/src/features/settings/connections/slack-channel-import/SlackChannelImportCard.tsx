@@ -193,7 +193,7 @@ export function SlackChannelImportCard(
   return (
     <SettingsSection
       title="Import channels"
-      description="Recreate Slack channels in Macro with their name and the members who are on your team. Messages are not imported."
+      description="Recreate Slack channels in Fintail with their name and the members who are on your team. Messages are not imported."
     >
       <SettingsCard>
         <div class="flex flex-col gap-4 p-5 touch:p-4">

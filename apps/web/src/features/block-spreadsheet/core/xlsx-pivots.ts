@@ -146,7 +146,7 @@ function workbookConnections(archive: XlsxArchive): Map<string, string> {
 
 /**
  * Connections to the workbook's own data model or Power Query queries read
- * parts Macro does not keep.
+ * parts Fintail does not keep.
  */
 const internalConnection = (connection: string) =>
   /\$Workbook\$|ThisWorkbookDataModel|Data Model Connection|\smodel="1"/.test(
@@ -233,7 +233,7 @@ export function readSheetPivotTables(options: {
     const source = cacheSource(cacheBytes, cacheTarget);
     const cacheRelations = relationships(archive, cacheTarget);
     let reference: string | undefined;
-    // A source Macro does not hold: the cache keeps what Excel saved of it.
+    // A source Fintail does not hold: the cache keeps what Excel saved of it.
     let workbook: string | undefined;
     let connection: string | undefined;
     if (source.kind === 'workbook') {
@@ -331,7 +331,7 @@ export function readSheetPivotTables(options: {
           : `${start}PivotStyleLight16"`
     );
     // Without its records, Excel reads the source again when the file opens.
-    // A source Macro does not hold keeps the records Excel saved, when they
+    // A source Fintail does not hold keeps the records Excel saved, when they
     // fit, and Excel refreshes it only when asked to.
     const relationshipPrefix = new RegExp(
       `xmlns:([A-Za-z_][\\w.-]*)="${RELATIONSHIPS}"`
@@ -417,11 +417,11 @@ export function readSheetPivotTables(options: {
   }
   if (pivots.some((pivot) => !pivot.workbook && !pivot.connection))
     warnings.add(
-      'Pivot tables show their last values in Macro; Excel rebuilds them from their data when the downloaded file opens.'
+      'Pivot tables show their last values in Fintail; Excel rebuilds them from their data when the downloaded file opens.'
     );
   if (pivots.some((pivot) => pivot.workbook || pivot.connection))
     warnings.add(
-      'Pivot tables over other workbooks or data connections show their last values in Macro; the download keeps them with the data Excel saved, to refresh in Excel.'
+      'Pivot tables over other workbooks or data connections show their last values in Fintail; the download keeps them with the data Excel saved, to refresh in Excel.'
     );
   if (removedPasswords)
     warnings.add(
@@ -507,7 +507,7 @@ export type PartRelationship = {
 /**
  * The parts of a pivot table for export, with its cache's id, its location
  * and source as they are now, and its number formats in the new workbook.
- * A cache over a source Macro does not hold keeps its records, its link to
+ * A cache over a source Fintail does not hold keeps its records, its link to
  * the other workbook and the id of its data connection, numbered in the
  * new workbook. Undefined when its source no longer exists.
  */

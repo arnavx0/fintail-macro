@@ -17,7 +17,7 @@ import type { ToolStatus } from '../../ui';
 export type ToolUsePart = Extract<MessagePart, { kind: 'tool_use' }>;
 
 /**
- * Where a part sits in its transcript, for the chat components a Macro tool
+ * Where a part sits in its transcript, for the chat components a Fintail tool
  * renders with: they key per-call state by chat, message, and part, and the
  * agent block's equivalents are the session, the turn's message, and the
  * part's index.

@@ -1,6 +1,6 @@
 import type { DocumentMentionInfo } from '@macro-inc/lexical-core';
 
-/** Replace Macro document-mention elements with portable HTML links. */
+/** Replace Fintail document-mention elements with portable HTML links. */
 export function convertDocumentMentionsToLinks(
   root: ParentNode
 ): DocumentMentionInfo[] {
@@ -30,7 +30,7 @@ export function convertDocumentMentionsToLinks(
     link.href = `${window.location.origin}/app/${mention.blockName}/${mention.documentId}`;
     link.textContent = mention.documentName;
 
-    // Preserve mention data attributes so importing this HTML into Macro can
+    // Preserve mention data attributes so importing this HTML into Fintail can
     // recreate the richer Lexical node.
     link.setAttribute('data-document-mention', 'true');
     link.setAttribute('data-document-id', mention.documentId);

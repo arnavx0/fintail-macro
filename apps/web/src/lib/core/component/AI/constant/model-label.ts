@@ -5,7 +5,7 @@
  * Model ids reach the UI from three places — the frontend's own routed ids,
  * a harness's ACP catalog, and a session row — and only the first is
  * guaranteed to be in {@link MODEL_PRETTYNAME}. Harnesses that keep no
- * display name for a model (the in-memory Macro Agent among them) echo the
+ * display name for a model (the in-memory Fintail Agent among them) echo the
  * slug back as the name, so anything that renders the reported name verbatim
  * shows `claude-sonnet-5-5` where the rest of the app says "Sonnet 5.5". Route
  * those through {@link modelLabel} instead.
@@ -14,7 +14,7 @@
 import { MODEL_PRETTYNAME, type Model } from './model';
 
 /**
- * House names for in-memory Macro models that are not in the closed chat
+ * House names for in-memory Fintail models that are not in the closed chat
  * {@link Model} set. Keyed by the bare slug so a routed id and the bare id a
  * session row may store both resolve to one entry.
  */

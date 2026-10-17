@@ -3,7 +3,7 @@ import { createUserScopedStorage } from '@core/util/userScopedStorage';
 import { createSignal } from 'solid-js';
 
 /**
- * The last model chosen from the New conversation **Models** group (Macro's
+ * The last model chosen from the New conversation **Models** group (Fintail's
  * in-memory catalog). Scoped to the signed-in user so a reload keeps that
  * choice as the default until another Models entry is picked.
  */

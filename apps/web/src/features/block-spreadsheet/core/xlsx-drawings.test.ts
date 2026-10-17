@@ -275,7 +275,7 @@ describe('Excel drawings', () => {
     expect(again.images).toEqual(imported.images);
   });
 
-  it('writes charts Macro describes when the imported part cannot be kept', async () => {
+  it('writes charts Fintail describes when the imported part cannot be kept', async () => {
     const imported = await decodeXlsx(fixture());
     const withoutSources = {
       ...imported,
@@ -367,7 +367,7 @@ describe('Excel drawings', () => {
     );
     const imported = await decodeXlsx(zipSync(files));
     expect(imported.warnings).toEqual([
-      'Images in formats Macro cannot read, such as TIFF, are not imported.',
+      'Images in formats Fintail cannot read, such as TIFF, are not imported.',
     ]);
     // The PNG, shared by two pictures, and the EMF, kept for export.
     expect(
@@ -513,7 +513,7 @@ describe('fixed chart values', () => {
 
 describe('radar, bubble, stock and contour charts', () => {
   const cells = (column: string) => `'Data'!$${column}$2:$${column}$5`;
-  /** A chart part read back as Macro reads Excel's. */
+  /** A chart part read back as Fintail reads Excel's. */
   const reread = (part: string) => {
     const path = 'xl/charts/chart1.xml';
     const warnings = new Set<string>();
@@ -529,7 +529,7 @@ describe('radar, bubble, stock and contour charts', () => {
     expect([...warnings]).toEqual([]);
     return chart;
   };
-  /** Series of columns after labels in column A, as Macro makes them. */
+  /** Series of columns after labels in column A, as Fintail makes them. */
   const columns = (names: string[]) => ({
     series: names.map((column, index) => ({
       name: column,

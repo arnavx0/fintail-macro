@@ -4,7 +4,7 @@
  * copy-error button.
  *
  * Port of opencode's tool-error-card (v2 layout + v1 error parsing and copy
- * button) — github.com/sst/opencode, MIT © 2025 opencode — adapted to Macro
+ * button) — github.com/sst/opencode, MIT © 2025 opencode — adapted to Fintail
  * tokens and Tailwind.
  */
 

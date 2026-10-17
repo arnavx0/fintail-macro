@@ -2,7 +2,7 @@ import type { ThemeV3 } from '../types/themeTypes';
 
 export const macroLightTheme = {
   id: 'Macro Light',
-  name: 'Macro Light',
+  name: 'Fintail Light',
   version: 3,
   mode: 'light',
   colorTokens: {

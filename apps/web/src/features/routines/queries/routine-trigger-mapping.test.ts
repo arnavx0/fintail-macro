@@ -25,7 +25,7 @@ describe('routine trigger mapping', () => {
     }
   );
 
-  it('round trips multiple schedules with different time zones and Macro events', () => {
+  it('round trips multiple schedules with different time zones and Fintail events', () => {
     const configuration = {
       type: 'multiple' as const,
       triggers: [
@@ -213,7 +213,7 @@ describe('trigger conditions', () => {
 });
 
 describe('completed routine classification', () => {
-  it('recognizes exhausted multiple and custom schedules, but not Macro events', async () => {
+  it('recognizes exhausted multiple and custom schedules, but not Fintail events', async () => {
     const { hasOnlyScheduledTriggers } = await import(
       '../core/routine-triggers'
     );

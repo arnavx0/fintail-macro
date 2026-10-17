@@ -9,7 +9,7 @@ export function BookingReceiptView(props: {
   cancel: () => Promise<void>;
   loadSlots: (date: string) => Promise<{ startsAt: string; endsAt: string }[]>;
   reschedule: (start: string) => Promise<void>;
-  /** Shown inside another Macro page, which already frames the receipt. */
+  /** Shown inside another Fintail page, which already frames the receipt. */
   embedded?: boolean;
 }) {
   const [confirm, setConfirm] = createSignal(false);
@@ -190,7 +190,9 @@ export function BookingReceiptView(props: {
           )}
         </Show>
       </div>
-      <p class="mt-7 text-center text-xs text-ink-muted">Scheduling by Macro</p>
+      <p class="mt-7 text-center text-xs text-ink-muted">
+        Scheduling by Fintail
+      </p>
     </main>
   );
 }

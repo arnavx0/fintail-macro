@@ -80,7 +80,7 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-describe('bufferedStream Macro XML buffering', () => {
+describe('bufferedStream Fintail XML buffering', () => {
   it('never shows a partial mention tag and emits the mention atomically', () => {
     const { source, text } = setup();
     const full = `See this ${MENTION} for details`;

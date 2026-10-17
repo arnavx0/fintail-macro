@@ -16,7 +16,7 @@ export function SyncStatus(props: { syncing: boolean }) {
           </span>
           <span class="text-xs text-ink-muted">
             Events are still being imported from Google. They’ll appear
-            automatically. You can keep using Macro.
+            automatically. You can keep using Fintail.
           </span>
         </div>
       </div>

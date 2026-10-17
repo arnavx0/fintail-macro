@@ -9,14 +9,14 @@ export const ACCOUNT_DELETION_REASON_OPTIONS: ReadonlyArray<{
   value: AccountDeletionReason;
   label: string;
 }> = [
-  { value: 'not_using_enough', label: "I don't use Macro enough" },
+  { value: 'not_using_enough', label: "I don't use Fintail enough" },
   { value: 'missing_features', label: "I'm missing features I need" },
-  { value: 'difficult_to_use', label: 'Macro is difficult to use' },
+  { value: 'difficult_to_use', label: 'Fintail is difficult to use' },
   {
     value: 'bugs_or_performance',
     label: "I've experienced bugs or performance issues",
   },
-  { value: 'too_expensive', label: 'Macro is too expensive' },
+  { value: 'too_expensive', label: 'Fintail is too expensive' },
   {
     value: 'prefer_another_product',
     label: 'I prefer another product',

@@ -49,7 +49,7 @@ export function TeamSharingSettings(props: {
     <>
       <SettingsSection
         title="Team sharing"
-        description="What teammates can see in Macro. Google Calendar permissions stay the same."
+        description="What teammates can see in Fintail. Google Calendar permissions stay the same."
       >
         <SettingsCard>
           <Show

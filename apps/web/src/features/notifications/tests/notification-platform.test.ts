@@ -125,7 +125,7 @@ function createAgentSettledNotification(): UnifiedNotification {
         sessionId: '01a00000-0000-7000-8000-00000000000a',
         sessionName: 'Fix the flaky test',
         botId: '01a00000-0000-7000-8000-0000000000b7',
-        botName: 'Macro Coder',
+        botName: 'Fintail Coder',
         channelId: 'entity-1',
         threadId: '01a00000-0000-7000-8000-000000000002',
         turn: 3,
@@ -293,7 +293,7 @@ describe('maybeHandlePlatformNotification', () => {
 
     expect(showNotification).toHaveBeenCalledWith(
       expect.objectContaining({
-        title: 'Macro Coder <Fix the flaky test>',
+        title: 'Fintail Coder <Fix the flaky test>',
         options: expect.objectContaining({ body: 'Done.' }),
       })
     );

@@ -60,7 +60,7 @@ export type RangeValues = (
 /**
  * A list rule's choices: the items of a quoted list, or the values of a
  * range or a name that refers to one. Undefined when the list comes from a
- * formula Macro does not resolve, such as INDIRECT.
+ * formula Fintail does not resolve, such as INDIRECT.
  */
 export function listItems(
   rule: DataValidation,
@@ -175,7 +175,7 @@ function compare(
 
 /**
  * Whether typed input satisfies a cell's rule, as Excel checks it when the
- * rule shows an error alert. Clearing a cell, formulas and rules Macro cannot
+ * rule shows an error alert. Clearing a cell, formulas and rules Fintail cannot
  * evaluate (custom formulas, unresolved lists and bounds) are accepted.
  */
 export function validateInput(

@@ -166,7 +166,7 @@ export function UsageSettingsView(props: { context: UsageContext }) {
                       ? undefined
                       : summary().creditScope === 'team'
                         ? 'Credits are shared by your entire team.'
-                        : 'Buy credits or turn on automatic reload to continue using Macro AI when you reach usage limits'
+                        : 'Buy credits or turn on automatic reload to continue using Fintail AI when you reach usage limits'
                   }
                 >
                   <Show

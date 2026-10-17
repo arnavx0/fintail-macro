@@ -796,7 +796,7 @@ type BlockSignal<T> = [get: Accessor<T>, set: Setter<T>] & {
  * @returns {BlockSignal<T | undefined>} A block signal object.
  *
  * @example
- * const nameSignal = createBlockSignal('Macro');
+ * const nameSignal = createBlockSignal('Fintail');
  *
  * // traditional signal usage
  * function Organization() {

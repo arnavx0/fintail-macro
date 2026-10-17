@@ -1,4 +1,4 @@
-/** Raster image data as Macro stores it: a data URL under a content key. */
+/** Raster image data as Fintail stores it: a data URL under a content key. */
 
 /** One image's data, at most. */
 export const MAX_IMAGE_BYTES = 2 * 1024 * 1024;

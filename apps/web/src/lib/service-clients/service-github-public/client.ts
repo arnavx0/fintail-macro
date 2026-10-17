@@ -1,4 +1,4 @@
-/** Public repository metadata; never send Macro credentials to GitHub. */
+/** Public repository metadata; never send Fintail credentials to GitHub. */
 export async function getMacroGithubStars(
   signal?: AbortSignal
 ): Promise<number> {

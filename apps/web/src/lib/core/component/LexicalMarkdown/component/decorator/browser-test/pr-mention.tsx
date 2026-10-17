@@ -48,7 +48,7 @@ const pullRequest: ForeignEntity = {
 
 const mention = (data: Record<string, string>) =>
   `<m-pr-mention>${JSON.stringify(data)}</m-pr-mention>`;
-// Sent from a Macro composer, which writes the resolved label to the node.
+// Sent from a Fintail composer, which writes the resolved label to the node.
 const composed = mention({
   id: pullRequest.id,
   label: `macro-inc/macro#7956 ${title}`,

@@ -9,7 +9,7 @@
  * Editors can answer; viewers see the same live card with inert controls.
  *
  * The form, URL consent, and unrecognized-request controls are the
- * `LiveElicitation` ones the channel's Magic Chip shares; a Macro user tool
+ * `LiveElicitation` ones the channel's Magic Chip shares; a Fintail user tool
  * under review opens the tool's own composer here.
  */
 
@@ -123,7 +123,7 @@ export function ElicitationPart(props: {
 }
 
 /**
- * A Macro user tool under review, in the tool's own composer. A draft the
+ * A Fintail user tool under review, in the tool's own composer. A draft the
  * tool's schema rejects, or a tool with no composer here, falls back to the
  * flat form the agent also sent. The email composer has only Send, so the
  * card adds a Cancel: without it the turn could only be refused from the

@@ -36,7 +36,7 @@ export interface OPFSDocumentStore {
   remove: (documentID: string) => Promise<void>;
 }
 
-/** Abstraction around a Macro DSS Document that exists in OPFS */
+/** Abstraction around a Fintail DSS Document that exists in OPFS */
 export class OPFSDocument {
   private readonly opfsDocumentDirHandle: FileSystemDirectoryHandle;
   readonly documentID: string;
