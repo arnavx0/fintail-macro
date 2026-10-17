@@ -1,6 +1,8 @@
 import { clearMcpAuthAttempts } from '@app/features/settings/mcp-auth-attempt';
 import { useAnalytics } from '@app/lib/analytics/analytics-context';
+import { FINTAIL_DEMO } from '@core/constant/featureFlags';
 import { SERVER_HOSTS } from '@core/constant/servers';
+import { endDemoSession } from '@core/demo/demo-session';
 import { syncLoginStorage } from '@core/util/cookies';
 import { isTauri } from '@core/util/platform';
 import { clearPostLoginRedirect } from '@core/util/postLoginRedirect';
@@ -110,6 +112,14 @@ export function useLogout() {
     )
       return;
     clearPostLoginRedirect();
+    if (FINTAIL_DEMO) {
+      // The demo has no identity provider: end the local session and reload.
+      await clearLocalAuthSession();
+      endDemoSession();
+      analytics.track('sign_out');
+      window.location.href = `${window.location.origin}/app/login`;
+      return;
+    }
     // Must run before the session is torn down — the unregister call is
     // authenticated. Time-boxed so a hung request can't block logout.
     await raceTimeout(unregisterPushRegistrationsForLogout(), 3000);

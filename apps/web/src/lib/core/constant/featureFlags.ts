@@ -435,6 +435,16 @@ export const ENABLE_CALLS = true;
  * Fintail: hide Fintail surfaces that are neither investing nor AI agents
  * (customers, calls, scheduling, PR reviews). Off restores Fintail's navigation.
  */
+/**
+ * A backend-free demo build (the public preview site): sign-in runs locally
+ * as a demo user, every service host is unreachable on purpose, and the
+ * investor pages run on sample data. Never set for a real deployment.
+ */
+export const FINTAIL_DEMO = defineFlag({
+  env: 'FINTAIL_DEMO',
+  default: false,
+}).enabled;
+
 export const ENABLE_FINTAIL = defineFlag({
   env: 'ENABLE_FINTAIL',
   default: true,

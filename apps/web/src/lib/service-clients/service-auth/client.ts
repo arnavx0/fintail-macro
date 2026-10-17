@@ -1,8 +1,13 @@
-import { ENABLE_BEARER_TOKEN_AUTH } from '@core/constant/featureFlags';
+import {
+  ENABLE_BEARER_TOKEN_AUTH,
+  FINTAIL_DEMO,
+} from '@core/constant/featureFlags';
 import { SERVER_HOSTS } from '@core/constant/servers';
+import { demoSessionEmail } from '@core/demo/demo-session';
 import { fetchWithToken } from '@core/util/fetchWithToken';
 import { registerClient } from '@core/util/mockClient';
-import type { ObjectLike } from '@core/util/result';
+import type { ObjectLike, ResultError } from '@core/util/result';
+import type { BaseFetchErrorCode } from '@core/util/safeFetch';
 import {
   type ErrorResponseHandler,
   type SafeFetchInit,
@@ -12,7 +17,7 @@ import {
 import { Telemetry } from '@macro-inc/observability';
 
 import { makePersisted } from '@solid-primitives/storage';
-import { err, ok } from 'neverthrow';
+import { err, ok, type Result } from 'neverthrow';
 import { createSignal } from 'solid-js';
 import type {
   AiPlanCatalog,
@@ -581,10 +586,12 @@ export const authServiceClient = {
 
   // HTTP methods (migrated from RPC)
   async getLegacyUserPermissions() {
-    const result = await fetchWithAuth<GetLegacyUserPermissionsResponse>(
-      `${authHost}/user/legacy_user_permissions`,
-      { method: 'GET' }
-    );
+    const result = FINTAIL_DEMO
+      ? demoUserPermissions()
+      : await fetchWithAuth<GetLegacyUserPermissionsResponse>(
+          `${authHost}/user/legacy_user_permissions`,
+          { method: 'GET' }
+        );
 
     return result.map((data) => ({
       id: data.userId,
@@ -1280,3 +1287,31 @@ export const authServiceClient = {
 };
 
 registerClient('auth', authServiceClient);
+
+/**
+ * The demo build's user-permissions response: the demo user while a demo
+ * session exists, otherwise a 401 exactly like a signed-out visitor.
+ */
+function demoUserPermissions(): Result<
+  GetLegacyUserPermissionsResponse,
+  ResultError<BaseFetchErrorCode>[]
+> {
+  const email = demoSessionEmail();
+  if (!email) {
+    return err([
+      { code: 'UNAUTHORIZED', message: 'Not signed in to the demo' },
+    ]);
+  }
+  return ok({
+    userId: 'demo-user',
+    permissions: [],
+    email,
+    name: 'Demo investor',
+    licenseStatus: 'demo',
+    tutorialComplete: true,
+    hasChromeExt: false,
+    hasTrialed: true,
+    aiDataConsent: false,
+    referralCode: '',
+  });
+}

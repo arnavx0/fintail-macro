@@ -1,3 +1,4 @@
+import { FINTAIL_DEMO } from '@core/constant/featureFlags';
 import { developmentProxyUrl } from './developmentProxy';
 
 const serverHostLocal: Servers = {
@@ -99,8 +100,21 @@ function resolveProxyOrigin(configured: string | undefined) {
   }
 }
 
-export const SERVER_HOSTS: Servers =
-  import.meta.env.MODE === 'development'
+/**
+ * In the demo build every service host is a reserved `.invalid` name, so
+ * nothing the demo does can reach Macro's or anyone's servers.
+ */
+function offlineServers(servers: Servers): Servers {
+  const offline: Servers = { ...servers };
+  for (const key of Object.keys(offline) as (keyof Servers)[]) {
+    offline[key] = 'https://offline.fintail.invalid';
+  }
+  return offline;
+}
+
+export const SERVER_HOSTS: Servers = FINTAIL_DEMO
+  ? offlineServers(serverHostRemote)
+  : import.meta.env.MODE === 'development'
     ? selectLocalServers()
     : serverHostRemote;
 
@@ -190,6 +204,12 @@ function selectSyncServiceHost():
   | typeof syncServiceHostRemote
   | typeof syncServiceHostLocal
   | { worker: string; ws: string } {
+  if (FINTAIL_DEMO) {
+    return {
+      worker: 'https://offline.fintail.invalid',
+      ws: 'wss://offline.fintail.invalid',
+    };
+  }
   const overrideHost: string | undefined = import.meta.env
     .VITE_SYNC_SERVICE_HOST;
   if (overrideHost) {

@@ -1,4 +1,6 @@
+import { FINTAIL_DEMO } from '@core/constant/featureFlags';
 import { SERVER_HOSTS } from '@core/constant/servers';
+import { startDemoSession } from '@core/demo/demo-session';
 import { platformFetch } from '@core/util/platformFetch';
 import { authServiceClient } from '@service-auth/client';
 import type { SendCodeResult, VerifyCodeResult } from '../context/auth-context';
@@ -29,6 +31,8 @@ export async function sendEmailCode(input: {
   email: string;
   password?: string;
 }): Promise<SendCodeResult> {
+  // The demo never contacts an auth service; any code signs in.
+  if (FINTAIL_DEMO) return { t: 'code-sent', autoCode: '000000' };
   const { email, password } = input;
   if (await isPasswordLogin(email)) {
     if (!password) return { t: 'password-required' };
@@ -94,6 +98,10 @@ export async function verifyEmailCode(input: {
   email: string;
   code: string;
 }): Promise<VerifyCodeResult> {
+  if (FINTAIL_DEMO) {
+    startDemoSession(input.email);
+    return { t: 'verified' };
+  }
   const result = await authServiceClient.passwordlessCallback(input);
   if (result.isOk()) return { t: 'verified' };
   const code = result.error[0]?.code;
