@@ -761,6 +761,11 @@ export type ModelOption = {
   /**  Image input support, absent when the runtime does not advertise it. */
   supportsImages?: boolean | null;
   /**
+   *  Set when the owner's plan does not include this model: the picker
+   *  shows it locked. Absent when the runtime does not say.
+   */
+  requiresPaidPlan?: boolean | null;
+  /**
    *  The heading the runtime listed this model under, when it grouped its
    *  options (ACP's `SessionConfigSelectGroup.name`). `None` for a runtime
    *  that offered a flat list; the flattened order still follows the

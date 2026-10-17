@@ -23,6 +23,7 @@ import {
 import { useSplitPanelOrThrow } from '@components/app/split-layout/layoutUtils';
 import { EntityIcon } from '@core/component/EntityIcon';
 import { UserIcon } from '@core/component/UserIcon';
+import { ENABLE_FINTAIL } from '@core/constant/featureFlags';
 import { useUserId } from '@core/context/user';
 import { registerHotkey } from '@core/hotkey/hotkeys';
 import { TOKENS } from '@core/hotkey/tokens';
@@ -60,7 +61,7 @@ import { useTagFilter } from './tag-filter';
 export type { FilterCategory, FilterOption } from './filter-categories';
 
 // Filter categories by view
-const HOME_FILTER_CATEGORIES: FilterCategory[] = [
+const ALL_HOME_FILTER_CATEGORIES: FilterCategory[] = [
   {
     id: 'type',
     label: 'Type',
@@ -110,6 +111,18 @@ const HOME_FILTER_CATEGORIES: FilterCategory[] = [
     multiple: true,
   },
 ];
+
+/** Messaging types stay out of Fintail's Home filter; messaging is hidden there. */
+const FINTAIL_HIDDEN_TYPES = new Set(['people', 'teams']);
+
+const HOME_FILTER_CATEGORIES: FilterCategory[] = ENABLE_FINTAIL
+  ? ALL_HOME_FILTER_CATEGORIES.map((category) => ({
+      ...category,
+      options: category.options.filter(
+        (option) => !FINTAIL_HIDDEN_TYPES.has(option.id)
+      ),
+    }))
+  : ALL_HOME_FILTER_CATEGORIES;
 
 const isInboxTypeFilterId = (id: string) => {
   for (const category of HOME_FILTER_CATEGORIES) {

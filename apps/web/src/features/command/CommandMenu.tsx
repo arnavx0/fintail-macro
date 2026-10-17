@@ -10,6 +10,7 @@ import { useSplitLayout } from '@components/app/split-layout/layout';
 import { toast } from '@core/component/Toast/Toast';
 import { itemToBlockName } from '@core/constant/allBlocks';
 import {
+  ENABLE_FINTAIL,
   enableProjects,
   USE_MACRO_PR_SUMMARY_BLOCK,
 } from '@core/constant/featureFlags';
@@ -74,7 +75,7 @@ import {
   useCommandItems,
 } from './useCommandItems';
 
-const CATEGORIES: { id: CategoryFilter; label: string }[] = [
+const ALL_CATEGORIES: { id: CategoryFilter; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'commands', label: 'Command' },
   { id: 'chats', label: 'Agents' },
@@ -84,6 +85,13 @@ const CATEGORIES: { id: CategoryFilter; label: string }[] = [
   { id: 'channels', label: 'Channels' },
   { id: 'dms', label: 'People' },
 ];
+
+/** Fintail hides messaging and projects, so their search filters go too. */
+const CATEGORIES = ENABLE_FINTAIL
+  ? ALL_CATEGORIES.filter(
+      (c) => c.id !== 'channels' && c.id !== 'dms' && c.id !== 'projects'
+    )
+  : ALL_CATEGORIES;
 
 const VIRTUAL_ITEM_HEIGHT = 40; // tailwind h-10
 const LIST_PADDING = 16; // p-2 = 8px top + 8px bottom

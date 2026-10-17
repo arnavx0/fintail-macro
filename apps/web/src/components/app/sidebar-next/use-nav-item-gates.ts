@@ -30,6 +30,7 @@ export function useNavItemGates(): Accessor<NavItemGates> {
     showCalls: !ENABLE_FINTAIL && ENABLE_CALLS,
     showReviews: !ENABLE_FINTAIL && reviews().enabled,
     showMessages: !ENABLE_FINTAIL,
+    showAgents: !ENABLE_FINTAIL,
     prefs: prefs(),
   }));
 }

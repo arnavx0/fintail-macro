@@ -6,6 +6,7 @@
  */
 import type { AgentModelDtoDescription } from './agentModelDtoDescription';
 import type { AgentModelDtoGroup } from './agentModelDtoGroup';
+import type { AgentModelDtoRequiresPaidPlan } from './agentModelDtoRequiresPaidPlan';
 import type { AgentModelDtoSupportsImages } from './agentModelDtoSupportsImages';
 
 /**
@@ -20,6 +21,8 @@ export interface AgentModelDto {
   id: string;
   /** Display name. */
   name: string;
+  /** Set when the caller's plan does not include this model. */
+  requiresPaidPlan?: AgentModelDtoRequiresPaidPlan;
   /** Image input support, absent when the runtime does not advertise it. */
   supportsImages?: AgentModelDtoSupportsImages;
 }

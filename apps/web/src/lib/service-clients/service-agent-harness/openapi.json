@@ -3055,6 +3055,10 @@
             "type": "string",
             "description": "Display name."
           },
+          "requiresPaidPlan": {
+            "type": ["boolean", "null"],
+            "description": "Set when the caller's plan does not include this model."
+          },
           "supportsImages": {
             "type": ["boolean", "null"],
             "description": "Image input support, absent when the runtime does not advertise it."

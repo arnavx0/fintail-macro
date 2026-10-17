@@ -18,7 +18,11 @@ import { useHandleFileUpload } from '@app/util/handleFileUpload';
 import { useLogout } from '@core/auth/logout';
 import { useOpenInstructionsMd } from '@core/component/AI/util/instructions';
 import { toast } from '@core/component/Toast/Toast';
-import { enableSnippets, LOCAL_ONLY } from '@core/constant/featureFlags';
+import {
+  ENABLE_FINTAIL,
+  enableSnippets,
+  LOCAL_ONLY,
+} from '@core/constant/featureFlags';
 import {
   type SettingsTab,
   useSettingsState,
@@ -62,11 +66,13 @@ import {
 import { type Component, onCleanup, Show } from 'solid-js';
 import { useSplitLayout } from './split-layout/layout';
 
-const COMMAND_MENU_CATEGORY_HOTKEYS: Array<{
+type CategoryHotkey = {
   category: CategoryFilter;
   hotkey: ValidHotkey;
   label: string;
-}> = [
+};
+
+const ALL_CATEGORY_HOTKEYS: CategoryHotkey[] = [
   { category: 'all', hotkey: 'l', label: 'All' },
   { category: 'commands', hotkey: 'm', label: 'Command' },
   { category: 'chats', hotkey: 'a', label: 'Agents' },
@@ -75,6 +81,13 @@ const COMMAND_MENU_CATEGORY_HOTKEYS: Array<{
   { category: 'channels', hotkey: 'c', label: 'Channels' },
   { category: 'dms', hotkey: 'p', label: 'People' },
 ];
+
+/** Fintail hides messaging, so its search shortcuts go too. */
+const COMMAND_MENU_CATEGORY_HOTKEYS = ALL_CATEGORY_HOTKEYS.filter(
+  (entry) =>
+    !ENABLE_FINTAIL ||
+    (entry.category !== 'channels' && entry.category !== 'dms')
+);
 
 function useHotkeyAnalytics(): void {
   const analytics = useAnalytics();

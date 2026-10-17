@@ -49,6 +49,7 @@ function Modal() {
         showCalls: true,
         showReviews: true,
         showMessages: true,
+        showAgents: true,
         get prefs() {
           return prefs();
         },

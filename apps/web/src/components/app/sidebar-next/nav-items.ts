@@ -183,6 +183,7 @@ export type NavItemGates = {
   showCalls: boolean;
   showReviews: boolean;
   showMessages: boolean;
+  showAgents: boolean;
   /** User preferences for which items are shown and in what order. */
   prefs: SidebarPrefs;
 };
@@ -198,6 +199,7 @@ export const isNavItemAvailable = (
   if (item.id === 'calls') return gates.showCalls;
   if (item.id === 'reviews') return gates.showReviews;
   if (item.id === 'channels') return gates.showMessages;
+  if (item.id === 'agents') return gates.showAgents;
   return true;
 };
 
