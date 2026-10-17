@@ -4,9 +4,35 @@ The minimum services Fintail's kept features need, from
 `tooling/xtask/crates/xtask_local/src/local/inventory.rs` and
 `docker/docker-compose*.yml` at `b25a95b4`.
 
-**Resource measurements: pending.** Docker, Nix and `just` aren't installed
-on the dev machine yet, so `just run_local` hasn't been run. Fill in the
-RAM/CPU columns from `docker stats` once it is.
+## Measured resources (17 Oct 2026)
+
+Full unmodified stack, idle, after a fresh `just run_local --no-doppler
+--instance fintail` on an M-series Mac (OrbStack, 12 GB to Docker),
+`docker stats --no-stream`:
+
+- **Total: about 4.3 GiB RAM** across 33 containers, plus 0.6 GiB for the
+  shared `lgtm` trace collector (dev only).
+- Largest: OpenSearch 1.19 GiB, FusionAuth 0.60 GiB, Kafka 0.44 GiB,
+  LocalStack 0.38 GiB, sync_service 0.31 GiB, analytics_proxy 0.25 GiB,
+  document_storage_service 0.18 GiB, Postgres 0.14 GiB, Redis 0.13 GiB.
+- Each Rust service uses 15–180 MiB.
+- Idle CPU is low except Kafka (about 1 core) and LocalStack.
+
+**Stage A sizing:** in production, LocalStack is replaced by real AWS, and
+dropping the services marked "No" below saves little memory. Load adds
+Postgres, OpenSearch and Kafka headroom. **Start with 16 GiB RAM and 4
+vCPU** (e.g. `m7g.xlarge`, ap-southeast-1) and re-measure under beta load.
+
+## Known local-stack issues
+
+- `mcp_service` crash-loops under `--no-doppler`. Its auth proxy
+  (`services/mcp_auth_proxy/src/outbound/fusionauth.rs`) requires a
+  `google_gmail` FusionAuth identity provider, which the kickstart only
+  creates with real Google OAuth credentials. Not needed until external MCP
+  access is in scope.
+- `agent_harness_service` crash-looped without Pipedream credentials. Fixed
+  by adding boot stubs in `xtask_local` `local_env.rs`.
+- `run_local` assumes `bun install` was already run at the repo root.
 
 ## Infrastructure (`docker/docker-compose-databases.yml` + recipes)
 
