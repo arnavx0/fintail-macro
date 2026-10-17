@@ -32,6 +32,7 @@ import {
   desktopApp,
   ENABLE_APP_STORE_QR_CODE,
   ENABLE_EMAIL,
+  ENABLE_FINTAIL,
   enableCalendarScheduling,
   enableChatV3Agents,
   enableCrm,
@@ -326,6 +327,7 @@ export const useSettingsTabAvailable = () => {
       // same enable-chat-v3-agents gate as the channel mention surfaces, so
       // settings never advertises agents to a user who cannot mention one.
       case 'Harness':
+        return !ENABLE_FINTAIL && chatV3AgentsFlag().enabled;
       case 'Agents':
         return chatV3AgentsFlag().enabled;
       case 'Bots':

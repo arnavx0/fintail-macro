@@ -7,7 +7,11 @@ import { ModelCatalogPicker } from '@core/component/AI/component/input/ModelCata
 import { isLargeModelCatalog } from '@core/component/AI/component/input/modelCatalog';
 import { MODEL_PRETTYNAME, Model } from '@core/component/AI/constant/model';
 import { toast } from '@core/component/Toast/Toast';
-import { claudeCloud, ENABLE_AGENT_DMS } from '@core/constant/featureFlags';
+import {
+  claudeCloud,
+  ENABLE_AGENT_DMS,
+  ENABLE_FINTAIL,
+} from '@core/constant/featureFlags';
 import {
   MACRO_AGENT_BOT_ID,
   MACRO_HARNESS_NAME,
@@ -285,11 +289,13 @@ export function Agents(props: {
           title="Agents"
           description="Custom assistants with their own name, instructions, model, and place to run."
         >
-          <AgentSetupStrips
-            onCursor={props.onCursor}
-            onSetUpRuntime={props.onSetUpRuntime}
-            onManageRuntimes={props.onManageRuntimes}
-          />
+          <Show when={!ENABLE_FINTAIL}>
+            <AgentSetupStrips
+              onCursor={props.onCursor}
+              onSetUpRuntime={props.onSetUpRuntime}
+              onManageRuntimes={props.onManageRuntimes}
+            />
+          </Show>
           <section ref={agentList} aria-label="Your agents">
             <SettingsSurface class="flex flex-col gap-2 p-5 touch:p-4">
               <div class="flex flex-wrap items-start justify-between gap-3">
@@ -1066,110 +1072,113 @@ function AgentEditorPage(props: {
                 />
               </AgentFormSection>
 
-              <AgentFormSection
-                title="Where it runs"
-                description="Pick where this agent does its work."
-              >
-                <fieldset class="flex flex-col gap-2">
-                  <legend class="sr-only">Where it runs</legend>
-                  <WhereItRunsOption
-                    value="in-memory"
-                    title="In Fintail"
-                    description="Fast and built in. Uses Fintail tools and your connected apps."
-                    icon={<MacroLogo />}
-                    checked={harnessId() === IN_MEMORY_HARNESS.id}
-                    onSelect={() => handleHarnessChange(IN_MEMORY_HARNESS.id)}
-                  >
-                    {modelField()}
-                  </WhereItRunsOption>
-                  <Show when={claudeCloudOption()}>
-                    {(claude) => (
-                      <WhereItRunsOption
-                        value="claude-cloud"
-                        title="In Claude Code"
-                        description="Runs Claude Code in the cloud on your Claude plan."
-                        icon={<AnthropicIcon />}
-                        checked={harnessId() === claude().id}
-                        onSelect={() => handleHarnessChange(claude().id)}
-                      >
-                        {modelField()}
-                      </WhereItRunsOption>
-                    )}
-                  </Show>
-                  <WhereItRunsOption
-                    value="cursor"
-                    title="In Cursor"
-                    description={
-                      cursorHarness()
-                        ? 'Runs as a Cursor Cloud agent on your Cursor plan.'
-                        : 'Connect Cursor first. Runs as a Cursor Cloud agent on your Cursor plan.'
-                    }
-                    icon={<CursorIcon />}
-                    checked={harnessId() === 'cursor'}
-                    disabled={!cursorHarness()}
-                    action={
-                      <Show when={!cursorHarness()}>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          class="text-ink"
-                          aria-label="Connect Cursor"
-                          disabled={busy()}
-                          onClick={() => setSetup('cursor')}
+              {/* Fintail agents run only in Fintail; coding runtimes are off. */}
+              <Show when={!ENABLE_FINTAIL}>
+                <AgentFormSection
+                  title="Where it runs"
+                  description="Pick where this agent does its work."
+                >
+                  <fieldset class="flex flex-col gap-2">
+                    <legend class="sr-only">Where it runs</legend>
+                    <WhereItRunsOption
+                      value="in-memory"
+                      title="In Fintail"
+                      description="Fast and built in. Uses Fintail tools and your connected apps."
+                      icon={<MacroLogo />}
+                      checked={harnessId() === IN_MEMORY_HARNESS.id}
+                      onSelect={() => handleHarnessChange(IN_MEMORY_HARNESS.id)}
+                    >
+                      {modelField()}
+                    </WhereItRunsOption>
+                    <Show when={claudeCloudOption()}>
+                      {(claude) => (
+                        <WhereItRunsOption
+                          value="claude-cloud"
+                          title="In Claude Code"
+                          description="Runs Claude Code in the cloud on your Claude plan."
+                          icon={<AnthropicIcon />}
+                          checked={harnessId() === claude().id}
+                          onSelect={() => handleHarnessChange(claude().id)}
                         >
-                          Connect
-                        </Button>
-                      </Show>
-                    }
-                    onSelect={() => handleHarnessChange('cursor')}
-                  >
-                    {modelField()}
-                  </WhereItRunsOption>
-                  <WhereItRunsOption
-                    value="harness"
-                    title="In your harness"
-                    description="Your own agent on your own machine. Local Claude Code, Codex, or other harness, via Macrod."
-                    icon={<TerminalIcon />}
-                    checked={selectedHarness()?.kind === 'macrod'}
-                    disabled={macrodHarnesses().length === 0}
-                    action={
-                      <Show when={macrodHarnesses().length === 0}>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          class="text-ink"
-                          aria-label="Set up your own harness"
-                          disabled={busy()}
-                          onClick={() => setSetup('pairing')}
-                        >
-                          Set up
-                        </Button>
-                      </Show>
-                    }
-                    onSelect={() => {
-                      const first = macrodHarnesses()[0];
-                      if (first) handleHarnessChange(first.id);
-                    }}
-                  >
-                    <div class="grid grid-cols-1 gap-3 @min-[440px]:grid-cols-[repeat(2,minmax(0,280px))]">
-                      <div class="flex min-w-0 flex-col gap-1.5">
-                        <span class="text-xs font-medium text-ink-muted">
-                          Harness
-                        </span>
-                        <SettingsSelect
-                          label="Harness"
-                          options={macrodHarnesses()}
-                          value={harnessId()}
-                          onChange={handleHarnessChange}
-                        />
+                          {modelField()}
+                        </WhereItRunsOption>
+                      )}
+                    </Show>
+                    <WhereItRunsOption
+                      value="cursor"
+                      title="In Cursor"
+                      description={
+                        cursorHarness()
+                          ? 'Runs as a Cursor Cloud agent on your Cursor plan.'
+                          : 'Connect Cursor first. Runs as a Cursor Cloud agent on your Cursor plan.'
+                      }
+                      icon={<CursorIcon />}
+                      checked={harnessId() === 'cursor'}
+                      disabled={!cursorHarness()}
+                      action={
+                        <Show when={!cursorHarness()}>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            class="text-ink"
+                            aria-label="Connect Cursor"
+                            disabled={busy()}
+                            onClick={() => setSetup('cursor')}
+                          >
+                            Connect
+                          </Button>
+                        </Show>
+                      }
+                      onSelect={() => handleHarnessChange('cursor')}
+                    >
+                      {modelField()}
+                    </WhereItRunsOption>
+                    <WhereItRunsOption
+                      value="harness"
+                      title="In your harness"
+                      description="Your own agent on your own machine. Local Claude Code, Codex, or other harness, via Macrod."
+                      icon={<TerminalIcon />}
+                      checked={selectedHarness()?.kind === 'macrod'}
+                      disabled={macrodHarnesses().length === 0}
+                      action={
+                        <Show when={macrodHarnesses().length === 0}>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            class="text-ink"
+                            aria-label="Set up your own harness"
+                            disabled={busy()}
+                            onClick={() => setSetup('pairing')}
+                          >
+                            Set up
+                          </Button>
+                        </Show>
+                      }
+                      onSelect={() => {
+                        const first = macrodHarnesses()[0];
+                        if (first) handleHarnessChange(first.id);
+                      }}
+                    >
+                      <div class="grid grid-cols-1 gap-3 @min-[440px]:grid-cols-[repeat(2,minmax(0,280px))]">
+                        <div class="flex min-w-0 flex-col gap-1.5">
+                          <span class="text-xs font-medium text-ink-muted">
+                            Harness
+                          </span>
+                          <SettingsSelect
+                            label="Harness"
+                            options={macrodHarnesses()}
+                            value={harnessId()}
+                            onChange={handleHarnessChange}
+                          />
+                        </div>
+                        {modelPicker()}
                       </div>
-                      {modelPicker()}
-                    </div>
-                  </WhereItRunsOption>
-                </fieldset>
-              </AgentFormSection>
+                    </WhereItRunsOption>
+                  </fieldset>
+                </AgentFormSection>
+              </Show>
 
               <AgentFormSection
                 title="Who can use it"

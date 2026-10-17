@@ -10,6 +10,10 @@ export const ActivityRouteView = lazyNamed(
   () => import('@app/features/activity/route-views'),
   'ActivityRouteView'
 );
+export const PortfolioRouteView = lazyNamed(
+  () => import('@app/features/portfolio/route-views'),
+  'PortfolioRouteView'
+);
 export const AgentsRouteView = lazyNamed(
   () => import('@app/features/agents-view/route-views'),
   'AgentsRouteView'

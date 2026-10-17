@@ -18,6 +18,7 @@ import {
 } from '@app/features/soup';
 import { useSplitPanelOrThrow } from '@components/app/split-layout/layoutUtils';
 import { MenuItem } from '@core/component/ContextMenu';
+import { ENABLE_FINTAIL } from '@core/constant/featureFlags';
 import { useUserId } from '@core/context/user';
 import { isTouchDevice } from '@core/mobile/isTouchDevice';
 import { unreadFilterFn } from '@entity/utils/filter';
@@ -252,23 +253,25 @@ export function AgentsSidebar(props: AgentsSidebarProps) {
           </ViewSidebar.Header>
         </Show>
 
-        <div
-          ref={tourTarget(AGENTS_TOUR.modeSwitch)}
-          class="px-(--sidebar-gutter) pt-1 touch:pt-0"
-        >
-          <Tabs
-            aria-label="Agents mode"
-            fullWidth
-            list={(['chat', 'code'] as const).map((mode) => ({
-              value: mode,
-              label: agentsModeLabel(mode),
-            }))}
-            value={props.mode}
-            onChange={(value) =>
-              props.onModeChange(value === 'code' ? 'code' : 'chat')
-            }
-          />
-        </div>
+        <Show when={!ENABLE_FINTAIL}>
+          <div
+            ref={tourTarget(AGENTS_TOUR.modeSwitch)}
+            class="px-(--sidebar-gutter) pt-1 touch:pt-0"
+          >
+            <Tabs
+              aria-label="Agents mode"
+              fullWidth
+              list={(['chat', 'code'] as const).map((mode) => ({
+                value: mode,
+                label: agentsModeLabel(mode),
+              }))}
+              value={props.mode}
+              onChange={(value) =>
+                props.onModeChange(value === 'code' ? 'code' : 'chat')
+              }
+            />
+          </div>
+        </Show>
 
         <Show when={!isTouchDevice()}>
           <div class="px-(--sidebar-gutter) pt-2">

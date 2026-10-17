@@ -450,6 +450,12 @@ export const activityRoute = defineRoute({
   claim: () => ({ namespace: 'component', id: 'activity' }),
 });
 
+export const portfolioRoute = defineRoute({
+  id: 'view-portfolio',
+  path: 'portfolio',
+  claim: () => ({ namespace: 'component', id: 'portfolio' }),
+});
+
 export const routinesRoute = defineRoute({
   id: ROUTINES_ROUTE_ID,
   path: 'routines',

@@ -7,7 +7,10 @@ import {
   usePageViewTracking,
   withAuth,
 } from '@components/app/split-layout/split-router/app-route-shell';
-import { enableChatV3Agents } from '@core/constant/featureFlags';
+import {
+  ENABLE_FINTAIL,
+  enableChatV3Agents,
+} from '@core/constant/featureFlags';
 import { useUserContext } from '@core/context/user';
 import { isTouchDevice } from '@core/mobile/isTouchDevice';
 import { createRenderEffect, lazy, Show } from 'solid-js';
@@ -93,7 +96,11 @@ export const AgentsRouteView = withAuth(() => {
       typeof content.params?.agentsRoute === 'string'
         ? content.params.agentsRoute
         : content.id;
-    return parseAgentsRoute(requested);
+    const parsed = parseAgentsRoute(requested);
+    // Fintail has no coding agents: a /coders link opens in chat mode.
+    return ENABLE_FINTAIL && parsed?.mode === 'code'
+      ? { ...parsed, mode: 'chat' as const }
+      : parsed;
   };
   usePageViewTracking('agents');
   const flag = useFeatureFlag(enableChatV3Agents);

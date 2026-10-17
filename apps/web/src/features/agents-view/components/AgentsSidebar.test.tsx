@@ -15,6 +15,12 @@ import {
 } from '../core/recent-conversations';
 import { AgentsSidebar } from './AgentsSidebar';
 
+// Macro's coding agents are hidden in Fintail; these tests cover them with the switch off.
+vi.mock('@core/constant/featureFlags', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@core/constant/featureFlags')>()),
+  ENABLE_FINTAIL: false,
+}));
+
 const openWithSplit = vi.fn();
 const unreadFilter = vi.hoisted(() => vi.fn(() => false));
 vi.mock('@components/app/split-layout/layout', () => ({

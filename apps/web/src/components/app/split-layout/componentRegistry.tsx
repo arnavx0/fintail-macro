@@ -37,6 +37,10 @@ const ActivityRouteView = lazyNamed(
   () => import('@app/features/activity/route-views'),
   'ActivityRouteView'
 );
+const PortfolioRouteView = lazyNamed(
+  () => import('@app/features/portfolio/route-views'),
+  'PortfolioRouteView'
+);
 const AgentsRouteView = lazyNamed(
   () => import('@app/features/agents-view/route-views'),
   'AgentsRouteView'
@@ -315,6 +319,7 @@ registerComponent(
 registerComponent(NOT_FOUND_ROUTE_ID, () => <NotFound />);
 registerComponent('recent', () => <RecentRouteView />);
 registerComponent('activity', () => <ActivityRouteView />);
+registerComponent('portfolio', () => <PortfolioRouteView />);
 registerComponent(
   'routines',
   () => <AgentsRouteView />,

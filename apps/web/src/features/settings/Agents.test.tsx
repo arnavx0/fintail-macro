@@ -25,6 +25,12 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Agents } from './Agents';
 import { chooseSelectOption, selectOptions } from './tests/select-helpers';
 
+// Macro's coding agents are hidden in Fintail; these tests cover them with the switch off.
+vi.mock('@core/constant/featureFlags', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@core/constant/featureFlags')>()),
+  ENABLE_FINTAIL: false,
+}));
+
 const agentsPageProps = {
   onCursor: vi.fn(),
   onSetUpRuntime: vi.fn(),

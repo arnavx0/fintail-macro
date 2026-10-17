@@ -70,7 +70,7 @@ describe('sidebar customization drag sorting', () => {
       </DragDropProvider>
     ));
     const handle = await screen.findByRole('button', {
-      name: 'Reorder AI Agents',
+      name: 'Reorder Portfolio',
     });
     fireEvent.mouseDown(handle, { button: 0, clientX: 115, clientY: 120 });
     fireEvent.mouseMove(document, { clientX: 115, clientY: 200 });
@@ -91,7 +91,7 @@ describe('sidebar customization drag sorting', () => {
         .getAllByRole('button', { name: /^Reorder / })
         .slice(0, 3)
         .map((button) => button.getAttribute('aria-label'))
-    ).toEqual(['Reorder Research', 'Reorder Messages', 'Reorder AI Agents']);
+    ).toEqual(['Reorder AI Agents', 'Reorder Research', 'Reorder Portfolio']);
     expect(screen.queryByRole('button', { name: 'Reorder Home' })).toBeNull();
     expect(appCollision).not.toHaveBeenCalled();
     expect(appDragEnd).not.toHaveBeenCalled();

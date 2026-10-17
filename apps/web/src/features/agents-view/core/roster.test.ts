@@ -1,7 +1,7 @@
 import { CURSOR_BOT_ID } from '@core/constant/cursorAgent';
 import { MACRO_AGENT_BOT_ID } from '@core/constant/macroAgent';
 import { MACRO_CODER_BOT_ID } from '@core/constant/macroCoder';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
   buildAgentRoster,
   kindForBot,
@@ -10,6 +10,14 @@ import {
   type RosterInput,
   rosterForAgentPicker,
 } from './roster';
+
+const flags = vi.hoisted(() => ({ fintail: false }));
+vi.mock('@core/constant/featureFlags', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@core/constant/featureFlags')>()),
+  get ENABLE_FINTAIL() {
+    return flags.fintail;
+  },
+}));
 
 function persisted(
   overrides: Partial<PersistedAgentLike> & { harness: string }
@@ -176,5 +184,16 @@ describe('rosterForAgentPicker and kindForBot', () => {
     expect(kindForBot('bot-in-memory', roster)).toBe('agent');
     expect(kindForBot('someone-elses-bot', roster)).toBe('agent');
     expect(kindForBot(undefined, roster)).toBe('agent');
+  });
+});
+
+describe('Fintail roster', () => {
+  it('offers no coding agents when the Fintail switch is on', () => {
+    flags.fintail = true;
+    const roster = buildAgentRoster(EMPTY);
+    flags.fintail = false;
+    expect(roster.some((agent) => agent.kind === 'coder')).toBe(false);
+    expect(roster.some((agent) => agent.id === CURSOR_BOT_ID)).toBe(false);
+    expect(roster.length).toBeGreaterThan(0);
   });
 });

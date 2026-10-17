@@ -3,6 +3,7 @@ import {
   CURSOR_BOT_ID,
   CURSOR_BOT_NAME,
 } from '@core/constant/cursorAgent';
+import { ENABLE_FINTAIL } from '@core/constant/featureFlags';
 import {
   isMacroAgentId,
   MACRO_AGENT_HANDLE,
@@ -173,7 +174,7 @@ function persistedAgent(
  * can `@` mention).
  */
 export function buildAgentRoster(input: RosterInput): RosterAgent[] {
-  return [
+  const roster: RosterAgent[] = [
     {
       id: MACRO_PERSONA_ID,
       kind: 'agent',
@@ -202,6 +203,9 @@ export function buildAgentRoster(input: RosterInput): RosterAgent[] {
     },
     ...input.agents.map((agent) => persistedAgent(agent, input)),
   ];
+  return ENABLE_FINTAIL
+    ? roster.filter((agent) => agent.kind !== 'coder')
+    : roster;
 }
 
 /** Every agent belongs in the picker; Fintail is represented by model choices. */

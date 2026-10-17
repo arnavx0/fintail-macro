@@ -21,6 +21,12 @@ import { NEW_CONVERSATION_ATTACHMENTS_KEY } from '../primitives/composer-draft';
 import { AgentPicker } from './AgentPicker';
 import { NewChatPage } from './NewChatPage';
 
+// Macro's coding agents are hidden in Fintail; these tests cover them with the switch off.
+vi.mock('@core/constant/featureFlags', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@core/constant/featureFlags')>()),
+  ENABLE_FINTAIL: false,
+}));
+
 const mocks = vi.hoisted(() => ({
   userId: () => 'user' as string | undefined,
   touch: false,
