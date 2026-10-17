@@ -12,7 +12,9 @@
 
 > **Status (17 Oct 2026, Phase 0):** this plan was checked against `macro-inc/macro` @ `b25a95b4`. The fork is `arnavx0/fintail-macro` (the name `fintail` is taken by the earlier Next.js app).
 >
-> **Product framing (Arnav):** Fintail is a hosted SaaS, a **unified CRM platform for retail investors**. The repo is public, but API keys and secrets are never committed. Because of this framing, whether to **hide or adapt Macro's CRM** (companies/contacts/pipelines on the `databases` engine) is an open decision tracked in `ARCHITECTURE-NOTES.md`. Section 2 below is not final on that point.
+> **Product (Arnav, 17 Oct 2026):** remodel Macro into Fintail, a **unified personal platform for retail investors**. It aggregates all of a user's investment data (brokers, crypto, CSV/manual accounts, email contract notes) and uses AI agents, tools, MCP connectors and routines to analyse their portfolio and the markets. It is a hosted SaaS with a public repo; API keys and secrets are never committed.
+>
+> **Decided:** Fintail data is **per-user**. Macro's team-scoped CRM tables are not reused (CS-71). Fintail adopts the CRM *pattern*: watchlist stages as a host of the `databases` engine, with instruments, holdings and watchlists in new Fintail crates. Macro's CRM/Sales stays in the code but is hidden.
 >
 > **Verified corrections applied:** tool-policy location (§5/§6), fork name (§8), and Macro's `CLAUDE.md` push/stash rules (§10).
 

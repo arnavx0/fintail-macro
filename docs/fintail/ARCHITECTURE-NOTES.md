@@ -90,7 +90,7 @@ portfolio tools are picked up automatically once they're in `ai_tools`.
   placeholder in `xtask_local` for each new key (CS-14..18).
 - Nothing secret goes in git.
 
-## Open decision: hide or adapt Macro's CRM
+## Decision: adapt the CRM pattern, not its tables
 
 Arnav's positioning is "a unified CRM platform for retail investors". Plan 2
 hides CRM/Sales, so this needs a decision before Phase 1.
@@ -116,6 +116,7 @@ Constraints:
   pipelines do) rather than CRM's own tables.
 - CRM data is team-scoped. Fintail portfolio data is per-user.
 
-**Recommendation:** keep the CRM *UI pattern* and the `databases` engine
-(Plan 1's "watchlists as a database host"), but put instruments, holdings
-and watchlists in new Fintail crates. **This needs Arnav's decision.**
+**Decided (17 Oct 2026):** Fintail is a *personal* platform. It keeps the CRM
+UI pattern and the `databases` engine (Plan 1's "watchlists as a database
+host") and puts instruments, holdings and watchlists in new per-user Fintail
+crates. Macro's CRM/Sales is hidden, not reused.
