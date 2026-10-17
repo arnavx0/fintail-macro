@@ -1,5 +1,7 @@
 import { AnalysisStream } from '@core/component/AnalysisStream';
 import { AnimatedNumber } from '@core/component/AnimatedNumber';
+import PlugsConnectedIcon from '@phosphor/plugs-connected.svg';
+import { Button } from '@ui';
 import { createMemo, createSignal, Match, Show, Switch } from 'solid-js';
 import { AllocationCard } from '../components/allocation-card';
 import {
@@ -10,12 +12,14 @@ import {
   IncomeAnswer,
 } from '../components/ask-answers';
 import { AskPanel, type AskQuestion } from '../components/ask-panel';
+import { ConnectorCatalogue } from '../components/connector-catalogue';
 import { Change } from '../components/figures';
 import { HoldingsTable } from '../components/holdings-table';
 import { IncomeCard, ReturnCard, RiskCard } from '../components/insight-cards';
 import { PerformanceChart } from '../components/performance-chart';
 import { PlatformPills } from '../components/platform-pills';
 import { usePortfolioSource } from '../context/portfolio-context';
+import { connectedCount } from '../core/connectors';
 import { formatMoney } from '../core/format';
 import {
   benchmarkComparison,
@@ -26,6 +30,7 @@ import { matchIntent } from '../core/intent';
 import { portfolioAnalysis } from '../core/portfolio-analysis';
 import type { PortfolioSnapshot } from '../core/types';
 import { RANGES, type RangeId } from '../core/types';
+import type { Connections } from '../primitives/connections';
 import {
   ALLOCATION_LENSES,
   type AllocationLens,
@@ -70,7 +75,11 @@ const ASK: AskQuestion[] = [
 ];
 
 /** Every brokerage and crypto account in one view, filtered by platform. */
-export function PortfolioView(props: { onAsk: (prompt: string) => void }) {
+export function PortfolioView(props: {
+  onAsk: (prompt: string) => void;
+  connections: Connections;
+  onManageConnections: () => void;
+}) {
   const source = usePortfolioSource();
   return (
     <Show when={source.snapshot()}>
@@ -79,6 +88,8 @@ export function PortfolioView(props: { onAsk: (prompt: string) => void }) {
           snapshot={snapshot()}
           isSample={source.isSample()}
           onAsk={props.onAsk}
+          connections={props.connections}
+          onManageConnections={props.onManageConnections}
         />
       )}
     </Show>
@@ -89,7 +100,10 @@ function PortfolioPage(props: {
   snapshot: PortfolioSnapshot;
   isSample: boolean;
   onAsk: (prompt: string) => void;
+  connections: Connections;
+  onManageConnections: () => void;
 }) {
+  const [catalogueOpen, setCatalogueOpen] = createSignal(false);
   const state = createPortfolioViewState(() => props.snapshot);
   const currency = () => props.snapshot.baseCurrency;
 
@@ -167,6 +181,35 @@ function PortfolioPage(props: {
       </Show>
 
       <header class="flex flex-col gap-3">
+        <div class="flex items-center justify-between gap-3">
+          <h1 class="text-2xl font-semibold tracking-tight text-ink">
+            Portfolio
+          </h1>
+          <Button
+            variant="outline"
+            size="sm"
+            class="gap-1.5"
+            onClick={() => setCatalogueOpen(true)}
+          >
+            <PlugsConnectedIcon class="size-4" />
+            Connections
+            <span class="rounded-full bg-accent-bg px-1.5 text-[10px] font-semibold text-accent-ink tabular-nums">
+              {connectedCount(props.connections.state())}
+            </span>
+          </Button>
+        </div>
+        <ConnectorCatalogue
+          open={catalogueOpen()}
+          onOpenChange={setCatalogueOpen}
+          state={props.connections.state()}
+          onSnaptrade={props.connections.setSnaptrade}
+          onToggleBroker={props.connections.toggleBroker}
+          onService={props.connections.setService}
+          onManageInSettings={() => {
+            setCatalogueOpen(false);
+            props.onManageConnections();
+          }}
+        />
         <PlatformPills
           platforms={props.snapshot.platforms}
           selected={state.selected()}

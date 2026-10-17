@@ -3,9 +3,12 @@ import {
   usePageViewTracking,
   withAuth,
 } from '@components/app/split-layout/split-router/app-route-shell';
+import { useSettingsState } from '@core/constant/SettingsState';
+import { useUserId } from '@core/context/user';
 import { lazy } from 'solid-js';
 import type { PortfolioSource } from './context/portfolio-context';
 import { PortfolioProvider } from './context/portfolio-context';
+import { createConnections } from './primitives/connections';
 import { samplePortfolio } from './queries/sample-portfolio';
 
 const PortfolioView = lazy(async () => ({
@@ -25,10 +28,17 @@ const sampleSource: PortfolioSource = {
 export const PortfolioRouteView = withAuth(() => {
   usePageViewTracking('portfolio');
   const ask = useAskFintail();
+  const userId = useUserId();
+  const connections = createConnections(userId());
+  const { openSettings } = useSettingsState();
   return (
     <PortfolioProvider source={sampleSource}>
       <div class="size-full overflow-auto">
-        <PortfolioView onAsk={ask} />
+        <PortfolioView
+          onAsk={ask}
+          connections={connections}
+          onManageConnections={() => openSettings('Connections')}
+        />
       </div>
     </PortfolioProvider>
   );
