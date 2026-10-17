@@ -19,6 +19,7 @@ const COLUMNS: { key: SortKey; label: string }[] = [
  * selected platforms; the badges show where it is held. Rows ask the AI.
  */
 export function HoldingsTable(props: {
+  motionKey?: string;
   holdings: readonly MergedHolding[];
   platforms: readonly Platform[];
   currency: string;
@@ -31,7 +32,7 @@ export function HoldingsTable(props: {
   const platform = (id: string) => props.platforms.find((p) => p.id === id);
 
   return (
-    <Section title="Holdings">
+    <Section title="Holdings" motionKey={props.motionKey}>
       <div class="-mx-4 overflow-x-auto">
         <table class="w-full min-w-[520px] text-sm">
           <thead>

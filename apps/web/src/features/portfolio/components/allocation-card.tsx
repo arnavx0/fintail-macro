@@ -11,6 +11,7 @@ import { Section } from './figures';
  * never repaints a slice.
  */
 export function AllocationCard<Lens extends string>(props: {
+  motionKey?: string;
   slices: readonly Slice[];
   colorKeys: readonly string[];
   currency: string;
@@ -26,6 +27,7 @@ export function AllocationCard<Lens extends string>(props: {
   return (
     <Section
       title="Allocation"
+      motionKey={props.motionKey}
       action={
         <SegmentedControl
           size="sm"

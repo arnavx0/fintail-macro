@@ -1,3 +1,4 @@
+import { AnimatedNumber } from '@core/component/AnimatedNumber';
 import SparkleIcon from '@phosphor/sparkle.svg';
 import { Button } from '@ui';
 import { createMemo, For, Show } from 'solid-js';
@@ -88,6 +89,10 @@ function PortfolioPage(props: {
     return byLens[state.lens()];
   });
 
+  /** Changes whenever the figures do, so cards ease in on every filter. */
+  const motionKey = () =>
+    `${[...state.selected()].sort().join(',')}|${state.range()}|${state.lens()}`;
+
   const asOf = () =>
     new Intl.DateTimeFormat(undefined, {
       day: 'numeric',
@@ -116,8 +121,11 @@ function PortfolioPage(props: {
         <div class="flex flex-wrap items-end justify-between gap-3">
           <div class="flex flex-col gap-1">
             <span class="text-xs text-ink-muted">Total value · {asOf()}</span>
-            <span class="text-5xl font-semibold tracking-tight text-ink">
-              {formatMoney(state.totals().value, currency())}
+            <span class="text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
+              <AnimatedNumber
+                value={state.totals().value}
+                format={(v) => formatMoney(v, currency())}
+              />
             </span>
             <span class="text-sm">
               <Change
@@ -151,6 +159,7 @@ function PortfolioPage(props: {
       </header>
 
       <PerformanceChart
+        motionKey={motionKey()}
         points={state.chartSeries()}
         currency={currency()}
         benchmarkName={props.snapshot.benchmark.name}
@@ -161,6 +170,7 @@ function PortfolioPage(props: {
 
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <ReturnCard
+          motionKey={motionKey()}
           currency={currency()}
           rangeLabel={RANGE_LABEL[state.range()]}
           moneyWeighted={state.performance().moneyWeighted}
@@ -173,12 +183,14 @@ function PortfolioPage(props: {
           unrealizedPct={state.totals().unrealizedPct}
         />
         <RiskCard
+          motionKey={motionKey()}
           volatility={state.risk().volatility}
           maxDrawdown={state.risk().maxDrawdown}
           largestWeight={state.risk().largestWeight}
           warnings={state.risk().warnings}
         />
         <AllocationCard
+          motionKey={motionKey()}
           slices={state.slices()}
           colorKeys={colorKeys()}
           currency={currency()}
@@ -187,6 +199,7 @@ function PortfolioPage(props: {
           onLens={state.setLens}
         />
         <IncomeCard
+          motionKey={motionKey()}
           currency={currency()}
           trailing={state.income().trailing}
           forward={state.income().forward}
@@ -196,6 +209,7 @@ function PortfolioPage(props: {
       </div>
 
       <HoldingsTable
+        motionKey={motionKey()}
         holdings={state.holdings()}
         platforms={props.snapshot.platforms}
         currency={currency()}

@@ -1,10 +1,12 @@
+import { AnimatedNumber } from '@core/component/AnimatedNumber';
 import { cn } from '@ui';
-import type { JSX } from 'solid-js';
+import { createSignal, type JSX } from 'solid-js';
 import {
   direction,
   formatSignedMoney,
   formatSignedPercent,
 } from '../core/format';
+import { createEaseInOnChange } from './ease-in-on-change';
 
 /** Gain/loss ink: green up, red down, muted when flat. The sign always carries the meaning too. */
 export function changeClass(value: number) {
@@ -22,9 +24,19 @@ export function Change(props: {
   class?: string;
 }) {
   return (
-    <span class={cn(changeClass(props.amount), props.class)}>
-      {formatSignedMoney(props.amount, props.currency)} (
-      {formatSignedPercent(props.share)})
+    <span
+      class={cn(
+        'transition-colors duration-300 motion-reduce:transition-none',
+        changeClass(props.amount),
+        props.class
+      )}
+    >
+      <AnimatedNumber
+        value={props.amount}
+        format={(v) => formatSignedMoney(v, props.currency)}
+      />{' '}
+      (
+      <AnimatedNumber value={props.share} format={formatSignedPercent} />)
     </span>
   );
 }
@@ -52,8 +64,12 @@ export function Section(props: {
   title: string;
   action?: JSX.Element;
   class?: string;
+  /** When this changes (a filter or range), the body eases in again. */
+  motionKey?: string;
   children: JSX.Element;
 }) {
+  const [body, setBody] = createSignal<HTMLDivElement>();
+  createEaseInOnChange(body, () => props.motionKey);
   return (
     <section
       aria-label={props.title}
@@ -66,7 +82,9 @@ export function Section(props: {
         <h2 class="text-sm font-medium text-ink">{props.title}</h2>
         {props.action}
       </header>
-      {props.children}
+      <div ref={setBody} class="flex min-w-0 flex-col gap-3">
+        {props.children}
+      </div>
     </section>
   );
 }

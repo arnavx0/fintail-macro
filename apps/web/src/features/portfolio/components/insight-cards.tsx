@@ -1,3 +1,4 @@
+import { AnimatedNumber } from '@core/component/AnimatedNumber';
 import { For, Show } from 'solid-js';
 import {
   formatMoney,
@@ -10,6 +11,7 @@ import { changeClass, Figure, Section } from './figures';
 
 /** "Am I actually making money, and from what?" */
 export function ReturnCard(props: {
+  motionKey?: string;
   currency: string;
   rangeLabel: string;
   moneyWeighted: number;
@@ -23,12 +25,18 @@ export function ReturnCard(props: {
 }) {
   const beat = () => props.timeWeighted - props.benchmark;
   return (
-    <Section title={`Returns · ${props.rangeLabel}`}>
+    <Section
+      title={`Returns · ${props.rangeLabel}`}
+      motionKey={props.motionKey}
+    >
       <div class="flex items-baseline gap-2">
         <span
           class={`text-2xl font-semibold ${changeClass(props.moneyWeighted)}`}
         >
-          {formatSignedPercent(props.moneyWeighted)}
+          <AnimatedNumber
+            value={props.moneyWeighted}
+            format={formatSignedPercent}
+          />
         </span>
         <span class="text-xs text-ink-muted">your return</span>
       </div>
@@ -38,7 +46,10 @@ export function ReturnCard(props: {
           hint="Change in value after removing deposits and withdrawals"
         >
           <span class={changeClass(props.gain)}>
-            {formatSignedMoney(props.gain, props.currency)}
+            <AnimatedNumber
+              value={props.gain}
+              format={(v) => formatSignedMoney(v, props.currency)}
+            />
           </span>
         </Figure>
         <Figure label="Net deposits">
@@ -62,26 +73,30 @@ export function ReturnCard(props: {
 
 /** "How exposed am I?" */
 export function RiskCard(props: {
+  motionKey?: string;
   volatility: number;
   maxDrawdown: number;
   largestWeight: number;
   warnings: readonly string[];
 }) {
   return (
-    <Section title="Risk">
+    <Section title="Risk" motionKey={props.motionKey}>
       <div class="grid grid-cols-3 gap-3">
         <Figure
           label="Volatility"
           hint="Annualised standard deviation of daily returns"
         >
-          {formatWeight(props.volatility)}
+          <AnimatedNumber value={props.volatility} format={formatWeight} />
         </Figure>
         <Figure
           label="Max drawdown"
           hint="Largest fall from a peak in this range"
         >
           <span class="text-red-ink">
-            {formatSignedPercent(props.maxDrawdown)}
+            <AnimatedNumber
+              value={props.maxDrawdown}
+              format={formatSignedPercent}
+            />
           </span>
         </Figure>
         <Figure label="Largest position">
@@ -118,6 +133,7 @@ export function RiskCard(props: {
 
 /** "What does my portfolio pay me?" */
 export function IncomeCard(props: {
+  motionKey?: string;
   currency: string;
   trailing: number;
   forward: number;
@@ -131,13 +147,16 @@ export function IncomeCard(props: {
       timeZone: 'UTC',
     }).format(new Date(`${iso}T00:00:00Z`));
   return (
-    <Section title="Income">
+    <Section title="Income" motionKey={props.motionKey}>
       <div class="grid grid-cols-3 gap-3">
         <Figure label="Last 12 months">
           {formatMoney(props.trailing, props.currency)}
         </Figure>
         <Figure label="Next 12 months" hint="Forecast from announced dividends">
-          {formatMoney(props.forward, props.currency)}
+          <AnimatedNumber
+            value={props.forward}
+            format={(v) => formatMoney(v, props.currency)}
+          />
         </Figure>
         <Figure label="Yield">{formatWeight(props.forwardYield)}</Figure>
       </div>

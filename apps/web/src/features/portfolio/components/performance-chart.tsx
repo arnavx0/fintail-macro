@@ -44,6 +44,7 @@ const dayFormat = new Intl.DateTimeFormat(undefined, {
  * deposits never look like gains.
  */
 export function PerformanceChart(props: {
+  motionKey?: string;
   points: readonly ChartPoint[];
   currency: string;
   benchmarkName: string;
@@ -164,6 +165,7 @@ export function PerformanceChart(props: {
   return (
     <Section
       title="Performance"
+      motionKey={props.motionKey}
       action={
         <SegmentedControl
           size="sm"
