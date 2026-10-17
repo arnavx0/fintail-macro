@@ -23,7 +23,8 @@ export function HoldingsTable(props: {
   holdings: readonly MergedHolding[];
   platforms: readonly Platform[];
   currency: string;
-  onAsk: (prompt: string) => void;
+  /** Open this holding's answer on the page. */
+  onSelect: (symbol: string) => void;
 }) {
   const [sort, setSort] = createSignal<SortKey>('value');
   const rows = createMemo(() =>
@@ -71,12 +72,8 @@ export function HoldingsTable(props: {
                     <button
                       type="button"
                       class="flex w-full items-center gap-2.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-edge-focus rounded"
-                      title={`Ask Fintail about ${holding.symbol}`}
-                      onClick={() =>
-                        props.onAsk(
-                          `Explain how ${holding.symbol} (${holding.name}) is doing in my portfolio: its weight, my gain or loss, and recent news. Information only, no buy or sell advice.`
-                        )
-                      }
+                      title={`How is ${holding.symbol} doing?`}
+                      onClick={() => props.onSelect(holding.symbol)}
                     >
                       <div class="flex -space-x-1.5">
                         <For each={holding.platformIds}>

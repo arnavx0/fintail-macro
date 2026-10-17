@@ -130,6 +130,7 @@ function PortfolioPage(props: {
   });
 
   /** A typed question: answered instantly when we recognise it, analysed otherwise. */
+  let askAnchor: HTMLDivElement | undefined;
   const search = (text: string) => {
     const intent = matchIntent(
       text,
@@ -235,6 +236,7 @@ function PortfolioPage(props: {
             </span>
           </div>
         </div>
+        <div ref={askAnchor} class="scroll-mt-4" />
         <AskPanel
           questions={ASK}
           active={askOpen()}
@@ -356,7 +358,16 @@ function PortfolioPage(props: {
         holdings={state.holdings()}
         platforms={props.snapshot.platforms}
         currency={currency()}
-        onAsk={props.onAsk}
+        onSelect={(symbol) => {
+          search(symbol);
+          askAnchor?.scrollIntoView({
+            behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)')
+              .matches
+              ? 'auto'
+              : 'smooth',
+            block: 'start',
+          });
+        }}
       />
 
       <p class="pb-2 text-center text-[11px] text-ink-extra-muted">
