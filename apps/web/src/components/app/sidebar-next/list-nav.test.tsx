@@ -190,7 +190,7 @@ afterEach(() => {
 describe('ListNav', () => {
   it('lets a rapid Home press supersede Agents without losing the current selection', () => {
     const { router, history } = setup();
-    press('Agents');
+    press('AI Agents');
     press('Home');
 
     expect(mocks.navigate).toHaveBeenCalledTimes(2);
@@ -207,7 +207,7 @@ describe('ListNav', () => {
       finishPreload = resolve;
     });
     const { router, history } = setup('/home', () => preload);
-    press('Agents');
+    press('AI Agents');
     expect(
       router.pending(router.panes()[0]!)?.to.location.route.matches.at(-1)?.id
     ).toBe('agents');
@@ -225,7 +225,7 @@ describe('ListNav', () => {
 
   it('opens and selects a Shift destination when no later press supersedes it', async () => {
     const { router, history } = setup();
-    fireEvent.mouseDown(screen.getByRole('button', { name: 'Agents' }), {
+    fireEvent.mouseDown(screen.getByRole('button', { name: 'AI Agents' }), {
       button: 0,
       shiftKey: true,
     });
@@ -233,7 +233,7 @@ describe('ListNav', () => {
 
     expect(router.panes()).toHaveLength(2);
     expect(history.read().path).toBe('/home/~/agents');
-    expectSelection('Agents');
+    expectSelection('AI Agents');
   });
 
   it.each(['Home', 'Calendar'])(
@@ -245,7 +245,7 @@ describe('ListNav', () => {
       });
       const { router, history } = setup('/home', () => preload);
       const original = router.panes()[0]!;
-      fireEvent.mouseDown(screen.getByRole('button', { name: 'Agents' }), {
+      fireEvent.mouseDown(screen.getByRole('button', { name: 'AI Agents' }), {
         button: 0,
         shiftKey: true,
       });
@@ -309,15 +309,15 @@ describe('ListNav', () => {
     );
     const pane = router.panes()[0]!;
     const entry = router.entry(pane);
-    expectSelection('Agents');
+    expectSelection('AI Agents');
 
-    press('Agents');
+    press('AI Agents');
 
     expect(mocks.navigate).not.toHaveBeenCalled();
     expect(router.entry(pane)).toBe(entry);
     expect(history.read().path).toBe('/agents/conversation');
     expect(history.read().search).toBe('?s0.agents.tab=changes');
-    expectSelection('Agents');
+    expectSelection('AI Agents');
   });
 
   it.each([
@@ -334,7 +334,7 @@ describe('ListNav', () => {
       const pane = router.panes()[0]!;
       const originalEntry = router.entry(pane);
       const count = router.history(pane)?.entries.length;
-      press('Agents');
+      press('AI Agents');
       expect(router.pending(pane)).toBeDefined();
       expectSelection(label);
 
@@ -360,7 +360,7 @@ describe('ListNav', () => {
       allowLeave = resolve;
     });
     router.registerGuard(pane, 1, () => guard);
-    press('Agents');
+    press('AI Agents');
     expect(router.pending(pane)).toBeDefined();
 
     press('Home');
@@ -376,7 +376,7 @@ describe('ListNav', () => {
     const { router, history } = setup();
     const pane = router.panes()[0]!;
     router.registerGuard(pane, 1, () => false);
-    press('Agents');
+    press('AI Agents');
 
     expect(mocks.navigate).toHaveBeenCalledOnce();
     expect(router.entry(pane)?.location.route.matches.at(-1)?.id).toBe('home');
@@ -386,9 +386,9 @@ describe('ListNav', () => {
 
   it('tracks history traversal instead of the last pressed destination', () => {
     const { router, history } = setup();
-    press('Agents');
+    press('AI Agents');
     expect(history.read().path).toBe('/agents');
-    expectSelection('Agents');
+    expectSelection('AI Agents');
 
     history.back();
     expect(history.read().path).toBe('/home');
@@ -398,7 +398,7 @@ describe('ListNav', () => {
     expectSelection('Home');
     history.forward();
     expect(history.read().path).toBe('/agents');
-    expectSelection('Agents');
+    expectSelection('AI Agents');
   });
 
   it('selects the view in the focused split, not the first URL pane', () => {
@@ -413,7 +413,7 @@ describe('ListNav', () => {
     );
     expectSelection('Home');
     focus(second!);
-    expectSelection('Agents');
+    expectSelection('AI Agents');
     press('Home');
     expect(history.read().path).toBe('/home/~/home');
     expect(router.entry(first!)?.location.route.matches.at(-1)?.id).toBe(
@@ -424,9 +424,9 @@ describe('ListNav', () => {
     );
     expectSelection('Home');
     focus(first!);
-    press('Agents');
+    press('AI Agents');
     expect(history.read().path).toBe('/agents/~/home');
-    expectSelection('Agents');
+    expectSelection('AI Agents');
     focus(second!);
     expectSelection('Home');
   });
@@ -459,11 +459,11 @@ describe('ListNav', () => {
 
   it('handles a pointer press once and still accepts a keyboard-only click', () => {
     const { router, history } = setup();
-    const agentsButton = screen.getByRole('button', { name: 'Agents' });
+    const agentsButton = screen.getByRole('button', { name: 'AI Agents' });
     fireEvent.mouseDown(agentsButton, { button: 0 });
     fireEvent.click(agentsButton, { button: 0, detail: 1 });
     expect(mocks.navigate).toHaveBeenCalledOnce();
-    expectSelection('Agents');
+    expectSelection('AI Agents');
 
     fireEvent.click(screen.getByRole('button', { name: 'Home' }), {
       button: 0,
@@ -478,9 +478,9 @@ describe('ListNav', () => {
   it('does not reclaim the highlight when Settings becomes active again', () => {
     const { router, history } = setup('/settings');
     expectSelection();
-    press('Agents');
+    press('AI Agents');
     expect(history.read().path).toBe('/agents');
-    expectSelection('Agents');
+    expectSelection('AI Agents');
 
     // Settings opens from outside the rail list (the gear, a hotkey).
     router.navigatePane(router.panes()[0]!, '/settings');

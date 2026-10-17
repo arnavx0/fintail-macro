@@ -68,13 +68,31 @@ export const SIDEBAR_NEXT_NAV_ITEMS = [
     hotkeyToken: TOKENS.sidebar.goTo.home,
   },
   {
+    id: 'agents',
+    label: 'AI Agents',
+    href: LIST_VIEW_PATHS.agents,
+    icon: AgentIcon,
+    iconActive: AgentFillIcon,
+    hotkey: 'a',
+    hotkeyToken: TOKENS.sidebar.goTo.agents,
+  },
+  {
     id: 'documents',
-    label: 'Drive',
+    label: 'Research',
     href: LIST_VIEW_PATHS.documents,
     icon: FolderSimpleIcon,
     iconActive: FolderSimpleFillIcon,
     hotkey: 'f',
     hotkeyToken: TOKENS.sidebar.goTo.documents,
+  },
+  {
+    id: 'channels',
+    label: 'Messages',
+    href: LIST_VIEW_PATHS.channels,
+    icon: ChatsCircleIcon,
+    iconActive: ChatsCircleFillIcon,
+    hotkey: 'c',
+    hotkeyToken: TOKENS.sidebar.goTo.channels,
   },
   {
     id: 'mail',
@@ -86,24 +104,6 @@ export const SIDEBAR_NEXT_NAV_ITEMS = [
     hotkeyToken: TOKENS.sidebar.goTo.mail,
   },
   {
-    id: 'channels',
-    label: 'Chat',
-    href: LIST_VIEW_PATHS.channels,
-    icon: ChatsCircleIcon,
-    iconActive: ChatsCircleFillIcon,
-    hotkey: 'c',
-    hotkeyToken: TOKENS.sidebar.goTo.channels,
-  },
-  {
-    id: 'tasks',
-    label: 'Tasks',
-    href: LIST_VIEW_PATHS.tasks,
-    icon: ListChecksIcon,
-    iconActive: ListChecksFillIcon,
-    hotkey: 't',
-    hotkeyToken: TOKENS.sidebar.goTo.tasks,
-  },
-  {
     id: 'calendar',
     label: 'Calendar',
     href: calendarPath('timeGridWeek'),
@@ -113,13 +113,13 @@ export const SIDEBAR_NEXT_NAV_ITEMS = [
     hotkeyToken: TOKENS.sidebar.goTo.calendar,
   },
   {
-    id: 'agents',
-    label: 'Agents',
-    href: LIST_VIEW_PATHS.agents,
-    icon: AgentIcon,
-    iconActive: AgentFillIcon,
-    hotkey: 'a',
-    hotkeyToken: TOKENS.sidebar.goTo.agents,
+    id: 'tasks',
+    label: 'Tasks',
+    href: LIST_VIEW_PATHS.tasks,
+    icon: ListChecksIcon,
+    iconActive: ListChecksFillIcon,
+    hotkey: 't',
+    hotkeyToken: TOKENS.sidebar.goTo.tasks,
   },
   {
     id: 'companies',
@@ -164,6 +164,7 @@ export type NavItemGates = {
   showCustomers: boolean;
   showCalls: boolean;
   showReviews: boolean;
+  showMessages: boolean;
   /** User preferences for which items are shown and in what order. */
   prefs: SidebarPrefs;
 };
@@ -178,6 +179,7 @@ export const isNavItemAvailable = (
   if (item.id === 'companies') return gates.showCustomers;
   if (item.id === 'calls') return gates.showCalls;
   if (item.id === 'reviews') return gates.showReviews;
+  if (item.id === 'channels') return gates.showMessages;
   return true;
 };
 

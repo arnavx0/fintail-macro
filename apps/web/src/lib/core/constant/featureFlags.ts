@@ -431,6 +431,15 @@ export const ENABLE_GRAPHQL_BACKFILL = defineFlag({
 
 export const ENABLE_CALLS = true;
 
+/**
+ * Fintail: hide Macro surfaces that are neither investing nor AI agents
+ * (customers, calls, scheduling, PR reviews). Off restores Macro's navigation.
+ */
+export const ENABLE_FINTAIL = defineFlag({
+  env: 'ENABLE_FINTAIL',
+  default: true,
+}).enabled;
+
 export const enableQuickCalls = defineFlag({
   key: 'enable-quick-calls',
   env: 'ENABLE_QUICK_CALLS',

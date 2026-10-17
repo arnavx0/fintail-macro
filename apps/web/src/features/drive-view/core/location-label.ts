@@ -5,7 +5,9 @@ export function driveLocationLabel(
   folders: readonly DriveFolder[] = []
 ): string {
   if (location.kind === 'folder') {
-    return folders.find((folder) => folder.id === location.id)?.name ?? 'Drive';
+    return (
+      folders.find((folder) => folder.id === location.id)?.name ?? 'Research'
+    );
   }
   return DRIVE_TABS.find((tab) => tab.id === location.tab)?.label ?? 'My Files';
 }
@@ -15,6 +17,6 @@ export function driveCreateDestinationLabel(
   projectId: string | undefined,
   folders: readonly DriveFolder[] = []
 ): string {
-  if (!projectId) return 'Drive';
+  if (!projectId) return 'Research';
   return folders.find((folder) => folder.id === projectId)?.name ?? 'Folder';
 }

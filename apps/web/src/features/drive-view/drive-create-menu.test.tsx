@@ -122,11 +122,11 @@ it('offers the same menu from the list header toolbar', async () => {
   });
 });
 
-it('opens a folder composer at the Drive root outside a folder', async () => {
+it('opens a folder composer at the Research root outside a folder', async () => {
   setProjectId(undefined);
   render(() => <DriveCreateMenu />);
   fireEvent.keyDown(
-    screen.getByRole('button', { name: 'New file or folder in Drive' }),
+    screen.getByRole('button', { name: 'New file or folder in Research' }),
     { key: 'Enter' }
   );
   await screen.findByRole('menu');
@@ -136,7 +136,7 @@ it('opens a folder composer at the Drive root outside a folder', async () => {
   expect(host.runCreateAction).toHaveBeenCalledWith('project', {
     projectId: undefined,
     source: 'drive',
-    destination: 'Drive',
+    destination: 'Research',
     openCreated: host.openCreated,
   });
 });

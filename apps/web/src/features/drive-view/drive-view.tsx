@@ -174,7 +174,7 @@ function DriveComposition(props: { route: DriveRouteState }) {
       },
     });
   });
-  onMount(() => panel.handle.setDisplayName('Drive'));
+  onMount(() => panel.handle.setDisplayName('Research'));
 
   return (
     <DriveProvider

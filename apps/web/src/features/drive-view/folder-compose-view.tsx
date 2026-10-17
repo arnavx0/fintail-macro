@@ -74,7 +74,7 @@ export function FolderComposeView(props: FolderComposeProps) {
             showUploads={!isTouchDevice()}
             destination={
               props.destination ??
-              (props.parentId ? 'Selected folder' : 'Drive')
+              (props.parentId ? 'Selected folder' : 'Research')
             }
             initialDraft={props.initialDraft}
             onClose={close}

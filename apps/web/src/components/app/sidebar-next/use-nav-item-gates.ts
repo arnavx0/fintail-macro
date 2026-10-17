@@ -2,6 +2,7 @@ import { useCalendarUiFlag } from '@app/features/calendar/hooks/use-calendar-ui-
 import { useFeatureFlag } from '@app/lib/analytics/posthog';
 import {
   ENABLE_CALLS,
+  ENABLE_FINTAIL,
   enableCalendarScheduling,
   enableCrm,
   enableTasksReviews,
@@ -24,10 +25,11 @@ export function useNavItemGates(): Accessor<NavItemGates> {
 
   return createMemo(() => ({
     showCalendar: calendar(),
-    showScheduling: scheduling().enabled,
-    showCustomers: crm().enabled,
-    showCalls: ENABLE_CALLS,
-    showReviews: reviews().enabled,
+    showScheduling: !ENABLE_FINTAIL && scheduling().enabled,
+    showCustomers: !ENABLE_FINTAIL && crm().enabled,
+    showCalls: !ENABLE_FINTAIL && ENABLE_CALLS,
+    showReviews: !ENABLE_FINTAIL && reviews().enabled,
+    showMessages: !ENABLE_FINTAIL,
     prefs: prefs(),
   }));
 }

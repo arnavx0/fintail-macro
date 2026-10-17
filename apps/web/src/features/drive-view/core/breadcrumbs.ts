@@ -37,7 +37,7 @@ export function driveLocationBreadcrumbs(
     {
       type: 'drive-location',
       value: DRIVE_VIEW_BREADCRUMB,
-      label: 'Drive',
+      label: 'Research',
       location: { kind: 'folder', id: null },
     },
     ...(location.id

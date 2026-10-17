@@ -48,6 +48,7 @@ function Modal() {
         showCustomers: true,
         showCalls: true,
         showReviews: true,
+        showMessages: true,
         get prefs() {
           return prefs();
         },
@@ -69,20 +70,20 @@ describe('sidebar customization drag sorting', () => {
       </DragDropProvider>
     ));
     const handle = await screen.findByRole('button', {
-      name: 'Reorder Drive',
+      name: 'Reorder AI Agents',
     });
     fireEvent.mouseDown(handle, { button: 0, clientX: 115, clientY: 120 });
     fireEvent.mouseMove(document, { clientX: 115, clientY: 200 });
 
-    const email = screen
-      .getByRole('button', { name: 'Reorder Email' })
+    const research = screen
+      .getByRole('button', { name: 'Reorder Research' })
       .closest<HTMLElement>('.rounded-lg')!;
-    const targetTransform = email.style.transform;
+    const targetTransform = research.style.transform;
     expect(targetTransform).not.toBe('');
     // Repeated moves inside one slot must not alternate the sort preview.
     for (let offset = 0; offset < 5; offset++) {
       fireEvent.mouseMove(document, { clientX: 115 + offset, clientY: 200 });
-      expect(email.style.transform).toBe(targetTransform);
+      expect(research.style.transform).toBe(targetTransform);
     }
     fireEvent.mouseUp(document, { button: 0, clientX: 120, clientY: 200 });
     expect(
@@ -90,7 +91,7 @@ describe('sidebar customization drag sorting', () => {
         .getAllByRole('button', { name: /^Reorder / })
         .slice(0, 3)
         .map((button) => button.getAttribute('aria-label'))
-    ).toEqual(['Reorder Email', 'Reorder Chat', 'Reorder Drive']);
+    ).toEqual(['Reorder Research', 'Reorder Messages', 'Reorder AI Agents']);
     expect(screen.queryByRole('button', { name: 'Reorder Home' })).toBeNull();
     expect(appCollision).not.toHaveBeenCalled();
     expect(appDragEnd).not.toHaveBeenCalled();
@@ -105,7 +106,7 @@ describe('sidebar customization drag sorting', () => {
       ));
     mount();
     const drive = await screen.findByRole<HTMLInputElement>('checkbox', {
-      name: 'Drive',
+      name: 'Research',
     });
     expect(drive.checked).toBe(true);
     fireEvent.click(drive);
@@ -116,7 +117,7 @@ describe('sidebar customization drag sorting', () => {
     expect(
       (
         await screen.findByRole<HTMLInputElement>('checkbox', {
-          name: 'Drive',
+          name: 'Research',
         })
       ).checked
     ).toBe(false);
@@ -127,7 +128,7 @@ describe('sidebar customization drag sorting', () => {
     expect(
       (
         await screen.findByRole<HTMLInputElement>('checkbox', {
-          name: 'Drive',
+          name: 'Research',
         })
       ).checked
     ).toBe(true);
