@@ -351,7 +351,9 @@ export function Agents(props: {
             </SettingsSurface>
           </section>
 
-          <CodingPreferencesSetting />
+          <Show when={!ENABLE_FINTAIL}>
+            <CodingPreferencesSetting />
+          </Show>
         </SettingsPage>
       </Show>
 
@@ -1239,27 +1241,29 @@ function AgentEditorPage(props: {
               >
                 <Show when={advancedOpen()}>
                   <div id="agent-advanced" class="flex flex-col">
-                    <fieldset class="grid gap-2">
-                      <legend class="text-xs font-medium text-ink">
-                        Answering a mention
-                      </legend>
-                      <ChoiceRow
-                        name="agent-coding"
-                        value="coding"
-                        title="Coding agent"
-                        description="Posts a magic chip you can open into the live session and watch it work in a repository."
-                        checked={isCoding()}
-                        onChange={() => setCodingChoice(true)}
-                      />
-                      <ChoiceRow
-                        name="agent-coding"
-                        value="chat"
-                        title="Chat agent"
-                        description="Replies in the thread the way a person would, like @macro."
-                        checked={!isCoding()}
-                        onChange={() => setCodingChoice(false)}
-                      />
-                    </fieldset>
+                    <Show when={!ENABLE_FINTAIL}>
+                      <fieldset class="grid gap-2">
+                        <legend class="text-xs font-medium text-ink">
+                          Answering a mention
+                        </legend>
+                        <ChoiceRow
+                          name="agent-coding"
+                          value="coding"
+                          title="Coding agent"
+                          description="Posts a magic chip you can open into the live session and watch it work in a repository."
+                          checked={isCoding()}
+                          onChange={() => setCodingChoice(true)}
+                        />
+                        <ChoiceRow
+                          name="agent-coding"
+                          value="chat"
+                          title="Chat agent"
+                          description="Replies in the thread the way a person would, like @macro."
+                          checked={!isCoding()}
+                          onChange={() => setCodingChoice(false)}
+                        />
+                      </fieldset>
+                    </Show>
                     <Show when={selectedHarness()?.kind === 'macrod'}>
                       <fieldset class="mt-4 grid gap-2 border-t border-ink/[0.06] pt-4">
                         <legend class="text-xs font-medium text-ink">

@@ -11,6 +11,11 @@ vi.mock('@app/lib/analytics/posthog', () => ({
   }),
 }));
 vi.mock('../context/user', () => ({ useHasPermission: () => () => false }));
+// These cover Macro's Desktop App rollout; Fintail hides that tab.
+vi.mock('./featureFlags', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('./featureFlags')>()),
+  ENABLE_FINTAIL: false,
+}));
 vi.mock('../util/platform', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../util/platform')>()),
   isPlatform: (target: string) => target === platform.current,

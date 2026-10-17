@@ -42,7 +42,7 @@ describe('settings navigation', () => {
       (group) => group.label === 'Workspace'
     );
     const developer = SETTINGS_TAB_GROUPS.find(
-      (group) => group.label === 'Developer'
+      (group) => group.label === 'AI & connectors'
     );
     expect(workspace?.items.map((item) => item.tab)).toContain('Connected');
     expect(developer?.items.map((item) => item.tab)).toContain('Connections');

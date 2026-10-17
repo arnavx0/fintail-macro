@@ -68,6 +68,20 @@ export type SettingsTabGroup = {
  * Search keywords live on each item so the nav and the settings search share
  * one definition.
  */
+/**
+ * Settings a retail investor's personal workspace does not use: team admin,
+ * sales CRM, developer keys and bots, coding runtimes and the desktop build.
+ * Hidden, not removed; Macro mode still shows them.
+ */
+const FINTAIL_HIDDEN_TABS: ReadonlySet<SettingsTab> = new Set<SettingsTab>([
+  'CRM',
+  'Team',
+  'API Keys',
+  'Bots',
+  'Harness',
+  'Desktop App',
+]);
+
 export const SETTINGS_TAB_GROUPS: SettingsTabGroup[] = [
   {
     label: 'Blocks',
@@ -168,18 +182,18 @@ export const SETTINGS_TAB_GROUPS: SettingsTabGroup[] = [
       },
       {
         tab: 'Connected',
-        label: 'Integrations',
+        label: 'Connected accounts',
         icon: CpuIcon,
         keywords: ['integrations', 'apps', 'connections'],
       },
     ],
   },
   {
-    label: 'Developer',
+    label: 'AI & connectors',
     items: [
       {
         tab: 'Connections',
-        label: 'Agent connections',
+        label: 'Connectors (MCP)',
         icon: PlugsConnectedIcon,
         keywords: ['agent', 'tools', 'apps', 'mcp'],
       },
@@ -191,7 +205,7 @@ export const SETTINGS_TAB_GROUPS: SettingsTabGroup[] = [
       },
       {
         tab: 'Agent',
-        label: 'MCP server',
+        label: 'Use Fintail in Claude',
         icon: PlugIcon,
         keywords: ['mcp', 'server', 'protocol'],
       },
@@ -286,6 +300,7 @@ export const useSettingsTabAvailable = () => {
   const hasAdminPanel = useHasPermission(PERMISSION_IDS.WRITE_ADMIN_PANEL);
 
   return (tab: SettingsTab): boolean => {
+    if (ENABLE_FINTAIL && FINTAIL_HIDDEN_TABS.has(tab)) return false;
     switch (tab) {
       case 'Appearance':
       case 'Account':
