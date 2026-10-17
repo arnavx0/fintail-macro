@@ -157,7 +157,6 @@ export function AccountsDialog(props: {
                               platform={{
                                 id: b.id,
                                 name: b.name,
-                                kind: b.kind,
                               }}
                               class="size-7 text-[10px]"
                             />
