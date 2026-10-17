@@ -5,6 +5,7 @@ import { TOKENS } from '@core/hotkey/tokens';
 import BuildingsIcon from '@phosphor/buildings.svg';
 import CalendarBlankIcon from '@phosphor/calendar-blank.svg';
 import CalendarCheckIcon from '@phosphor/calendar-check.svg';
+import ChartLineUpIcon from '@phosphor/chart-line-up.svg';
 import ChartPieIcon from '@phosphor/chart-pie-slice.svg';
 import ChatsCircleIcon from '@phosphor/chats-circle.svg';
 import EnvelopeIcon from '@phosphor/envelope.svg';
@@ -17,6 +18,7 @@ import AgentIcon from '@phosphor/sparkle.svg';
 import BuildingsFillIcon from '@phosphor-fill/buildings-fill.svg';
 import CalendarBlankFillIcon from '@phosphor-fill/calendar-blank-fill.svg';
 import CalendarCheckFillIcon from '@phosphor-fill/calendar-check-fill.svg';
+import ChartLineUpFillIcon from '@phosphor-fill/chart-line-up-fill.svg';
 import ChartPieFillIcon from '@phosphor-fill/chart-pie-slice-fill.svg';
 import ChatsCircleFillIcon from '@phosphor-fill/chats-circle-fill.svg';
 import EnvelopeFillIcon from '@phosphor-fill/envelope-fill.svg';
@@ -75,6 +77,13 @@ export const SIDEBAR_NEXT_NAV_ITEMS = [
     href: '/portfolio',
     icon: ChartPieIcon,
     iconActive: ChartPieFillIcon,
+  },
+  {
+    id: 'markets',
+    label: 'Markets',
+    href: '/markets',
+    icon: ChartLineUpIcon,
+    iconActive: ChartLineUpFillIcon,
   },
   {
     id: 'agents',

@@ -1,3 +1,5 @@
+import { sampleMarkets } from '@app/features/markets/queries/sample-markets';
+import { seededRandom, standardNormal } from '@core/util/seeded-random';
 import { portfolioTotals } from '../core/metrics';
 import type {
   Holding,
@@ -221,11 +223,19 @@ const SEEDS: Seed[] = [
   },
 ];
 
-const HOLDINGS: Holding[] = SEEDS.map((seed) => ({
-  dividendsTtm: 0,
-  dividendsNext12m: 0,
-  ...seed,
-}));
+const MARKET = sampleMarkets();
+
+/** Every holding is priced from the sample market, so pages never disagree. */
+const HOLDINGS: Holding[] = SEEDS.map((seed) => {
+  const quote = MARKET.instruments.find((i) => i.symbol === seed.symbol);
+  return {
+    dividendsTtm: 0,
+    dividendsNext12m: 0,
+    ...seed,
+    price: quote?.price ?? seed.price,
+    previousClose: quote?.previousClose ?? seed.previousClose,
+  };
+});
 
 const UPCOMING_DIVIDENDS: UpcomingDividend[] = [
   { symbol: 'O', platformId: 'ibkr', payDate: '2026-10-31', amount: 16.2 },
@@ -249,23 +259,6 @@ const PROFILE: Record<string, { drift: number; vol: number; deposit: number }> =
     coinbase: { drift: 0.0009, vol: 0.032, deposit: 150 },
     binance: { drift: 0.0008, vol: 0.036, deposit: 0 },
   };
-
-/** Small deterministic generator (mulberry32) so the sample never changes between loads. */
-function random(seed: number) {
-  let a = seed;
-  return () => {
-    a += 0x6d2b79f5;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-/** Standard normal draw (Box–Muller). */
-function normal(next: () => number) {
-  return Math.sqrt(-2 * Math.log(1 - next())) * Math.cos(2 * Math.PI * next());
-}
 
 /** Weekdays ending at `AS_OF`, oldest first. */
 function tradingDates(): string[] {
@@ -294,9 +287,11 @@ function platformHistory(
   const today = portfolioTotals(
     HOLDINGS.filter((h) => h.platformId === platformId)
   );
-  const next = random(seed);
+  const next = seededRandom(seed);
   const returns = dates.map((_, i) =>
-    i === dates.length - 1 ? today.dayChangePct : drift + vol * normal(next)
+    i === dates.length - 1
+      ? today.dayChangePct
+      : drift + vol * standardNormal(next)
   );
   const flows = dates.map((date, i) =>
     i > 0 && date.slice(5, 7) !== dates[i - 1].slice(5, 7) ? deposit : 0
@@ -321,12 +316,15 @@ function platformHistory(
   return points;
 }
 
+/** The S&P 500 from the sample market, on the same dates as the history. */
 function benchmarkLevels(dates: readonly string[]): ValuePoint[] {
-  const next = random(500);
-  let level = 5480;
-  return dates.map((date, i) => {
-    if (i > 0) level *= 1 + 0.00045 + 0.0095 * normal(next);
-    return { date, value: level, netFlow: 0 };
+  const closes = new Map(
+    (MARKET.daily.SPX ?? []).map((point) => [point.time, point.price])
+  );
+  let last = closes.values().next().value ?? 0;
+  return dates.map((date) => {
+    last = closes.get(date) ?? last;
+    return { date, value: last, netFlow: 0 };
   });
 }
 

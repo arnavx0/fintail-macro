@@ -76,7 +76,7 @@ describe('sidebar customization drag sorting', () => {
     fireEvent.mouseMove(document, { clientX: 115, clientY: 200 });
 
     const research = screen
-      .getByRole('button', { name: 'Reorder Research' })
+      .getByRole('button', { name: 'Reorder Markets' })
       .closest<HTMLElement>('.rounded-lg')!;
     const targetTransform = research.style.transform;
     expect(targetTransform).not.toBe('');
@@ -91,7 +91,7 @@ describe('sidebar customization drag sorting', () => {
         .getAllByRole('button', { name: /^Reorder / })
         .slice(0, 3)
         .map((button) => button.getAttribute('aria-label'))
-    ).toEqual(['Reorder AI Agents', 'Reorder Research', 'Reorder Portfolio']);
+    ).toEqual(['Reorder Markets', 'Reorder AI Agents', 'Reorder Portfolio']);
     expect(screen.queryByRole('button', { name: 'Reorder Home' })).toBeNull();
     expect(appCollision).not.toHaveBeenCalled();
     expect(appDragEnd).not.toHaveBeenCalled();

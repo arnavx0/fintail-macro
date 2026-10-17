@@ -54,6 +54,7 @@ import {
   FormRespondRoutePage,
   HomeEntityDetailRouteView,
   MailRouteView,
+  MarketsRouteView,
   MeetingRouter,
   NotFound,
   PortfolioRouteView,
@@ -124,6 +125,7 @@ import {
   legacyContentRoute,
   loginPopupSuccessRoute,
   loginRoute,
+  marketsRoute,
   meetRoute,
   mobileEmailSignupRoute,
   notFoundRoute,
@@ -334,6 +336,7 @@ export function AppRouterView() {
         <Route definition={recentRoute} component={RecentRouteView} />
         <Route definition={activityRoute} component={ActivityRouteView} />
         <Route definition={portfolioRoute} component={PortfolioRouteView} />
+        <Route definition={marketsRoute} component={MarketsRouteView} />
         <Route
           definition={agentsViewRoute}
           component={AgentsRouteView}
