@@ -33,6 +33,7 @@ vCPU** (e.g. `m7g.xlarge`, ap-southeast-1) and re-measure under beta load.
 - `agent_harness_service` crash-looped without Pipedream credentials. Fixed
   by adding boot stubs in `xtask_local` `local_env.rs`.
 - `run_local` assumes `bun install` was already run at the repo root.
+- Google sign-in and "connect Gmail" fail locally (`unable to find idp from idp_name`): no Google identity provider without real credentials. Sign in by email at `https://localhost:<proxy port>/app/login`; in local mode the code comes back in the response.
 
 ## Infrastructure (`docker/docker-compose-databases.yml` + recipes)
 
