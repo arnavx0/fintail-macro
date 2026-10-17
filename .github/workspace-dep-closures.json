@@ -6691,6 +6691,10 @@
     "filter_ast": [
       "crates/filter_ast"
     ],
+    "fintail_data": [
+      "crates/fintail_data",
+      "crates/workspace-hack"
+    ],
     "foreign_entity": [
       "crates/agent",
       "crates/ai_toolset",

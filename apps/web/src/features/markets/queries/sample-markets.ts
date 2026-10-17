@@ -22,7 +22,7 @@ export const SAMPLE_AS_OF = '2026-10-16';
 export const DAILY_POINTS = 400;
 const INTRADAY_POINTS = 79; // 09:30 to 16:00 every five minutes
 
-type Row = {
+export type Row = {
   symbol: string;
   name: string;
   group: string;
@@ -70,7 +70,8 @@ const stock = (
     market: 'US',
   });
 
-const UNIVERSE: Record<AssetClass, { unit: QuoteUnit; rows: Row[] }> = {
+/** The raw sample rows, shared with the backend's sample adapter. */
+export const UNIVERSE: Record<AssetClass, { unit: QuoteUnit; rows: Row[] }> = {
   Indices: {
     unit: 'points',
     rows: [
@@ -928,7 +929,8 @@ export function sampleMarkets(): MarketSnapshot {
       const seed = seedFromString(row.symbol);
       const history = walkTo(row.price, row.previousClose, row.vol, days, seed);
       const today = intradayPath(row, seed + 1);
-      const prices = history.map((p) => p.price);
+      // 52 weeks of trading days plus today.
+      const prices = history.slice(-253).map((p) => p.price);
       const dayPrices = today.map((p) => p.price);
       daily[row.symbol] = history;
       intraday[row.symbol] = today;

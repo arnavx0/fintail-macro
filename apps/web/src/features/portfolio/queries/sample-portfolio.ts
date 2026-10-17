@@ -18,17 +18,17 @@ import type {
 const AS_OF = '2026-10-16';
 const HISTORY_DAYS = 400;
 
-const PLATFORMS: Platform[] = [
+export const PLATFORMS: Platform[] = [
   { id: 'robinhood', name: 'Robinhood', kind: 'brokerage' },
   { id: 'ibkr', name: 'Interactive Brokers', kind: 'brokerage' },
   { id: 'coinbase', name: 'Coinbase', kind: 'crypto' },
   { id: 'binance', name: 'Binance', kind: 'crypto' },
 ];
 
-type Seed = Omit<Holding, 'dividendsTtm' | 'dividendsNext12m'> &
+export type Seed = Omit<Holding, 'dividendsTtm' | 'dividendsNext12m'> &
   Partial<Pick<Holding, 'dividendsTtm' | 'dividendsNext12m'>>;
 
-const SEEDS: Seed[] = [
+export const SEEDS: Seed[] = [
   {
     platformId: 'robinhood',
     symbol: 'NVDA',
@@ -237,7 +237,7 @@ const HOLDINGS: Holding[] = SEEDS.map((seed) => {
   };
 });
 
-const UPCOMING_DIVIDENDS: UpcomingDividend[] = [
+export const UPCOMING_DIVIDENDS: UpcomingDividend[] = [
   { symbol: 'O', platformId: 'ibkr', payDate: '2026-10-31', amount: 16.2 },
   { symbol: 'JNJ', platformId: 'ibkr', payDate: '2026-12-09', amount: 27 },
   { symbol: 'MSFT', platformId: 'ibkr', payDate: '2026-12-11', amount: 13.65 },
@@ -252,13 +252,15 @@ const UPCOMING_DIVIDENDS: UpcomingDividend[] = [
 ];
 
 /** Daily drift and volatility by platform, so crypto swings more than stocks. */
-const PROFILE: Record<string, { drift: number; vol: number; deposit: number }> =
-  {
-    robinhood: { drift: 0.0006, vol: 0.013, deposit: 300 },
-    ibkr: { drift: 0.0004, vol: 0.009, deposit: 400 },
-    coinbase: { drift: 0.0009, vol: 0.032, deposit: 150 },
-    binance: { drift: 0.0008, vol: 0.036, deposit: 0 },
-  };
+export const PROFILE: Record<
+  string,
+  { drift: number; vol: number; deposit: number }
+> = {
+  robinhood: { drift: 0.0006, vol: 0.013, deposit: 300 },
+  ibkr: { drift: 0.0004, vol: 0.009, deposit: 400 },
+  coinbase: { drift: 0.0009, vol: 0.032, deposit: 150 },
+  binance: { drift: 0.0008, vol: 0.036, deposit: 0 },
+};
 
 /** Weekdays ending at `AS_OF`, oldest first. */
 function tradingDates(): string[] {
